@@ -1,30 +1,14 @@
 import React from 'react';
 import Header from '../components/Header';
-import NewsCard from '../components/NewsCard';
 import Footer from '../components/Footer';
 import FeaturedNews from '../components/FeaturedNews';
 import TrendingNews from '../components/TrendingNews';
+import CategoryNews from '../components/CategoryNews';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import useNews from '../hooks/useNews';
 
 const Index = () => {
   const { news: allNews, loading: allLoading } = useNews('general');
-  const { news: techNews, loading: techLoading } = useNews('technology');
-  const { news: politicsNews, loading: politicsLoading } = useNews('politics');
-  const { news: businessNews, loading: businessLoading } = useNews('business');
-  const { news: entertainmentNews, loading: entertainmentLoading } = useNews('entertainment');
-
-  const renderNews = (newsItems, loading) => {
-    if (loading) return <p className="text-center text-gray-500">Loading news...</p>;
-    if (newsItems.length === 0) return <p className="text-center text-gray-500">No news available at the moment.</p>;
-    return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {newsItems.map((item, index) => (
-          <NewsCard key={index} {...item} />
-        ))}
-      </div>
-    );
-  };
 
   const featuredArticle = allNews[0] || null;
   const trendingArticles = allNews.slice(1, 6) || [];
@@ -46,6 +30,7 @@ const Index = () => {
                   title={featuredArticle.title}
                   description={featuredArticle.description}
                   image={featuredArticle.urlToImage || "/placeholder.svg"}
+                  url={featuredArticle.url}
                 />
               </div>
             )}
@@ -57,11 +42,11 @@ const Index = () => {
                 <TabsTrigger value="business" className="rounded-full">经济</TabsTrigger>
                 <TabsTrigger value="entertainment" className="rounded-full">娱乐</TabsTrigger>
               </TabsList>
-              <TabsContent value="all">{renderNews(allNews, allLoading)}</TabsContent>
-              <TabsContent value="tech">{renderNews(techNews, techLoading)}</TabsContent>
-              <TabsContent value="politics">{renderNews(politicsNews, politicsLoading)}</TabsContent>
-              <TabsContent value="business">{renderNews(businessNews, businessLoading)}</TabsContent>
-              <TabsContent value="entertainment">{renderNews(entertainmentNews, entertainmentLoading)}</TabsContent>
+              <TabsContent value="all"><CategoryNews category="general" /></TabsContent>
+              <TabsContent value="tech"><CategoryNews category="technology" /></TabsContent>
+              <TabsContent value="politics"><CategoryNews category="politics" /></TabsContent>
+              <TabsContent value="business"><CategoryNews category="business" /></TabsContent>
+              <TabsContent value="entertainment"><CategoryNews category="entertainment" /></TabsContent>
             </Tabs>
           </div>
           <div className="w-full lg:w-1/4">
