@@ -1,14 +1,35 @@
-import { HomeIcon } from "lucide-react";
+import { HomeIcon, MonitorIcon, LandmarkIcon, DollarSignIcon, PaletteIcon } from "lucide-react";
 import Index from "./pages/Index.jsx";
 
-/**
- * Central place for defining the navigation items. Used for navigation components and routing.
- */
 export const navItems = [
   {
-    title: "Home",
+    title: "首页",
     to: "/",
     icon: <HomeIcon className="h-4 w-4" />,
+    page: <Index />,
+  },
+  {
+    title: "科技",
+    to: "/technology",
+    icon: <MonitorIcon className="h-4 w-4" />,
+    page: <Index />,
+  },
+  {
+    title: "政治",
+    to: "/politics",
+    icon: <LandmarkIcon className="h-4 w-4" />,
+    page: <Index />,
+  },
+  {
+    title: "经济",
+    to: "/economy",
+    icon: <DollarSignIcon className="h-4 w-4" />,
+    page: <Index />,
+  },
+  {
+    title: "文化",
+    to: "/culture",
+    icon: <PaletteIcon className="h-4 w-4" />,
     page: <Index />,
   },
 ];
