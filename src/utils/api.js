@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_KEY = 'YOUR_NEWS_API_KEY'; // Replace with your actual NewsAPI key
+const API_KEY = '0d28e0b381cf4be18257ea7b7ee312e0'; // Replace with your actual NewsAPI key
 const BASE_URL = 'https://newsapi.org/v2';
 
 export const fetchNews = async (category = 'general') => {
