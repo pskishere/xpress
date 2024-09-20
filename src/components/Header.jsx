@@ -1,13 +1,23 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, User, Bell, Menu, X } from "lucide-react";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/?search=${encodeURIComponent(searchQuery)}`);
+      setSearchQuery('');
+    }
+  };
 
   return (
     <header className="bg-white text-gray-800 shadow-md sticky top-0 z-50">
@@ -27,14 +37,18 @@ const Header = () => {
             </ul>
           </nav>
           <div className="flex items-center space-x-4">
-            <div className="relative hidden sm:block">
+            <form onSubmit={handleSearch} className="relative hidden md:block">
               <Input
                 type="search"
                 placeholder="搜索新闻..."
                 className="pl-8 pr-4 py-1 rounded-full bg-gray-100 w-64"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
-              <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-            </div>
+              <Button type="submit" variant="ghost" size="icon" className="absolute right-1 top-1/2 transform -translate-y-1/2">
+                <Search className="h-4 w-4 text-gray-400" />
+              </Button>
+            </form>
             <Button variant="ghost" size="icon" className="text-gray-600 hover:text-pink-500 hidden sm:inline-flex">
               <User className="h-5 w-5" />
             </Button>

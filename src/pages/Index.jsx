@@ -1,17 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import FeaturedNews from '../components/FeaturedNews';
-import TrendingNews from '../components/TrendingNews';
 import CategoryNews from '../components/CategoryNews';
+import SearchResults from '../components/SearchResults';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Search } from "lucide-react";
 import useNews from '../hooks/useNews';
 
 const Index = () => {
-  const { news: allNews, loading: allLoading } = useNews('general');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isSearching, setIsSearching] = useState(false);
+  const { news: allNews, loading: allLoading, searchNews } = useNews('general');
 
   const featuredArticle = allNews[0] || null;
-  const trendingArticles = allNews.slice(1, 6) || [];
+
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      setIsSearching(true);
+      await searchNews(searchQuery);
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
@@ -19,10 +31,24 @@ const Index = () => {
       <main className="flex-grow container mx-auto px-4 py-6 sm:py-8">
         <div className="mb-8 sm:mb-12 bg-gradient-to-r from-pink-500 to-purple-600 text-white py-10 sm:py-16 px-6 sm:px-8 rounded-lg shadow-lg">
           <h1 className="text-3xl sm:text-4xl font-bold mb-4">欢迎来到 BiliNews</h1>
-          <p className="text-lg sm:text-xl">您的一站式新闻资讯平台，随时掌握全球热点</p>
+          <p className="text-lg sm:text-xl mb-6">您的一站式新闻资讯平台，随时掌握全球热点</p>
+          <form onSubmit={handleSearch} className="flex max-w-md mx-auto">
+            <Input
+              type="search"
+              placeholder="搜索新闻..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="flex-grow bg-white text-gray-800"
+            />
+            <Button type="submit" className="ml-2 bg-pink-600 hover:bg-pink-700">
+              <Search className="h-4 w-4" />
+            </Button>
+          </form>
         </div>
-        <div className="flex flex-col lg:flex-row gap-8">
-          <div className="w-full lg:w-3/4">
+        {isSearching ? (
+          <SearchResults />
+        ) : (
+          <>
             {featuredArticle && (
               <div className="mb-8 sm:mb-12">
                 <h2 className="text-2xl font-bold mb-4 text-gray-800">头条新闻</h2>
@@ -48,11 +74,8 @@ const Index = () => {
               <TabsContent value="business"><CategoryNews category="business" /></TabsContent>
               <TabsContent value="entertainment"><CategoryNews category="entertainment" /></TabsContent>
             </Tabs>
-          </div>
-          <div className="w-full lg:w-1/4">
-            <TrendingNews trendingArticles={trendingArticles} />
-          </div>
-        </div>
+          </>
+        )}
       </main>
       <Footer />
     </div>

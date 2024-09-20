@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { fetchNews } from '../utils/api';
+import { fetchNews, searchNews as apiSearchNews } from '../utils/api';
 
 const useNews = (category) => {
   const [news, setNews] = useState([]);
@@ -11,7 +11,6 @@ const useNews = (category) => {
       try {
         setLoading(true);
         const articles = await fetchNews(category);
-        // Filter out any articles with missing required properties
         const validArticles = articles.filter(article => 
           article && article.title && article.description && article.source
         );
@@ -26,7 +25,22 @@ const useNews = (category) => {
     getNews();
   }, [category]);
 
-  return { news, loading, error };
+  const searchNews = async (query) => {
+    try {
+      setLoading(true);
+      const articles = await apiSearchNews(query);
+      const validArticles = articles.filter(article => 
+        article && article.title && article.description && article.source
+      );
+      setNews(validArticles);
+      setLoading(false);
+    } catch (err) {
+      setError(err.message);
+      setLoading(false);
+    }
+  };
+
+  return { news, loading, error, searchNews };
 };
 
 export default useNews;

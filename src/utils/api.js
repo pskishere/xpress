@@ -25,3 +25,26 @@ export const fetchNews = async (category = 'general') => {
     return [];
   }
 };
+
+export const searchNews = async (query) => {
+  try {
+    const response = await axios.get('/api/everything', {
+      params: {
+        apiKey: API_KEY,
+        q: query,
+        pageSize: 100,
+      },
+    });
+
+    if (response.status === 200 && response.data.status === 'ok') {
+      console.log('Search API Response:', response.data);
+      return response.data.articles || [];
+    } else {
+      console.error('Search API Error:', response.data);
+      return [];
+    }
+  } catch (error) {
+    console.error('Error searching news:', error.response ? error.response.data : error.message);
+    return [];
+  }
+};
