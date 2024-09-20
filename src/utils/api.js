@@ -12,7 +12,7 @@ export const fetchNews = async (category = 'general') => {
         apiKey: API_KEY,
       },
     });
-    return response.data.articles;
+    return response.data.articles || [];
   } catch (error) {
     console.error('Error fetching news:', error);
     return [];

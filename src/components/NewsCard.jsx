@@ -14,13 +14,13 @@ const NewsCard = ({ title, description, urlToImage, source, publishedAt }) => {
       <img src={urlToImage || "/placeholder.svg"} alt={title} className="w-full h-48 object-cover" />
       <CardHeader className="p-4">
         <div className="flex justify-between items-center mb-2">
-          <span className="text-sm font-medium text-pink-500">{source.name}</span>
-          <span className="text-sm text-gray-500">{formatDate(publishedAt)}</span>
+          <span className="text-sm font-medium text-pink-500">{source?.name || 'Unknown Source'}</span>
+          <span className="text-sm text-gray-500">{publishedAt ? formatDate(publishedAt) : 'Unknown Date'}</span>
         </div>
-        <CardTitle className="text-lg font-bold text-gray-800">{title}</CardTitle>
+        <CardTitle className="text-lg font-bold text-gray-800">{title || 'No Title'}</CardTitle>
       </CardHeader>
       <CardContent className="p-4">
-        <CardDescription className="text-gray-600">{description}</CardDescription>
+        <CardDescription className="text-gray-600">{description || 'No description available'}</CardDescription>
       </CardContent>
       <CardFooter className="p-4 flex justify-between items-center border-t border-gray-100">
         <div className="flex space-x-4">

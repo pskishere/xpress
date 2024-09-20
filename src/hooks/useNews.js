@@ -11,7 +11,11 @@ const useNews = (category) => {
       try {
         setLoading(true);
         const articles = await fetchNews(category);
-        setNews(articles);
+        // Filter out any articles with missing required properties
+        const validArticles = articles.filter(article => 
+          article && article.title && article.description && article.source
+        );
+        setNews(validArticles);
         setLoading(false);
       } catch (err) {
         setError(err.message);
