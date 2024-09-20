@@ -59,19 +59,23 @@ const Index = () => {
                 />
               </div>
             )}
-            <Tabs defaultValue="all" className="mb-8">
+            <Tabs defaultValue="general" className="mb-8">
               <TabsList className="bg-white shadow-sm rounded-full mb-6 flex flex-wrap justify-start">
-                <TabsTrigger value="all" className="rounded-full">全部</TabsTrigger>
-                <TabsTrigger value="tech" className="rounded-full">科技</TabsTrigger>
-                <TabsTrigger value="politics" className="rounded-full">政治</TabsTrigger>
-                <TabsTrigger value="business" className="rounded-full">经济</TabsTrigger>
+                <TabsTrigger value="general" className="rounded-full">综合</TabsTrigger>
+                <TabsTrigger value="business" className="rounded-full">商业</TabsTrigger>
+                <TabsTrigger value="technology" className="rounded-full">科技</TabsTrigger>
                 <TabsTrigger value="entertainment" className="rounded-full">娱乐</TabsTrigger>
+                <TabsTrigger value="sports" className="rounded-full">体育</TabsTrigger>
+                <TabsTrigger value="science" className="rounded-full">科学</TabsTrigger>
+                <TabsTrigger value="health" className="rounded-full">健康</TabsTrigger>
               </TabsList>
-              <TabsContent value="all"><CategoryNews category="general" /></TabsContent>
-              <TabsContent value="tech"><CategoryNews category="technology" /></TabsContent>
-              <TabsContent value="politics"><CategoryNews category="politics" /></TabsContent>
+              <TabsContent value="general"><CategoryNews category="general" /></TabsContent>
               <TabsContent value="business"><CategoryNews category="business" /></TabsContent>
+              <TabsContent value="technology"><CategoryNews category="technology" /></TabsContent>
               <TabsContent value="entertainment"><CategoryNews category="entertainment" /></TabsContent>
+              <TabsContent value="sports"><CategoryNews category="sports" /></TabsContent>
+              <TabsContent value="science"><CategoryNews category="science" /></TabsContent>
+              <TabsContent value="health"><CategoryNews category="health" /></TabsContent>
             </Tabs>
           </>
         )}
