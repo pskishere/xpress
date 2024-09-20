@@ -8,7 +8,7 @@ export const fetchNews = async (category = 'general') => {
     const response = await axios.get(BASE_URL, {
       params: {
         apiKey: API_KEY,
-        country: 'cn', // Fetch news for China
+        country: 'us', // Changed from 'cn' to 'us'
         category,
         pageSize: 100, // Request up to 100 articles
       },
