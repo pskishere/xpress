@@ -2,6 +2,7 @@ import React from 'react';
 import Header from '../components/Header';
 import NewsCard from '../components/NewsCard';
 import Footer from '../components/Footer';
+import FeaturedNews from '../components/FeaturedNews';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import useNews from '../hooks/useNews';
 
@@ -13,7 +14,8 @@ const Index = () => {
   const { news: entertainmentNews, loading: entertainmentLoading } = useNews('entertainment');
 
   const renderNews = (newsItems, loading) => {
-    if (loading) return <p>Loading news...</p>;
+    if (loading) return <p className="text-center text-gray-500">Loading news...</p>;
+    if (newsItems.length === 0) return <p className="text-center text-gray-500">No news available at the moment.</p>;
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {newsItems.map((item, index) => (
@@ -23,12 +25,24 @@ const Index = () => {
     );
   };
 
+  const featuredArticle = allNews[0] || null;
+
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Header />
       <main className="flex-grow container mx-auto px-4 py-8">
+        {featuredArticle && (
+          <div className="mb-12">
+            <h2 className="text-2xl font-bold mb-4 text-gray-800">Featured News</h2>
+            <FeaturedNews
+              title={featuredArticle.title}
+              description={featuredArticle.description}
+              image={featuredArticle.urlToImage || "/placeholder.svg"}
+            />
+          </div>
+        )}
         <Tabs defaultValue="all" className="mb-8">
-          <TabsList className="bg-white shadow-sm rounded-full">
+          <TabsList className="bg-white shadow-sm rounded-full mb-6">
             <TabsTrigger value="all" className="rounded-full">全部</TabsTrigger>
             <TabsTrigger value="tech" className="rounded-full">科技</TabsTrigger>
             <TabsTrigger value="politics" className="rounded-full">政治</TabsTrigger>
