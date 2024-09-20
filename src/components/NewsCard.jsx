@@ -1,16 +1,23 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ThumbsUp, MessageSquare, Share2 } from "lucide-react";
 
-const NewsCard = ({ title, description, urlToImage, source, publishedAt }) => {
+const NewsCard = ({ id, title, description, urlToImage, source, publishedAt }) => {
+  const navigate = useNavigate();
+  
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(dateString).toLocaleDateString('zh-CN', options);
   };
 
+  const handleClick = () => {
+    navigate(`/news/${id}`);
+  };
+
   return (
-    <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-lg bg-white">
+    <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-lg bg-white cursor-pointer" onClick={handleClick}>
       <img src={urlToImage || "/placeholder.svg"} alt={title} className="w-full h-48 object-cover" />
       <CardHeader className="p-4">
         <div className="flex justify-between items-center mb-2">
