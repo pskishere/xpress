@@ -1,17 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ThumbsUp, MessageSquare, Share2 } from "lucide-react";
 
 const NewsCard = ({ title, description, urlToImage, source, publishedAt, url }) => {
+  const [imageError, setImageError] = useState(false);
+  
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(dateString).toLocaleDateString('zh-CN', options);
   };
 
+  const handleImageError = () => {
+    setImageError(true);
+  };
+
   return (
     <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-lg bg-white h-full flex flex-col">
-      <img src={urlToImage || "/placeholder.svg"} alt={title} className="w-full h-48 object-cover" />
+      <img 
+        src={imageError ? "/placeholder.svg" : (urlToImage || "/placeholder.svg")} 
+        alt={title} 
+        className="w-full h-48 object-cover"
+        onError={handleImageError}
+      />
       <CardHeader className="p-4 flex-grow">
         <div className="flex flex-wrap justify-between items-center mb-2">
           <span className="text-sm font-medium text-pink-500 mb-1 sm:mb-0">{source?.name || 'Unknown Source'}</span>
