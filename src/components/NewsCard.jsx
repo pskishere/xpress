@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/button";
 import { ThumbsUp, MessageSquare, Share2 } from "lucide-react";
 
-const NewsCard = ({ title, description, urlToImage, source, publishedAt }) => {
+const NewsCard = ({ title, description, urlToImage, source, publishedAt, url }) => {
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(dateString).toLocaleDateString('zh-CN', options);
@@ -17,7 +17,11 @@ const NewsCard = ({ title, description, urlToImage, source, publishedAt }) => {
           <span className="text-sm font-medium text-pink-500">{source?.name || 'Unknown Source'}</span>
           <span className="text-sm text-gray-500">{publishedAt ? formatDate(publishedAt) : 'Unknown Date'}</span>
         </div>
-        <CardTitle className="text-lg font-bold text-gray-800">{title || 'No Title'}</CardTitle>
+        <CardTitle className="text-lg font-bold text-gray-800">
+          <a href={url} target="_blank" rel="noopener noreferrer" className="hover:text-pink-500 transition-colors">
+            {title || 'No Title'}
+          </a>
+        </CardTitle>
       </CardHeader>
       <CardContent className="p-4">
         <CardDescription className="text-gray-600">{description || 'No description available'}</CardDescription>
