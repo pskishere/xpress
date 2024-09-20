@@ -4,46 +4,18 @@ import FeaturedNews from '../components/FeaturedNews';
 import CategoryNews from '../components/CategoryNews';
 import SearchResults from '../components/SearchResults';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Search } from "lucide-react";
 import useNews from '../hooks/useNews';
 
 const Index = () => {
-  const [searchQuery, setSearchQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
-  const { news: allNews, loading: allLoading, searchNews } = useNews('general');
+  const { news: allNews, loading: allLoading } = useNews('general');
 
   const featuredArticle = allNews[0] || null;
-
-  const handleSearch = async (e) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      setIsSearching(true);
-      await searchNews(searchQuery);
-    }
-  };
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Header />
       <main className="flex-grow container mx-auto px-4 py-6 sm:py-8">
-        <div className="mb-8 sm:mb-12 bg-gradient-to-r from-pink-500 to-purple-600 text-white py-10 sm:py-16 px-6 sm:px-8 rounded-lg shadow-lg">
-          <h1 className="text-3xl sm:text-4xl font-bold mb-4">欢迎来到 BiliNews</h1>
-          <p className="text-lg sm:text-xl mb-6">您的一站式新闻资讯平台，随时掌握全球热点</p>
-          <form onSubmit={handleSearch} className="flex max-w-md mx-auto">
-            <Input
-              type="search"
-              placeholder="搜索新闻..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="flex-grow bg-white text-gray-800"
-            />
-            <Button type="submit" className="ml-2 bg-pink-600 hover:bg-pink-700">
-              <Search className="h-4 w-4" />
-            </Button>
-          </form>
-        </div>
         {isSearching ? (
           <SearchResults />
         ) : (

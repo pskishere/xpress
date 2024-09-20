@@ -24,17 +24,19 @@ const Header = () => {
             <img src="/favicon.ico" alt="BiliNews Logo" className="w-8 h-8 mr-2" />
             <span className="hidden sm:inline">BiliNews</span>
           </Link>
-          <form onSubmit={handleSearch} className="relative flex-grow max-w-md mx-4">
-            <Input
-              type="search"
-              placeholder="搜索新闻..."
-              className="pl-8 pr-4 py-1 rounded-full bg-gray-100 w-full"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <Button type="submit" variant="ghost" size="icon" className="absolute right-1 top-1/2 transform -translate-y-1/2">
-              <Search className="h-4 w-4 text-gray-400" />
-            </Button>
+          <form onSubmit={handleSearch} className="flex-grow max-w-md mx-4">
+            <div className="relative">
+              <Input
+                type="search"
+                placeholder="搜索新闻..."
+                className="pl-10 pr-4 py-2 rounded-full bg-gray-100 w-full"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <Button type="submit" variant="ghost" size="icon" className="absolute left-0 top-0 h-full px-3">
+                <Search className="h-5 w-5 text-gray-400" />
+              </Button>
+            </div>
           </form>
         </div>
       </div>
