@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Search, User, Bell, Menu, X } from "lucide-react";
+import { Search, Menu, X } from "lucide-react";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -49,12 +49,6 @@ const Header = () => {
                 <Search className="h-4 w-4 text-gray-400" />
               </Button>
             </form>
-            <Button variant="ghost" size="icon" className="text-gray-600 hover:text-pink-500 hidden sm:inline-flex">
-              <User className="h-5 w-5" />
-            </Button>
-            <Button variant="ghost" size="icon" className="text-gray-600 hover:text-pink-500 hidden sm:inline-flex">
-              <Bell className="h-5 w-5" />
-            </Button>
             <Button variant="ghost" size="icon" className="text-gray-600 hover:text-pink-500 md:hidden" onClick={toggleMenu}>
               {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </Button>
