@@ -10,12 +10,19 @@ export const fetchNews = async (category = 'general') => {
         apiKey: API_KEY,
         country: 'cn', // Fetch news for China
         category,
-        language: 'zh', // Chinese language
+        pageSize: 100, // Request up to 100 articles
       },
     });
-    return response.data.articles || [];
+
+    if (response.status === 200 && response.data.status === 'ok') {
+      console.log('API Response:', response.data);
+      return response.data.articles || [];
+    } else {
+      console.error('API Error:', response.data);
+      return [];
+    }
   } catch (error) {
-    console.error('Error fetching news:', error);
+    console.error('Error fetching news:', error.response ? error.response.data : error.message);
     return [];
   }
 };
