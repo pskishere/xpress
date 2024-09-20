@@ -18,7 +18,7 @@ const Index = () => {
     if (loading) return <p className="text-center text-gray-500">Loading news...</p>;
     if (newsItems.length === 0) return <p className="text-center text-gray-500">No news available at the moment.</p>;
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {newsItems.map((item, index) => (
           <NewsCard key={index} {...item} />
         ))}
@@ -32,15 +32,15 @@ const Index = () => {
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Header />
-      <main className="flex-grow container mx-auto px-4 py-8">
-        <div className="mb-12 bg-gradient-to-r from-pink-500 to-purple-600 text-white py-16 px-8 rounded-lg shadow-lg">
-          <h1 className="text-4xl font-bold mb-4">欢迎来到 BiliNews</h1>
-          <p className="text-xl">您的一站式新闻资讯平台，随时掌握全球热点</p>
+      <main className="flex-grow container mx-auto px-4 py-6 sm:py-8">
+        <div className="mb-8 sm:mb-12 bg-gradient-to-r from-pink-500 to-purple-600 text-white py-10 sm:py-16 px-6 sm:px-8 rounded-lg shadow-lg">
+          <h1 className="text-3xl sm:text-4xl font-bold mb-4">欢迎来到 BiliNews</h1>
+          <p className="text-lg sm:text-xl">您的一站式新闻资讯平台，随时掌握全球热点</p>
         </div>
         <div className="flex flex-col lg:flex-row gap-8">
-          <div className="lg:w-3/4">
+          <div className="w-full lg:w-3/4">
             {featuredArticle && (
-              <div className="mb-12">
+              <div className="mb-8 sm:mb-12">
                 <h2 className="text-2xl font-bold mb-4 text-gray-800">头条新闻</h2>
                 <FeaturedNews
                   title={featuredArticle.title}
@@ -50,7 +50,7 @@ const Index = () => {
               </div>
             )}
             <Tabs defaultValue="all" className="mb-8">
-              <TabsList className="bg-white shadow-sm rounded-full mb-6">
+              <TabsList className="bg-white shadow-sm rounded-full mb-6 flex flex-wrap justify-start">
                 <TabsTrigger value="all" className="rounded-full">全部</TabsTrigger>
                 <TabsTrigger value="tech" className="rounded-full">科技</TabsTrigger>
                 <TabsTrigger value="politics" className="rounded-full">政治</TabsTrigger>
@@ -64,7 +64,7 @@ const Index = () => {
               <TabsContent value="entertainment">{renderNews(entertainmentNews, entertainmentLoading)}</TabsContent>
             </Tabs>
           </div>
-          <div className="lg:w-1/4">
+          <div className="w-full lg:w-1/4">
             <TrendingNews trendingArticles={trendingArticles} />
           </div>
         </div>

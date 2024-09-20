@@ -19,7 +19,7 @@ const TrendingNews = ({ trendingArticles }) => {
                 href={article.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm font-medium text-gray-800 hover:text-pink-500 transition-colors"
+                className="text-sm font-medium text-gray-800 hover:text-pink-500 transition-colors block"
               >
                 {article.title}
               </a>
