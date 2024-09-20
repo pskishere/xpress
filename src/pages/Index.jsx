@@ -6,14 +6,16 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import useNews from '../hooks/useNews';
 
 const Index = () => {
-  const { news: allNews, loading: allLoading } = useNews('general');
-  const { news: techNews, loading: techLoading } = useNews('technology');
-  const { news: politicsNews, loading: politicsLoading } = useNews('politics');
-  const { news: businessNews, loading: businessLoading } = useNews('business');
-  const { news: entertainmentNews, loading: entertainmentLoading } = useNews('entertainment');
+  const { news: allNews, loading: allLoading, error: allError } = useNews('top');
+  const { news: techNews, loading: techLoading, error: techError } = useNews('technology');
+  const { news: politicsNews, loading: politicsLoading, error: politicsError } = useNews('politics');
+  const { news: businessNews, loading: businessLoading, error: businessError } = useNews('business');
+  const { news: entertainmentNews, loading: entertainmentLoading, error: entertainmentError } = useNews('entertainment');
 
-  const renderNews = (newsItems, loading) => {
-    if (loading) return <p>Loading news...</p>;
+  const renderNews = (newsItems, loading, error) => {
+    if (loading) return <p>加载新闻中...</p>;
+    if (error) return <p>加载新闻时出错: {error}</p>;
+    if (newsItems.length === 0) return <p>没有找到相关新闻</p>;
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {newsItems.map((item, index) => (
@@ -35,11 +37,11 @@ const Index = () => {
             <TabsTrigger value="business" className="rounded-full">经济</TabsTrigger>
             <TabsTrigger value="entertainment" className="rounded-full">娱乐</TabsTrigger>
           </TabsList>
-          <TabsContent value="all">{renderNews(allNews, allLoading)}</TabsContent>
-          <TabsContent value="tech">{renderNews(techNews, techLoading)}</TabsContent>
-          <TabsContent value="politics">{renderNews(politicsNews, politicsLoading)}</TabsContent>
-          <TabsContent value="business">{renderNews(businessNews, businessLoading)}</TabsContent>
-          <TabsContent value="entertainment">{renderNews(entertainmentNews, entertainmentLoading)}</TabsContent>
+          <TabsContent value="all">{renderNews(allNews, allLoading, allError)}</TabsContent>
+          <TabsContent value="tech">{renderNews(techNews, techLoading, techError)}</TabsContent>
+          <TabsContent value="politics">{renderNews(politicsNews, politicsLoading, politicsError)}</TabsContent>
+          <TabsContent value="business">{renderNews(businessNews, businessLoading, businessError)}</TabsContent>
+          <TabsContent value="entertainment">{renderNews(entertainmentNews, entertainmentLoading, entertainmentError)}</TabsContent>
         </Tabs>
       </main>
       <Footer />
