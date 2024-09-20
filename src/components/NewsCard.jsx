@@ -10,22 +10,20 @@ const NewsCard = ({ title, description, urlToImage, source, publishedAt, url }) 
   };
 
   return (
-    <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-lg bg-white">
+    <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-lg bg-white h-full flex flex-col">
       <img src={urlToImage || "/placeholder.svg"} alt={title} className="w-full h-48 object-cover" />
-      <CardHeader className="p-4">
+      <CardHeader className="p-4 flex-grow">
         <div className="flex justify-between items-center mb-2">
           <span className="text-sm font-medium text-pink-500">{source?.name || 'Unknown Source'}</span>
           <span className="text-sm text-gray-500">{publishedAt ? formatDate(publishedAt) : 'Unknown Date'}</span>
         </div>
-        <CardTitle className="text-lg font-bold text-gray-800">
+        <CardTitle className="text-lg font-bold text-gray-800 mb-2">
           <a href={url} target="_blank" rel="noopener noreferrer" className="hover:text-pink-500 transition-colors">
             {title || 'No Title'}
           </a>
         </CardTitle>
-      </CardHeader>
-      <CardContent className="p-4">
         <CardDescription className="text-gray-600">{description || 'No description available'}</CardDescription>
-      </CardContent>
+      </CardHeader>
       <CardFooter className="p-4 flex justify-between items-center border-t border-gray-100">
         <div className="flex space-x-4">
           <Button variant="ghost" size="sm" className="text-gray-500 hover:text-pink-500">
