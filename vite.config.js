@@ -8,6 +8,13 @@ export default defineConfig({
   server: {
     host: "::",
     port: "8080",
+    proxy: {
+      '/api': {
+        target: 'https://newsapi.org/v2',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '')
+      }
+    }
   },
   plugins: [react()],
   resolve: {

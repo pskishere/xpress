@@ -1,16 +1,15 @@
 import axios from 'axios';
 
 const API_KEY = '0d28e0b381cf4be18257ea7b7ee312e0';
-const BASE_URL = 'https://newsapi.org/v2/top-headlines';
 
 export const fetchNews = async (category = 'general') => {
   try {
-    const response = await axios.get(BASE_URL, {
+    const response = await axios.get('/api/top-headlines', {
       params: {
         apiKey: API_KEY,
-        country: 'us', // Changed from 'cn' to 'us'
+        country: 'us',
         category,
-        pageSize: 100, // Request up to 100 articles
+        pageSize: 100,
       },
     });
 
