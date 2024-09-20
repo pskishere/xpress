@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Header from '../components/Header';
-import Footer from '../components/Footer';
 import FeaturedNews from '../components/FeaturedNews';
 import CategoryNews from '../components/CategoryNews';
 import SearchResults from '../components/SearchResults';
@@ -77,7 +76,6 @@ const Index = () => {
           </>
         )}
       </main>
-      <Footer />
     </div>
   );
 };
