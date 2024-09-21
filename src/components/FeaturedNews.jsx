@@ -1,14 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 
 const FeaturedNews = ({ title, description, image, url }) => {
+  const [imageError, setImageError] = useState(false);
+
+  const handleImageError = () => {
+    setImageError(true);
+  };
+
   return (
     <Card className="overflow-hidden bg-gray-900 text-white">
       <div className="flex flex-col md:flex-row">
         <div className="md:w-1/2 h-64 md:h-auto">
-          <img src={image} alt={title} className="w-full h-full object-cover" />
+          <img 
+            src={imageError ? "/placeholder.svg" : (image || "/placeholder.svg")} 
+            alt={title} 
+            className="w-full h-full object-cover"
+            onError={handleImageError}
+          />
         </div>
         <div className="md:w-1/2 p-6 flex flex-col justify-between">
           <div>
