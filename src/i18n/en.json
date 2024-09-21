@@ -14,5 +14,9 @@
       "science": "Science",
       "health": "Health"
     }
+  },
+  "languageSwitcher": {
+    "current": "Current: {{language}}",
+    "switchTo": "Switch to: {{language}}"
   }
 }
