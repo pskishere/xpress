@@ -3,7 +3,7 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile
-    image: pskishere:xpress
+    image: pskishere/xpress
     ports:
       - "3000:3000"
     restart: unless-stopped
@@ -15,7 +15,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.news-sync
-    image: pskishere:xpress-sync
+    image: pskishere/xpress
     restart: unless-stopped
     volumes:
       - ./src:/app/src
