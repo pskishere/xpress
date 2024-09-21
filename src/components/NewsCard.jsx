@@ -9,8 +9,8 @@ const NewsCard = ({ title, description, urlToImage, source, publishedat, url }) 
   
   const formatDate = (dateString) => {
     if (!dateString) return '未知日期';
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString('zh-CN', options);
+    const date = new Date(dateString);
+    return isNaN(date.getTime()) ? '未知日期' : date.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
   };
 
   const handleImageError = () => {
@@ -19,9 +19,9 @@ const NewsCard = ({ title, description, urlToImage, source, publishedat, url }) 
 
   const handleShare = async () => {
     const shareData = {
-      title: title,
-      text: description,
-      url: url,
+      title: title || '无标题',
+      text: description || '无描述',
+      url: url || window.location.href,
     };
 
     try {
@@ -29,7 +29,7 @@ const NewsCard = ({ title, description, urlToImage, source, publishedat, url }) 
         await navigator.share(shareData);
         toast.success("分享成功！");
       } else {
-        await navigator.clipboard.writeText(url);
+        await navigator.clipboard.writeText(shareData.url);
         toast.success("链接已复制到剪贴板");
       }
     } catch (error) {
@@ -38,14 +38,18 @@ const NewsCard = ({ title, description, urlToImage, source, publishedat, url }) 
     }
   };
 
+  const imageSrc = imageError || !urlToImage ? "/placeholder.svg" : urlToImage;
+
   return (
     <Card className="overflow-hidden transition-all duration-300 hover:shadow-lg bg-white h-full flex flex-col">
-      <img 
-        src={imageError ? "/placeholder.svg" : (urlToImage || "/placeholder.svg")} 
-        alt={title} 
-        className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
-        onError={handleImageError}
-      />
+      <div className="relative h-48 overflow-hidden">
+        <img 
+          src={imageSrc}
+          alt={title || '新闻图片'}
+          className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+          onError={handleImageError}
+        />
+      </div>
       <CardHeader className="p-4 flex-grow">
         <div className="flex flex-wrap justify-between items-center mb-2">
           <span className="text-sm font-medium text-pink-500 mb-1 sm:mb-0">{source?.name || '未知来源'}</span>
