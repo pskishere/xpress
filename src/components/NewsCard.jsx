@@ -34,7 +34,7 @@ const NewsCard = ({ title, description, urltoimage, source, publishedat, url }) 
       }
     } catch (error) {
       console.error("分享失败:", error);
-      toast.error("分享失败，请稍后再试");
+      // Removed the error toast
     }
   };
 
