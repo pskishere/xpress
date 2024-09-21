@@ -17,17 +17,9 @@ COPY . .
 ENV VITE_SUPABASE_PROJECT_URL=https://rqqrqgjrxxgbxrkxjcfl.supabase.co
 ENV VITE_SUPABASE_API_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJxcXJxZ2pyeHhnYnhya3hqY2ZsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjY5MjUzNDUsImV4cCI6MjA0MjUwMTM0NX0.8-NZAW3Zk7-BK6A-8QctffJ16rDyFJgJcm1WrS1fBM4
 
-# Install crond
-RUN apk add --no-cache dcron
+# Create a shell script to run the sync job
+RUN echo '#!/bin/sh\nwhile true; do\n  node /app/src/utils/syncNews.js\n  sleep 43200\ndone' > /app/run-news-sync.sh && \
+    chmod +x /app/run-news-sync.sh
 
-# Create a cron job file
-RUN echo "0 */12 * * * /usr/local/bin/node /app/src/utils/syncNews.js >> /var/log/cron.log 2>&1" > /etc/crontabs/root
-
-# Give execution rights on the cron job
-RUN chmod 0644 /etc/crontabs/root
-
-# Create the log file to be able to run tail
-RUN touch /var/log/cron.log
-
-# Run the command on container startup
-CMD crond && tail -f /var/log/cron.log
+# Run the shell script
+CMD ["/app/run-news-sync.sh"]
