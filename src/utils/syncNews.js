@@ -64,7 +64,7 @@ const insertNewsToSupabase = async (articles) => {
   if (error) {
     console.error('Error inserting news to Supabase:', error);
   } else {
-    console.log(`Successfully inserted/updated ${data.length} articles.`);
+    console.log(`Successfully inserted/updated articles.`);
   }
 };
 
