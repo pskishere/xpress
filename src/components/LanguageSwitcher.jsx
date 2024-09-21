@@ -17,8 +17,8 @@ const LanguageSwitcher = () => {
     i18n.changeLanguage(newLang);
   };
 
-  const currentLanguage = i18n.language === 'en' ? 'English' : '中文';
-  const nextLanguage = i18n.language === 'en' ? '中文' : 'English';
+  const currentLanguage = i18n.language === 'en' ? 'EN' : '中文';
+  const nextLanguage = i18n.language === 'en' ? '中文' : 'EN';
 
   return (
     <TooltipProvider>
@@ -27,15 +27,16 @@ const LanguageSwitcher = () => {
           <Button
             onClick={toggleLanguage}
             variant="ghost"
-            size="icon"
-            className="text-gray-600 hover:text-pink-500 transition-colors duration-300"
+            size="sm"
+            className="text-gray-600 hover:text-pink-500 transition-colors duration-300 flex items-center"
           >
-            <Globe className="h-5 w-5" />
+            <Globe className="h-4 w-4 mr-2" />
+            <span className="text-sm font-medium">{currentLanguage}</span>
           </Button>
         </TooltipTrigger>
         <TooltipContent>
-          <p>{t('languageSwitcher.current', { language: currentLanguage })}</p>
-          <p>{t('languageSwitcher.switchTo', { language: nextLanguage })}</p>
+          <p>{t('languageSwitcher.current', { language: t(`languageSwitcher.${i18n.language}`) })}</p>
+          <p>{t('languageSwitcher.switchTo', { language: t(`languageSwitcher.${i18n.language === 'en' ? 'zh' : 'en'}`) })}</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

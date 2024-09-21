@@ -17,6 +17,8 @@
   },
   "languageSwitcher": {
     "current": "Current: {{language}}",
-    "switchTo": "Switch to: {{language}}"
+    "switchTo": "Switch to: {{language}}",
+    "en": "English",
+    "zh": "Chinese"
   }
 }

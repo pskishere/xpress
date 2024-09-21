@@ -17,6 +17,8 @@
   },
   "languageSwitcher": {
     "current": "当前：{{language}}",
-    "switchTo": "切换到：{{language}}"
+    "switchTo": "切换到：{{language}}",
+    "en": "英文",
+    "zh": "中文"
   }
 }
