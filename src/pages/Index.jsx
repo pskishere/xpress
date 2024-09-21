@@ -50,15 +50,17 @@ const Index = () => {
           </div>
         )}
         <Tabs defaultValue="general" className="mb-8">
-          <TabsList className="bg-white shadow-sm rounded-full mb-6 flex flex-wrap justify-start">
-            <TabsTrigger value="general" className="rounded-full">综合</TabsTrigger>
-            <TabsTrigger value="business" className="rounded-full">商业</TabsTrigger>
-            <TabsTrigger value="technology" className="rounded-full">科技</TabsTrigger>
-            <TabsTrigger value="entertainment" className="rounded-full">娱乐</TabsTrigger>
-            <TabsTrigger value="sports" className="rounded-full">体育</TabsTrigger>
-            <TabsTrigger value="science" className="rounded-full">科学</TabsTrigger>
-            <TabsTrigger value="health" className="rounded-full">健康</TabsTrigger>
-          </TabsList>
+          <div className="overflow-x-auto pb-2 mb-4">
+            <TabsList className="bg-white shadow-sm rounded-full inline-flex whitespace-nowrap">
+              <TabsTrigger value="general" className="px-4 py-2 text-sm">综合</TabsTrigger>
+              <TabsTrigger value="business" className="px-4 py-2 text-sm">商业</TabsTrigger>
+              <TabsTrigger value="technology" className="px-4 py-2 text-sm">科技</TabsTrigger>
+              <TabsTrigger value="entertainment" className="px-4 py-2 text-sm">娱乐</TabsTrigger>
+              <TabsTrigger value="sports" className="px-4 py-2 text-sm">体育</TabsTrigger>
+              <TabsTrigger value="science" className="px-4 py-2 text-sm">科学</TabsTrigger>
+              <TabsTrigger value="health" className="px-4 py-2 text-sm">健康</TabsTrigger>
+            </TabsList>
+          </div>
           <TabsContent value="general"><CategoryNews category="general" searchQuery={searchQuery} isDomainAccess={isDomainAccess} /></TabsContent>
           <TabsContent value="business"><CategoryNews category="business" searchQuery={searchQuery} isDomainAccess={isDomainAccess} /></TabsContent>
           <TabsContent value="technology"><CategoryNews category="technology" searchQuery={searchQuery} isDomainAccess={isDomainAccess} /></TabsContent>
