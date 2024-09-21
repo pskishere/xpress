@@ -12,7 +12,7 @@ const useNews = (category) => {
         setLoading(true);
         const articles = await fetchNews(category);
         const validArticles = articles.filter(article => 
-          article && article.title && article.description && article.source
+          article && article.title && article.description && article.source && !article.title.toLowerCase().includes('removed')
         );
         setNews(validArticles);
         setLoading(false);
@@ -30,7 +30,7 @@ const useNews = (category) => {
       setLoading(true);
       const articles = await apiSearchNews(query);
       const validArticles = articles.filter(article => 
-        article && article.title && article.description && article.source
+        article && article.title && article.description && article.source && !article.title.toLowerCase().includes('removed')
       );
       setNews(validArticles);
       setLoading(false);

@@ -4,15 +4,15 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
 
-const Header = () => {
+const Header = ({ onSearch }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
 
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      navigate(`/?search=${encodeURIComponent(searchQuery)}`);
-      setSearchQuery('');
+      onSearch(searchQuery);
+      navigate('/');
     }
   };
 

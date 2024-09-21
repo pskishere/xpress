@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import FeaturedNews from '../components/FeaturedNews';
 import CategoryNews from '../components/CategoryNews';
@@ -6,15 +6,32 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import useNews from '../hooks/useNews';
 
 const Index = () => {
-  const { news: allNews, loading: allLoading } = useNews('general');
+  const [searchQuery, setSearchQuery] = useState('');
+  const { news: allNews, loading: allLoading, searchNews } = useNews('general');
+  const [filteredNews, setFilteredNews] = useState([]);
 
-  const featuredArticle = allNews[0] || null;
+  useEffect(() => {
+    const filtered = allNews.filter(article => 
+      article && article.title && article.description && article.source && !article.title.toLowerCase().includes('removed')
+    );
+    setFilteredNews(filtered);
+  }, [allNews]);
+
+  const featuredArticle = filteredNews[0] || null;
+
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+    searchNews(query);
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
-      <Header />
+      <Header onSearch={handleSearch} />
       <main className="flex-grow container mx-auto px-4 py-6 sm:py-8">
-        {featuredArticle && (
+        {searchQuery && (
+          <h2 className="text-2xl font-bold mb-6 text-gray-800">搜索结果: "{searchQuery}"</h2>
+        )}
+        {featuredArticle && !searchQuery && (
           <div className="mb-8 sm:mb-12">
             <h2 className="text-3xl font-bold mb-6 text-gray-800 border-b-2 border-pink-500 pb-2 inline-block">头条新闻</h2>
             <FeaturedNews
@@ -35,13 +52,13 @@ const Index = () => {
             <TabsTrigger value="science" className="rounded-full">科学</TabsTrigger>
             <TabsTrigger value="health" className="rounded-full">健康</TabsTrigger>
           </TabsList>
-          <TabsContent value="general"><CategoryNews category="general" /></TabsContent>
-          <TabsContent value="business"><CategoryNews category="business" /></TabsContent>
-          <TabsContent value="technology"><CategoryNews category="technology" /></TabsContent>
-          <TabsContent value="entertainment"><CategoryNews category="entertainment" /></TabsContent>
-          <TabsContent value="sports"><CategoryNews category="sports" /></TabsContent>
-          <TabsContent value="science"><CategoryNews category="science" /></TabsContent>
-          <TabsContent value="health"><CategoryNews category="health" /></TabsContent>
+          <TabsContent value="general"><CategoryNews category="general" searchQuery={searchQuery} /></TabsContent>
+          <TabsContent value="business"><CategoryNews category="business" searchQuery={searchQuery} /></TabsContent>
+          <TabsContent value="technology"><CategoryNews category="technology" searchQuery={searchQuery} /></TabsContent>
+          <TabsContent value="entertainment"><CategoryNews category="entertainment" searchQuery={searchQuery} /></TabsContent>
+          <TabsContent value="sports"><CategoryNews category="sports" searchQuery={searchQuery} /></TabsContent>
+          <TabsContent value="science"><CategoryNews category="science" searchQuery={searchQuery} /></TabsContent>
+          <TabsContent value="health"><CategoryNews category="health" searchQuery={searchQuery} /></TabsContent>
         </Tabs>
       </main>
     </div>
