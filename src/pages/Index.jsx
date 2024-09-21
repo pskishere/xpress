@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import Header from '../components/Header';
 import FeaturedNews from '../components/FeaturedNews';
 import CategoryNews from '../components/CategoryNews';
@@ -6,14 +6,24 @@ import SEO from '../components/SEO';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import useNews from '../hooks/useNews';
 import { useTranslation } from 'react-i18next';
+import { getNewsFromSupabase } from '../utils/api';
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchMode, setIsSearchMode] = useState(false);
+  const [featuredArticle, setFeaturedArticle] = useState(null);
   const { news, loading, error, hasMore, fetchNews, searchNews, changeCategory } = useNews('general');
   const { t } = useTranslation();
 
-  const featuredArticle = news[0] || null;
+  useEffect(() => {
+    const fetchFeaturedArticle = async () => {
+      const generalNews = await getNewsFromSupabase('general', 1, 1);
+      if (generalNews && generalNews.length > 0) {
+        setFeaturedArticle(generalNews[0]);
+      }
+    };
+    fetchFeaturedArticle();
+  }, []);
 
   const handleSearch = useCallback((query) => {
     setSearchQuery(query);
