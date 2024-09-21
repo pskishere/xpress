@@ -1,5 +1,5 @@
-# Use an official Node runtime as the base image
-FROM node:20-alpine
+# Use a multi-stage build for better efficiency
+FROM node:20-alpine AS builder
 
 # Set the working directory in the container
 WORKDIR /app
@@ -12,6 +12,16 @@ RUN npm ci
 
 # Copy the rest of the application code
 COPY . .
+
+# Build stage
+FROM --platform=$TARGETPLATFORM node:20-alpine
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy built node modules and compiled code from builder stage
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app ./
 
 # Set environment variables
 ENV VITE_SUPABASE_PROJECT_URL=https://rqqrqgjrxxgbxrkxjcfl.supabase.co
