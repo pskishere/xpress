@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Header from '../components/Header';
 import FeaturedNews from '../components/FeaturedNews';
 import CategoryNews from '../components/CategoryNews';
@@ -9,26 +9,28 @@ import { useTranslation } from 'react-i18next';
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const { news: allNews, loading: allLoading, searchNews } = useNews('general');
-  const [filteredNews, setFilteredNews] = useState([]);
+  const { news, loading, error, hasMore, fetchNews, searchNews, changeCategory } = useNews('general');
   const [isDomainAccess, setIsDomainAccess] = useState(false);
   const { t } = useTranslation();
 
   useEffect(() => {
-    setFilteredNews(allNews);
     setIsDomainAccess(window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1');
-  }, [allNews]);
+  }, []);
 
-  const featuredArticle = filteredNews[0] || null;
+  const featuredArticle = news[0] || null;
 
-  const handleSearch = (query) => {
+  const handleSearch = useCallback((query) => {
     setSearchQuery(query);
     if (query.trim()) {
       searchNews(query);
     } else {
-      setFilteredNews(allNews);
+      fetchNews(true);
     }
-  };
+  }, [searchNews, fetchNews]);
+
+  const handleCategoryChange = useCallback((category) => {
+    changeCategory(category);
+  }, [changeCategory]);
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
@@ -55,7 +57,7 @@ const Index = () => {
             />
           </div>
         )}
-        <Tabs defaultValue="general" className="mb-8">
+        <Tabs defaultValue="general" className="mb-8" onValueChange={handleCategoryChange}>
           <div className="overflow-x-auto pb-2 mb-4">
             <TabsList className="bg-white shadow-sm rounded-full inline-flex whitespace-nowrap">
               <TabsTrigger value="general" className="px-4 py-2 text-sm tab-trigger rounded-l-full">{t('index.categories.general')}</TabsTrigger>
@@ -67,13 +69,13 @@ const Index = () => {
               <TabsTrigger value="health" className="px-4 py-2 text-sm tab-trigger rounded-r-full">{t('index.categories.health')}</TabsTrigger>
             </TabsList>
           </div>
-          <TabsContent value="general"><CategoryNews category="general" searchQuery={searchQuery} isDomainAccess={isDomainAccess} /></TabsContent>
-          <TabsContent value="business"><CategoryNews category="business" searchQuery={searchQuery} isDomainAccess={isDomainAccess} /></TabsContent>
-          <TabsContent value="technology"><CategoryNews category="technology" searchQuery={searchQuery} isDomainAccess={isDomainAccess} /></TabsContent>
-          <TabsContent value="entertainment"><CategoryNews category="entertainment" searchQuery={searchQuery} isDomainAccess={isDomainAccess} /></TabsContent>
-          <TabsContent value="sports"><CategoryNews category="sports" searchQuery={searchQuery} isDomainAccess={isDomainAccess} /></TabsContent>
-          <TabsContent value="science"><CategoryNews category="science" searchQuery={searchQuery} isDomainAccess={isDomainAccess} /></TabsContent>
-          <TabsContent value="health"><CategoryNews category="health" searchQuery={searchQuery} isDomainAccess={isDomainAccess} /></TabsContent>
+          <TabsContent value="general"><CategoryNews news={news} loading={loading} error={error} hasMore={hasMore} fetchNews={fetchNews} isDomainAccess={isDomainAccess} /></TabsContent>
+          <TabsContent value="business"><CategoryNews news={news} loading={loading} error={error} hasMore={hasMore} fetchNews={fetchNews} isDomainAccess={isDomainAccess} /></TabsContent>
+          <TabsContent value="technology"><CategoryNews news={news} loading={loading} error={error} hasMore={hasMore} fetchNews={fetchNews} isDomainAccess={isDomainAccess} /></TabsContent>
+          <TabsContent value="entertainment"><CategoryNews news={news} loading={loading} error={error} hasMore={hasMore} fetchNews={fetchNews} isDomainAccess={isDomainAccess} /></TabsContent>
+          <TabsContent value="sports"><CategoryNews news={news} loading={loading} error={error} hasMore={hasMore} fetchNews={fetchNews} isDomainAccess={isDomainAccess} /></TabsContent>
+          <TabsContent value="science"><CategoryNews news={news} loading={loading} error={error} hasMore={hasMore} fetchNews={fetchNews} isDomainAccess={isDomainAccess} /></TabsContent>
+          <TabsContent value="health"><CategoryNews news={news} loading={loading} error={error} hasMore={hasMore} fetchNews={fetchNews} isDomainAccess={isDomainAccess} /></TabsContent>
         </Tabs>
       </main>
       <style jsx global>{`

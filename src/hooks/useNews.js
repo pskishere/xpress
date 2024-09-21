@@ -1,12 +1,13 @@
 import { useState, useEffect, useCallback } from 'react';
-import { getNewsFromSupabase, searchNews } from '../utils/api';
+import { getNewsFromSupabase, searchNews as searchNewsApi } from '../utils/api';
 
-const useNews = (category) => {
+const useNews = (initialCategory = 'general') => {
   const [news, setNews] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
+  const [category, setCategory] = useState(initialCategory);
 
   const fetchNews = useCallback(async (reset = false) => {
     try {
@@ -16,9 +17,10 @@ const useNews = (category) => {
       setNews(prevNews => reset ? articles : [...prevNews, ...articles]);
       setHasMore(articles.length === 10); // Assuming we fetch 10 items per page
       setPage(currentPage + 1);
-      setLoading(false);
+      setError(null);
     } catch (err) {
       setError(err.message);
+    } finally {
       setLoading(false);
     }
   }, [category, page]);
@@ -27,20 +29,36 @@ const useNews = (category) => {
     fetchNews(true);
   }, [category]);
 
-  const searchNewsArticles = async (query) => {
+  const searchNews = async (query) => {
     try {
       setLoading(true);
-      const articles = await searchNews(query);
+      const articles = await searchNewsApi(query);
       setNews(articles);
       setHasMore(false);
-      setLoading(false);
+      setError(null);
     } catch (err) {
       setError(err.message);
+    } finally {
       setLoading(false);
     }
   };
 
-  return { news, loading, error, hasMore, fetchNews, searchNews: searchNewsArticles };
+  const changeCategory = (newCategory) => {
+    setCategory(newCategory);
+    setPage(1);
+    setNews([]);
+    setHasMore(true);
+  };
+
+  return { 
+    news, 
+    loading, 
+    error, 
+    hasMore, 
+    fetchNews, 
+    searchNews, 
+    changeCategory 
+  };
 };
 
 export default useNews;

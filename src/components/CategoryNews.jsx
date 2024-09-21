@@ -1,10 +1,8 @@
 import React, { useEffect, useRef, useCallback } from 'react';
 import NewsCard from './NewsCard';
-import useNews from '../hooks/useNews';
 import { useTranslation } from 'react-i18next';
 
-const CategoryNews = ({ category, searchQuery }) => {
-  const { news, loading, error, hasMore, fetchNews, searchNews } = useNews(category);
+const CategoryNews = ({ news, loading, error, hasMore, fetchNews, isDomainAccess }) => {
   const { t } = useTranslation();
   const observer = useRef();
 
@@ -20,10 +18,8 @@ const CategoryNews = ({ category, searchQuery }) => {
   }, [loading, hasMore, fetchNews]);
 
   useEffect(() => {
-    if (searchQuery) {
-      searchNews(searchQuery);
-    }
-  }, [searchQuery, category, searchNews]);
+    // This effect is now empty as we're handling the initial fetch in the Index component
+  }, []);
 
   if (error) return <p className="text-center text-red-500">{t('errors.fetchingNews')}: {error}</p>;
   if (news.length === 0 && !loading) return <p className="text-center text-gray-500">{t('messages.noNewsAvailable')}</p>;
