@@ -8,15 +8,16 @@ services:
     ports:
       - "3000:3000"
     restart: unless-stopped
-
-  news-sync:
-    build: 
-      context: .
-      dockerfile: Dockerfile
-    command: node src/utils/syncNews.js
-    restart: on-failure
-    depends_on:
-      - app
+    volumes:
+      - ./src:/app/src
+      - node_modules:/app/node_modules
+    command: >
+      sh -c "
+        npm run start &
+        echo '0 0,12 * * * /usr/local/bin/node /app/src/utils/syncNews.js >> /var/log/cron.log 2>&1' > /etc/cron.d/news-sync-cron
+        chmod 0644 /etc/cron.d/news-sync-cron
+        crontab /etc/cron.d/news-sync-cron
+        cron -f"
 
 volumes:
   node_modules:

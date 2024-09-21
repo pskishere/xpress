@@ -19,12 +19,16 @@ RUN npm run build
 # Start a new stage for a smaller final image
 FROM node:20-alpine
 
+# Install cron
+RUN apk add --no-cache dcron
+
 WORKDIR /app
 
 # Copy built assets from the build stage
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/.env ./.env
+COPY --from=build /app/src ./src
 COPY package.json .
 
 # Install only production dependencies
@@ -33,5 +37,5 @@ RUN npm ci --only=production
 # Expose the port the app runs on
 EXPOSE 3000
 
-# Define the command to run the app
-CMD ["npm", "run", "start"]
+# Define the command to run the app and start cron
+CMD ["sh", "-c", "npm run start & crond -f"]
