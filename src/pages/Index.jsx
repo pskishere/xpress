@@ -23,7 +23,12 @@ const Index = () => {
 
   const handleSearch = (query) => {
     setSearchQuery(query);
-    searchNews(query);
+    if (query.trim()) {
+      searchNews(query);
+    } else {
+      // If the search query is empty, reset to show all news
+      setFilteredNews(allNews);
+    }
   };
 
   return (

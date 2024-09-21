@@ -16,6 +16,10 @@ const Header = ({ onSearch }) => {
     if (searchQuery.trim()) {
       onSearch(searchQuery);
       navigate('/');
+    } else {
+      // If the search query is empty, reset the news display
+      onSearch('');
+      navigate('/');
     }
   };
 
