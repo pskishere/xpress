@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { fetchNews, searchNews, getNewsFromSupabase } from '../utils/api';
+import { getNewsFromSupabase, searchNews } from '../utils/api';
 
 const useNews = (category) => {
   const [news, setNews] = useState([]);
@@ -7,23 +7,10 @@ const useNews = (category) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const getNews = async () => {
+    const fetchNews = async () => {
       try {
         setLoading(true);
-        let articles;
-
-        // Check if the site is being accessed via a domain name
-        const isDomainAccess = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
-
-        if (isDomainAccess) {
-          // If accessed via domain, fetch news directly from Supabase
-          articles = await getNewsFromSupabase(category);
-        } else {
-          // If accessed locally, fetch and update news as before
-          await fetchNews(category); // This will update Supabase
-          articles = await getNewsFromSupabase(category);
-        }
-
+        const articles = await getNewsFromSupabase(category);
         setNews(articles);
         setLoading(false);
       } catch (err) {
@@ -32,7 +19,7 @@ const useNews = (category) => {
       }
     };
 
-    getNews();
+    fetchNews();
   }, [category]);
 
   const searchNewsArticles = async (query) => {
