@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardTitle } from "@/components/ui/c
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 
-const FeaturedNews = ({ title, description, image, url }) => {
+const FeaturedNews = ({ title, description, urltoimage, url }) => {
   const [imageError, setImageError] = useState(false);
 
   const handleImageError = () => {
@@ -15,16 +15,16 @@ const FeaturedNews = ({ title, description, image, url }) => {
       <div className="flex flex-col md:flex-row">
         <div className="md:w-1/2 h-64 md:h-auto">
           <img 
-            src={imageError ? "/placeholder.svg" : (image || "/placeholder.svg")} 
-            alt={title} 
+            src={imageError ? "/placeholder.svg" : (urltoimage || "/placeholder.svg")} 
+            alt={title || "Featured news image"}
             className="w-full h-full object-cover"
             onError={handleImageError}
           />
         </div>
         <div className="md:w-1/2 p-6 flex flex-col justify-between">
           <div>
-            <CardTitle className="text-2xl sm:text-3xl mb-4">{title}</CardTitle>
-            <CardDescription className="text-gray-300 mb-6 text-sm sm:text-base">{description}</CardDescription>
+            <CardTitle className="text-2xl sm:text-3xl mb-4">{title || "No title available"}</CardTitle>
+            <CardDescription className="text-gray-300 mb-6 text-sm sm:text-base">{description || "No description available"}</CardDescription>
           </div>
           <Button 
             variant="outline" 

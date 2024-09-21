@@ -13,7 +13,6 @@ const Index = () => {
 
   useEffect(() => {
     setFilteredNews(allNews);
-    // Check if the site is being accessed via a domain name
     setIsDomainAccess(window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1');
   }, [allNews]);
 
@@ -37,7 +36,7 @@ const Index = () => {
             <FeaturedNews
               title={featuredArticle.title}
               description={featuredArticle.description}
-              image={featuredArticle.urlToImage || "/placeholder.svg"}
+              urltoimage={featuredArticle.urltoimage}
               url={featuredArticle.url}
             />
           </div>
