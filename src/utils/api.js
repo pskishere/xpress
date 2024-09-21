@@ -11,8 +11,8 @@ const insertNewsToSupabase = async (articles) => {
         title: article.title,
         description: article.description,
         url: article.url,
-        urlToImage: article.urlToImage,
-        publishedAt: article.publishedAt,
+        urltoimage: article.urlToImage,
+        publishedat: article.publishedAt,
         source: article.source.name,
         category: article.category
       }, {
@@ -59,7 +59,7 @@ export const searchNews = async (query) => {
       .from('news')
       .select('*')
       .ilike('title', `%${query}%`)
-      .order('publishedAt', { ascending: false });
+      .order('publishedat', { ascending: false });
 
     if (error) throw error;
 
@@ -76,7 +76,7 @@ export const getNewsFromSupabase = async (category = 'general') => {
       .from('news')
       .select('*')
       .eq('category', category)
-      .order('publishedAt', { ascending: false });
+      .order('publishedat', { ascending: false });
 
     if (error) throw error;
 
