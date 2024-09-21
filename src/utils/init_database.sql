@@ -8,8 +8,8 @@ BEGIN
             title TEXT NOT NULL,
             description TEXT,
             url TEXT UNIQUE NOT NULL,
-            urlToImage TEXT,
-            publishedAt TIMESTAMP WITH TIME ZONE,
+            urltoimage TEXT,
+            publishedat TIMESTAMP WITH TIME ZONE,
             source TEXT,
             category TEXT,
             created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
@@ -22,15 +22,16 @@ BEGIN
         -- Create an index on the category column for faster filtering
         CREATE INDEX idx_news_category ON public.news(category);
 
-        -- Create an index on the publishedAt column for sorting
-        CREATE INDEX idx_news_published_at ON public.news(publishedAt);
+        -- Create an index on the publishedat column for sorting
+        CREATE INDEX idx_news_published_at ON public.news(publishedat);
 
         -- Enable Row Level Security
         ALTER TABLE public.news ENABLE ROW LEVEL SECURITY;
 
-        -- Create a policy that allows all operations for authenticated users
-        CREATE POLICY "Allow all operations for authenticated users" ON public.news
-            FOR ALL USING (auth.role() = 'authenticated');
+        -- Create a policy that allows all operations for authenticated users and insert for anonymous users
+        CREATE POLICY "Allow all operations for authenticated users and insert for anonymous" ON public.news
+            FOR ALL USING (auth.role() = 'authenticated')
+            WITH CHECK (auth.role() = 'authenticated' OR auth.role() = 'anon');
 
         RAISE NOTICE 'News table created successfully.';
     ELSE
@@ -54,3 +55,18 @@ CREATE TRIGGER update_news_updated_at
 BEFORE UPDATE ON public.news
 FOR EACH ROW
 EXECUTE FUNCTION update_updated_at_column();
+
+-- Update the RLS policy if the table already exists
+DO $$
+BEGIN
+    IF EXISTS (SELECT FROM pg_tables WHERE schemaname = 'public' AND tablename = 'news') THEN
+        DROP POLICY IF EXISTS "Allow all operations for authenticated users" ON public.news;
+        
+        CREATE POLICY "Allow all operations for authenticated users and insert for anonymous" ON public.news
+            FOR ALL USING (auth.role() = 'authenticated')
+            WITH CHECK (auth.role() = 'authenticated' OR auth.role() = 'anon');
+        
+        RAISE NOTICE 'RLS policy updated successfully.';
+    END IF;
+END
+$$;
