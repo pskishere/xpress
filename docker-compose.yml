@@ -11,13 +11,20 @@ services:
     volumes:
       - ./src:/app/src
       - node_modules:/app/node_modules
-    command: >
-      sh -c "
-        npm run start &
-        echo '0 0,12 * * * /usr/local/bin/node /app/src/utils/syncNews.js >> /var/log/cron.log 2>&1' > /etc/cron.d/news-sync-cron
-        chmod 0644 /etc/cron.d/news-sync-cron
-        crontab /etc/cron.d/news-sync-cron
-        cron -f"
+    environment:
+      - VITE_SUPABASE_PROJECT_URL=${VITE_SUPABASE_PROJECT_URL}
+      - VITE_SUPABASE_API_KEY=${VITE_SUPABASE_API_KEY}
+
+  news-sync:
+    build:
+      context: .
+      dockerfile: Dockerfile.news-sync
+    restart: unless-stopped
+    environment:
+      - VITE_SUPABASE_PROJECT_URL=${VITE_SUPABASE_PROJECT_URL}
+      - VITE_SUPABASE_API_KEY=${VITE_SUPABASE_API_KEY}
+    volumes:
+      - ./src:/app/src
 
 volumes:
   node_modules:
