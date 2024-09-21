@@ -15,7 +15,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.news-sync
-    image: pskishere/xpress
+    image: pskishere/xpress-sync
     restart: unless-stopped
     volumes:
       - ./src:/app/src
