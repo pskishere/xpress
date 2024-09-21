@@ -26,5 +26,12 @@
   "toasts": {
     "shareSuccess": "分享成功！",
     "linkCopied": "链接已复制到剪贴板"
+  },
+  "errors": {
+    "fetchingNews": "获取新闻时出错"
+  },
+  "messages": {
+    "noNewsAvailable": "该分类暂无可用新闻。",
+    "loadingMore": "正在加载更多新闻..."
   }
 }

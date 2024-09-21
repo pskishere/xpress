@@ -1,25 +1,41 @@
-import React from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 import NewsCard from './NewsCard';
 import useNews from '../hooks/useNews';
+import { useTranslation } from 'react-i18next';
 
 const CategoryNews = ({ category, searchQuery }) => {
-  const { news, loading, error, searchNews } = useNews(category);
+  const { news, loading, error, hasMore, fetchNews, searchNews } = useNews(category);
+  const { t } = useTranslation();
+  const observer = useRef();
 
-  React.useEffect(() => {
+  const lastNewsElementRef = useCallback(node => {
+    if (loading) return;
+    if (observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && hasMore) {
+        fetchNews();
+      }
+    });
+    if (node) observer.current.observe(node);
+  }, [loading, hasMore, fetchNews]);
+
+  useEffect(() => {
     if (searchQuery) {
       searchNews(searchQuery);
     }
   }, [searchQuery, category, searchNews]);
 
-  if (loading) return <p className="text-center text-gray-500">加载新闻中...</p>;
-  if (error) return <p className="text-center text-red-500">错误: {error}</p>;
-  if (news.length === 0) return <p className="text-center text-gray-500">该分类下暂无可用新闻。</p>;
+  if (error) return <p className="text-center text-red-500">{t('errors.fetchingNews')}: {error}</p>;
+  if (news.length === 0 && !loading) return <p className="text-center text-gray-500">{t('messages.noNewsAvailable')}</p>;
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       {news.map((item, index) => (
-        <NewsCard key={index} {...item} />
+        <div key={item.id} ref={index === news.length - 1 ? lastNewsElementRef : null}>
+          <NewsCard {...item} />
+        </div>
       ))}
+      {loading && <p className="col-span-full text-center text-gray-500">{t('messages.loadingMore')}</p>}
     </div>
   );
 };

@@ -26,5 +26,12 @@
   "toasts": {
     "shareSuccess": "Shared successfully!",
     "linkCopied": "Link copied to clipboard"
+  },
+  "errors": {
+    "fetchingNews": "Error fetching news"
+  },
+  "messages": {
+    "noNewsAvailable": "No news available for this category.",
+    "loadingMore": "Loading more news..."
   }
 }
