@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
 
 const FeaturedNews = ({ title, description, image, url }) => {
   return (
@@ -9,11 +10,20 @@ const FeaturedNews = ({ title, description, image, url }) => {
         <div className="md:w-1/2 h-64 md:h-auto">
           <img src={image} alt={title} className="w-full h-full object-cover" />
         </div>
-        <div className="md:w-1/2 p-6 flex flex-col justify-center">
-          <CardTitle className="text-2xl sm:text-3xl mb-4">{title}</CardTitle>
-          <CardDescription className="text-gray-300 mb-6 text-sm sm:text-base">{description}</CardDescription>
-          <Button variant="outline" className="self-start" asChild>
-            <a href={url} target="_blank" rel="noopener noreferrer">阅读全文</a>
+        <div className="md:w-1/2 p-6 flex flex-col justify-between">
+          <div>
+            <CardTitle className="text-2xl sm:text-3xl mb-4">{title}</CardTitle>
+            <CardDescription className="text-gray-300 mb-6 text-sm sm:text-base">{description}</CardDescription>
+          </div>
+          <Button 
+            variant="outline" 
+            className="self-start mt-4 bg-pink-500 text-white border-pink-500 hover:bg-pink-600 hover:text-white hover:border-pink-600 transition-all duration-300"
+            asChild
+          >
+            <a href={url} target="_blank" rel="noopener noreferrer" className="flex items-center">
+              阅读全文
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </a>
           </Button>
         </div>
       </div>
