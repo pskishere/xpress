@@ -9,9 +9,12 @@ const Index = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const { news: allNews, loading: allLoading, searchNews } = useNews('general');
   const [filteredNews, setFilteredNews] = useState([]);
+  const [isDomainAccess, setIsDomainAccess] = useState(false);
 
   useEffect(() => {
     setFilteredNews(allNews);
+    // Check if the site is being accessed via a domain name
+    setIsDomainAccess(window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1');
   }, [allNews]);
 
   const featuredArticle = filteredNews[0] || null;
@@ -49,13 +52,13 @@ const Index = () => {
             <TabsTrigger value="science" className="rounded-full">科学</TabsTrigger>
             <TabsTrigger value="health" className="rounded-full">健康</TabsTrigger>
           </TabsList>
-          <TabsContent value="general"><CategoryNews category="general" searchQuery={searchQuery} /></TabsContent>
-          <TabsContent value="business"><CategoryNews category="business" searchQuery={searchQuery} /></TabsContent>
-          <TabsContent value="technology"><CategoryNews category="technology" searchQuery={searchQuery} /></TabsContent>
-          <TabsContent value="entertainment"><CategoryNews category="entertainment" searchQuery={searchQuery} /></TabsContent>
-          <TabsContent value="sports"><CategoryNews category="sports" searchQuery={searchQuery} /></TabsContent>
-          <TabsContent value="science"><CategoryNews category="science" searchQuery={searchQuery} /></TabsContent>
-          <TabsContent value="health"><CategoryNews category="health" searchQuery={searchQuery} /></TabsContent>
+          <TabsContent value="general"><CategoryNews category="general" searchQuery={searchQuery} isDomainAccess={isDomainAccess} /></TabsContent>
+          <TabsContent value="business"><CategoryNews category="business" searchQuery={searchQuery} isDomainAccess={isDomainAccess} /></TabsContent>
+          <TabsContent value="technology"><CategoryNews category="technology" searchQuery={searchQuery} isDomainAccess={isDomainAccess} /></TabsContent>
+          <TabsContent value="entertainment"><CategoryNews category="entertainment" searchQuery={searchQuery} isDomainAccess={isDomainAccess} /></TabsContent>
+          <TabsContent value="sports"><CategoryNews category="sports" searchQuery={searchQuery} isDomainAccess={isDomainAccess} /></TabsContent>
+          <TabsContent value="science"><CategoryNews category="science" searchQuery={searchQuery} isDomainAccess={isDomainAccess} /></TabsContent>
+          <TabsContent value="health"><CategoryNews category="health" searchQuery={searchQuery} isDomainAccess={isDomainAccess} /></TabsContent>
         </Tabs>
       </main>
     </div>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import NewsCard from './NewsCard';
 import useNews from '../hooks/useNews';
 
-const CategoryNews = ({ category, searchQuery }) => {
+const CategoryNews = ({ category, searchQuery, isDomainAccess }) => {
   const { news, loading, error, searchNews } = useNews(category);
   const [filteredNews, setFilteredNews] = useState([]);
 
@@ -23,7 +23,7 @@ const CategoryNews = ({ category, searchQuery }) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       {filteredNews.map((item, index) => (
-        <NewsCard key={index} {...item} />
+        <NewsCard key={index} {...item} isDomainAccess={isDomainAccess} />
       ))}
     </div>
   );

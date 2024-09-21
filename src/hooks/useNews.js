@@ -10,8 +10,20 @@ const useNews = (category) => {
     const getNews = async () => {
       try {
         setLoading(true);
-        await fetchNews(category); // This will update Supabase
-        const articles = await getNewsFromSupabase(category);
+        let articles;
+
+        // Check if the site is being accessed via a domain name
+        const isDomainAccess = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+
+        if (isDomainAccess) {
+          // If accessed via domain, fetch news directly from Supabase
+          articles = await getNewsFromSupabase(category);
+        } else {
+          // If accessed locally, fetch and update news as before
+          await fetchNews(category); // This will update Supabase
+          articles = await getNewsFromSupabase(category);
+        }
+
         setNews(articles);
         setLoading(false);
       } catch (err) {
