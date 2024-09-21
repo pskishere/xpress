@@ -1,0 +1,18 @@
+{
+  "header": {
+    "search": "搜索新闻..."
+  },
+  "index": {
+    "featuredNews": "头条新闻",
+    "searchResults": "搜索结果: ",
+    "categories": {
+      "general": "综合",
+      "business": "商业",
+      "technology": "科技",
+      "entertainment": "娱乐",
+      "sports": "体育",
+      "science": "科学",
+      "health": "健康"
+    }
+  }
+}

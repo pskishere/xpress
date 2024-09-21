@@ -1,0 +1,18 @@
+{
+  "header": {
+    "search": "Search news..."
+  },
+  "index": {
+    "featuredNews": "Featured News",
+    "searchResults": "Search Results: ",
+    "categories": {
+      "general": "General",
+      "business": "Business",
+      "technology": "Technology",
+      "entertainment": "Entertainment",
+      "sports": "Sports",
+      "science": "Science",
+      "health": "Health"
+    }
+  }
+}
