@@ -2,7 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 
 const SEO = ({ title, description, keywords, image, url }) => {
-  const siteTitle = 'MCNews';
+  const siteTitle = 'Xpress';
   const fullTitle = `${title} | ${siteTitle}`;
 
   return (
@@ -36,11 +36,11 @@ const SEO = ({ title, description, keywords, image, url }) => {
             "image": "${image || '/og-image.svg'}",
             "author": {
               "@type": "Organization",
-              "name": "MCNews Team"
+              "name": "Xpress Team"
             },
             "publisher": {
               "@type": "Organization",
-              "name": "MCNews",
+              "name": "Xpress",
               "logo": {
                 "@type": "ImageObject",
                 "url": "/favicon.ico"
