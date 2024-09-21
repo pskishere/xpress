@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import FeaturedNews from '../components/FeaturedNews';
 import CategoryNews from '../components/CategoryNews';
+import SEO from '../components/SEO';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import useNews from '../hooks/useNews';
 
@@ -25,6 +26,13 @@ const Index = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
+      <SEO
+        title="最新新闻资讯"
+        description="MCNews提供最新、最全面的新闻资讯，涵盖科技、政治、经济、文化等多个领域。"
+        keywords="新闻,资讯,科技,政治,经济,文化"
+        image="/og-image.svg"
+        url="https://mcnews.com"
+      />
       <Header onSearch={handleSearch} />
       <main className="flex-grow container mx-auto px-4 py-6 sm:py-8">
         {searchQuery && (
