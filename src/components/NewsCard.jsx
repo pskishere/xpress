@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Share2 } from "lucide-react";
 import { toast } from "sonner";
 
-const NewsCard = ({ title, description, urlToImage, source, publishedat, url }) => {
+const NewsCard = ({ title, description, urltoimage, source, publishedat, url }) => {
   const [imageError, setImageError] = useState(false);
   
   const formatDate = (dateString) => {
@@ -38,7 +38,7 @@ const NewsCard = ({ title, description, urlToImage, source, publishedat, url }) 
     }
   };
 
-  const imageSrc = imageError || !urlToImage ? "/placeholder.svg" : urlToImage;
+  const imageSrc = imageError || !urltoimage ? "/placeholder.svg" : urltoimage;
 
   return (
     <Card className="overflow-hidden transition-all duration-300 hover:shadow-lg bg-white h-full flex flex-col">
@@ -52,7 +52,7 @@ const NewsCard = ({ title, description, urlToImage, source, publishedat, url }) 
       </div>
       <CardHeader className="p-4 flex-grow">
         <div className="flex flex-wrap justify-between items-center mb-2">
-          <span className="text-sm font-medium text-pink-500 mb-1 sm:mb-0">{source?.name || '未知来源'}</span>
+          <span className="text-sm font-medium text-pink-500 mb-1 sm:mb-0">{source || '未知来源'}</span>
           <span className="text-xs text-gray-500">{formatDate(publishedat)}</span>
         </div>
         <CardTitle className="text-base sm:text-lg font-bold text-gray-800 mb-2 line-clamp-2">
