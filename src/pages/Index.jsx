@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import FeaturedNews from '../components/FeaturedNews';
 import CategoryNews from '../components/CategoryNews';
-import SEO from '../components/SEO';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import useNews from '../hooks/useNews';
 
@@ -24,24 +23,12 @@ const Index = () => {
     searchNews(query);
   };
 
-  const pageTitle = searchQuery ? `搜索结果: ${searchQuery}` : '最新新闻资讯';
-  const pageDescription = searchQuery
-    ? `查看与"${searchQuery}"相关的最新新闻和报道。`
-    : 'MCNews提供最新的新闻资讯，涵盖科技、政治、经济、文化等多个领域。及时、准确、全面的新闻报道，让您掌握世界脉搏。';
-
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
-      <SEO
-        title={pageTitle}
-        description={pageDescription}
-        keywords="新闻,资讯,头条,科技,政治,经济,文化"
-        image={featuredArticle?.urltoimage}
-        url="https://mcnews.com"
-      />
       <Header onSearch={handleSearch} />
       <main className="flex-grow container mx-auto px-4 py-6 sm:py-8">
         {searchQuery && (
-          <h1 className="text-2xl font-bold mb-6 text-gray-800">搜索结果: "{searchQuery}"</h1>
+          <h2 className="text-2xl font-bold mb-6 text-gray-800">搜索结果: "{searchQuery}"</h2>
         )}
         {featuredArticle && !searchQuery && (
           <div className="mb-8 sm:mb-12">
