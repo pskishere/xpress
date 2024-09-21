@@ -10,7 +10,7 @@ COPY package*.json ./
 # Install dependencies
 RUN npm ci
 
-# Copy the rest of the application code
+# Copy the rest of the application code, including .env
 COPY . .
 
 # Build the application
@@ -24,6 +24,7 @@ WORKDIR /app
 # Copy built assets from the build stage
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/.env ./.env
 COPY package.json .
 
 # Install only production dependencies

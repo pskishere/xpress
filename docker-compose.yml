@@ -7,10 +7,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
-    environment:
-      - NODE_ENV=production
-      - VITE_SUPABASE_PROJECT_URL=${VITE_SUPABASE_PROJECT_URL}
-      - VITE_SUPABASE_API_KEY=${VITE_SUPABASE_API_KEY}
     restart: unless-stopped
 
   news-sync:
@@ -18,10 +14,6 @@ services:
       context: .
       dockerfile: Dockerfile
     command: node src/utils/syncNews.js
-    environment:
-      - NODE_ENV=production
-      - VITE_SUPABASE_PROJECT_URL=${VITE_SUPABASE_PROJECT_URL}
-      - VITE_SUPABASE_API_KEY=${VITE_SUPABASE_API_KEY}
     restart: on-failure
     depends_on:
       - app
