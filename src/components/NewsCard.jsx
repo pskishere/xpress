@@ -3,9 +3,11 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/button";
 import { Share2 } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslation } from 'react-i18next';
 
 const NewsCard = ({ title, description, urltoimage, source, publishedat, url }) => {
   const [imageError, setImageError] = useState(false);
+  const { t } = useTranslation();
   
   const formatDate = (dateString) => {
     if (!dateString) return '未知日期';
@@ -27,14 +29,13 @@ const NewsCard = ({ title, description, urltoimage, source, publishedat, url }) 
     try {
       if (navigator.share) {
         await navigator.share(shareData);
-        toast.success("分享成功！");
+        toast.success(t('toasts.shareSuccess'));
       } else {
         await navigator.clipboard.writeText(shareData.url);
-        toast.success("链接已复制到剪贴板");
+        toast.success(t('toasts.linkCopied'));
       }
     } catch (error) {
       console.error("分享失败:", error);
-      // Removed the error toast
     }
   };
 
@@ -70,7 +71,7 @@ const NewsCard = ({ title, description, urltoimage, source, publishedat, url }) 
           onClick={handleShare}
         >
           <Share2 className="h-4 w-4 mr-2" />
-          <span>分享</span>
+          <span>{t('buttons.share')}</span>
         </Button>
       </CardFooter>
     </Card>

@@ -18,5 +18,13 @@
   "languageSwitcher": {
     "en": "英文",
     "zh": "中文"
+  },
+  "buttons": {
+    "readMore": "阅读全文",
+    "share": "分享"
+  },
+  "toasts": {
+    "shareSuccess": "分享成功！",
+    "linkCopied": "链接已复制到剪贴板"
   }
 }

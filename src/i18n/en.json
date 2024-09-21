@@ -18,5 +18,13 @@
   "languageSwitcher": {
     "en": "English",
     "zh": "Chinese"
+  },
+  "buttons": {
+    "readMore": "Read More",
+    "share": "Share"
+  },
+  "toasts": {
+    "shareSuccess": "Shared successfully!",
+    "linkCopied": "Link copied to clipboard"
   }
 }

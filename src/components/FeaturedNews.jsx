@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { useTranslation } from 'react-i18next';
 
 const FeaturedNews = ({ title, description, urltoimage, url }) => {
   const [imageError, setImageError] = useState(false);
+  const { t } = useTranslation();
 
   const handleImageError = () => {
     setImageError(true);
@@ -32,7 +34,7 @@ const FeaturedNews = ({ title, description, urltoimage, url }) => {
             asChild
           >
             <a href={url} target="_blank" rel="noopener noreferrer" className="flex items-center">
-              阅读全文
+              {t('buttons.readMore')}
               <ArrowRight className="ml-2 h-4 w-4" />
             </a>
           </Button>
