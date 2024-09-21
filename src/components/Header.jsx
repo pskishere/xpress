@@ -3,10 +3,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
+import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from './LanguageSwitcher';
 
 const Header = ({ onSearch }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -28,7 +31,7 @@ const Header = ({ onSearch }) => {
             <div className="relative">
               <Input
                 type="search"
-                placeholder="搜索新闻..."
+                placeholder={t('search')}
                 className="pl-10 pr-4 py-2 rounded-full bg-gray-100 w-full focus:ring-2 focus:ring-pink-300 transition-all duration-300"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -38,6 +41,7 @@ const Header = ({ onSearch }) => {
               </Button>
             </div>
           </form>
+          <LanguageSwitcher />
         </div>
       </div>
     </header>
