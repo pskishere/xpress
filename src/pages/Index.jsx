@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import Header from '../components/Header';
 import FeaturedNews from '../components/FeaturedNews';
 import CategoryNews from '../components/CategoryNews';
@@ -12,7 +11,6 @@ const Index = () => {
   const { news: allNews, loading: allLoading, searchNews } = useNews('general');
   const [filteredNews, setFilteredNews] = useState([]);
   const [isDomainAccess, setIsDomainAccess] = useState(false);
-  const { t } = useTranslation();
 
   useEffect(() => {
     setFilteredNews(allNews);
@@ -29,20 +27,20 @@ const Index = () => {
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <SEO
-        title={t('home')}
-        description={t('description')}
-        keywords={t('keywords')}
+        title="最新新闻资讯"
+        description="Xpress提供最新、最全面的新闻资讯，涵盖科技、政治、经济、文化等多个领域。"
+        keywords="新闻,资讯,科技,政治,经济,文化"
         image="/og-image.svg"
         url="https://xpress.com"
       />
       <Header onSearch={handleSearch} />
       <main className="flex-grow container mx-auto px-4 py-6 sm:py-8">
         {searchQuery && (
-          <h2 className="text-2xl font-bold mb-6 text-gray-800">{t('search_results')}: "{searchQuery}"</h2>
+          <h2 className="text-2xl font-bold mb-6 text-gray-800">搜索结果: "{searchQuery}"</h2>
         )}
         {featuredArticle && !searchQuery && (
           <div className="mb-8 sm:mb-12">
-            <h2 className="text-3xl font-bold mb-6 text-gray-800 border-b-2 border-pink-500 pb-2 inline-block">{t('featured_news')}</h2>
+            <h2 className="text-3xl font-bold mb-6 text-gray-800 border-b-2 border-pink-500 pb-2 inline-block">头条新闻</h2>
             <FeaturedNews
               title={featuredArticle.title}
               description={featuredArticle.description}
@@ -54,13 +52,13 @@ const Index = () => {
         <Tabs defaultValue="general" className="mb-8">
           <div className="overflow-x-auto pb-2 mb-4">
             <TabsList className="bg-white shadow-sm rounded-full inline-flex whitespace-nowrap">
-              <TabsTrigger value="general" className="px-4 py-2 text-sm tab-trigger">{t('general')}</TabsTrigger>
-              <TabsTrigger value="business" className="px-4 py-2 text-sm tab-trigger">{t('business')}</TabsTrigger>
-              <TabsTrigger value="technology" className="px-4 py-2 text-sm tab-trigger">{t('technology')}</TabsTrigger>
-              <TabsTrigger value="entertainment" className="px-4 py-2 text-sm tab-trigger">{t('entertainment')}</TabsTrigger>
-              <TabsTrigger value="sports" className="px-4 py-2 text-sm tab-trigger">{t('sports')}</TabsTrigger>
-              <TabsTrigger value="science" className="px-4 py-2 text-sm tab-trigger">{t('science')}</TabsTrigger>
-              <TabsTrigger value="health" className="px-4 py-2 text-sm tab-trigger">{t('health')}</TabsTrigger>
+              <TabsTrigger value="general" className="px-4 py-2 text-sm tab-trigger">综合</TabsTrigger>
+              <TabsTrigger value="business" className="px-4 py-2 text-sm tab-trigger">商业</TabsTrigger>
+              <TabsTrigger value="technology" className="px-4 py-2 text-sm tab-trigger">科技</TabsTrigger>
+              <TabsTrigger value="entertainment" className="px-4 py-2 text-sm tab-trigger">娱乐</TabsTrigger>
+              <TabsTrigger value="sports" className="px-4 py-2 text-sm tab-trigger">体育</TabsTrigger>
+              <TabsTrigger value="science" className="px-4 py-2 text-sm tab-trigger">科学</TabsTrigger>
+              <TabsTrigger value="health" className="px-4 py-2 text-sm tab-trigger">健康</TabsTrigger>
             </TabsList>
           </div>
           <TabsContent value="general"><CategoryNews category="general" searchQuery={searchQuery} isDomainAccess={isDomainAccess} /></TabsContent>
