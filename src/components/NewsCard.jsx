@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Share2 } from "lucide-react";
+import { Share2, ExternalLink } from "lucide-react";
 import { toast } from "sonner";
 
 const NewsCard = ({ title, description, urlToImage, source, publishedAt, url }) => {
@@ -46,13 +46,17 @@ const NewsCard = ({ title, description, urlToImage, source, publishedAt, url }) 
           <span className="text-xs text-gray-500">{publishedAt ? formatDate(publishedAt) : 'Unknown Date'}</span>
         </div>
         <CardTitle className="text-base sm:text-lg font-bold text-gray-800 mb-2 line-clamp-2">
-          <a href={url} target="_blank" rel="noopener noreferrer" className="hover:text-pink-500 transition-colors">
-            {title || 'No Title'}
-          </a>
+          {title || 'No Title'}
         </CardTitle>
         <CardDescription className="text-sm text-gray-600 line-clamp-3">{description || 'No description available'}</CardDescription>
       </CardHeader>
-      <CardFooter className="p-4 flex justify-end items-center border-t border-gray-100">
+      <CardFooter className="p-4 flex justify-between items-center border-t border-gray-100">
+        <Button variant="outline" size="sm" className="text-gray-700 hover:text-pink-500 hover:border-pink-500" asChild>
+          <a href={url} target="_blank" rel="noopener noreferrer">
+            <ExternalLink className="h-4 w-4 mr-2" />
+            阅读全文
+          </a>
+        </Button>
         <Button variant="ghost" size="sm" className="text-gray-500 hover:text-pink-500" onClick={handleShare}>
           <Share2 className="h-4 w-4 mr-2" />
           <span>分享</span>
