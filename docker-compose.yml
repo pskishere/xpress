@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - VITE_SUPABASE_PROJECT_URL=${VITE_SUPABASE_PROJECT_URL}
+      - VITE_SUPABASE_API_KEY=${VITE_SUPABASE_API_KEY}
+    volumes:
+      - .:/app
+      - /app/node_modules
+
+  news-sync:
+    build: .
+    command: node src/utils/syncNews.js
+    environment:
+      - NODE_ENV=production
+      - VITE_SUPABASE_PROJECT_URL=${VITE_SUPABASE_PROJECT_URL}
+      - VITE_SUPABASE_API_KEY=${VITE_SUPABASE_API_KEY}
+    volumes:
+      - .:/app
+      - /app/node_modules
