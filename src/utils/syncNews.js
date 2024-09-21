@@ -1,8 +1,21 @@
+import dotenv from 'dotenv';
 import axios from 'axios';
-import { supabase } from '../integrations/supabase/supabase.js';
+import { createClient } from '@supabase/supabase-js';
+
+// Load environment variables
+dotenv.config();
 
 const API_KEY = '0d28e0b381cf4be18257ea7b7ee312e0';
 const categories = ['general', 'business', 'technology', 'entertainment', 'sports', 'science', 'health'];
+
+const supabaseUrl = process.env.VITE_SUPABASE_PROJECT_URL;
+const supabaseKey = process.env.VITE_SUPABASE_API_KEY;
+
+if (!supabaseUrl || !supabaseKey) {
+  throw new Error('Supabase URL or API key is missing in the environment variables');
+}
+
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 const fetchNewsForCategory = async (category) => {
   try {
