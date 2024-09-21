@@ -26,7 +26,6 @@ const Index = () => {
     if (query.trim()) {
       searchNews(query);
     } else {
-      // If the search query is empty, reset to show all news
       setFilteredNews(allNews);
     }
   };
@@ -59,13 +58,13 @@ const Index = () => {
         <Tabs defaultValue="general" className="mb-8">
           <div className="overflow-x-auto pb-2 mb-4">
             <TabsList className="bg-white shadow-sm rounded-full inline-flex whitespace-nowrap">
-              <TabsTrigger value="general" className="px-4 py-2 text-sm tab-trigger">{t('index.categories.general')}</TabsTrigger>
+              <TabsTrigger value="general" className="px-4 py-2 text-sm tab-trigger rounded-l-full">{t('index.categories.general')}</TabsTrigger>
               <TabsTrigger value="business" className="px-4 py-2 text-sm tab-trigger">{t('index.categories.business')}</TabsTrigger>
               <TabsTrigger value="technology" className="px-4 py-2 text-sm tab-trigger">{t('index.categories.technology')}</TabsTrigger>
               <TabsTrigger value="entertainment" className="px-4 py-2 text-sm tab-trigger">{t('index.categories.entertainment')}</TabsTrigger>
               <TabsTrigger value="sports" className="px-4 py-2 text-sm tab-trigger">{t('index.categories.sports')}</TabsTrigger>
               <TabsTrigger value="science" className="px-4 py-2 text-sm tab-trigger">{t('index.categories.science')}</TabsTrigger>
-              <TabsTrigger value="health" className="px-4 py-2 text-sm tab-trigger">{t('index.categories.health')}</TabsTrigger>
+              <TabsTrigger value="health" className="px-4 py-2 text-sm tab-trigger rounded-r-full">{t('index.categories.health')}</TabsTrigger>
             </TabsList>
           </div>
           <TabsContent value="general"><CategoryNews category="general" searchQuery={searchQuery} isDomainAccess={isDomainAccess} /></TabsContent>
@@ -82,6 +81,14 @@ const Index = () => {
           background-color: #F472B6;
           color: white;
           font-weight: bold;
+        }
+        .tab-trigger[data-state="active"]:first-child {
+          border-top-left-radius: 9999px;
+          border-bottom-left-radius: 9999px;
+        }
+        .tab-trigger[data-state="active"]:last-child {
+          border-top-right-radius: 9999px;
+          border-bottom-right-radius: 9999px;
         }
       `}</style>
     </div>
