@@ -28,10 +28,10 @@ const Index = () => {
     <div className="min-h-screen flex flex-col bg-gray-50">
       <SEO
         title="最新新闻资讯"
-        description="MCNews提供最新、最全面的新闻资讯，涵盖科技、政治、经济、文化等多个领域。"
+        description="Xpress提供最新、最全面的新闻资讯，涵盖科技、政治、经济、文化等多个领域。"
         keywords="新闻,资讯,科技,政治,经济,文化"
         image="/og-image.svg"
-        url="https://mcnews.com"
+        url="https://xpress.com"
       />
       <Header onSearch={handleSearch} />
       <main className="flex-grow container mx-auto px-4 py-6 sm:py-8">

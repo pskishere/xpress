@@ -8,7 +8,7 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4 text-gray-800">关于我们</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="hover:text-pink-500">关于MCNews</a></li>
+              <li><a href="#" className="hover:text-pink-500">关于Xpress</a></li>
               <li><a href="#" className="hover:text-pink-500">加入我们</a></li>
               <li><a href="#" className="hover:text-pink-500">联系方式</a></li>
             </ul>
@@ -42,7 +42,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="mt-8 pt-8 border-t border-gray-200 text-center text-sm">
-          <p>&copy; 2024 MCNews. 保留所有权利。</p>
+          <p>&copy; 2024 Xpress. 保留所有权利。</p>
         </div>
       </div>
     </footer>
