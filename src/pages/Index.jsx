@@ -52,13 +52,13 @@ const Index = () => {
         <Tabs defaultValue="general" className="mb-8">
           <div className="overflow-x-auto pb-2 mb-4">
             <TabsList className="bg-white shadow-sm rounded-full inline-flex whitespace-nowrap">
-              <TabsTrigger value="general" className="px-4 py-2 text-sm">综合</TabsTrigger>
-              <TabsTrigger value="business" className="px-4 py-2 text-sm">商业</TabsTrigger>
-              <TabsTrigger value="technology" className="px-4 py-2 text-sm">科技</TabsTrigger>
-              <TabsTrigger value="entertainment" className="px-4 py-2 text-sm">娱乐</TabsTrigger>
-              <TabsTrigger value="sports" className="px-4 py-2 text-sm">体育</TabsTrigger>
-              <TabsTrigger value="science" className="px-4 py-2 text-sm">科学</TabsTrigger>
-              <TabsTrigger value="health" className="px-4 py-2 text-sm">健康</TabsTrigger>
+              <TabsTrigger value="general" className="px-4 py-2 text-sm tab-trigger">综合</TabsTrigger>
+              <TabsTrigger value="business" className="px-4 py-2 text-sm tab-trigger">商业</TabsTrigger>
+              <TabsTrigger value="technology" className="px-4 py-2 text-sm tab-trigger">科技</TabsTrigger>
+              <TabsTrigger value="entertainment" className="px-4 py-2 text-sm tab-trigger">娱乐</TabsTrigger>
+              <TabsTrigger value="sports" className="px-4 py-2 text-sm tab-trigger">体育</TabsTrigger>
+              <TabsTrigger value="science" className="px-4 py-2 text-sm tab-trigger">科学</TabsTrigger>
+              <TabsTrigger value="health" className="px-4 py-2 text-sm tab-trigger">健康</TabsTrigger>
             </TabsList>
           </div>
           <TabsContent value="general"><CategoryNews category="general" searchQuery={searchQuery} isDomainAccess={isDomainAccess} /></TabsContent>
@@ -70,6 +70,13 @@ const Index = () => {
           <TabsContent value="health"><CategoryNews category="health" searchQuery={searchQuery} isDomainAccess={isDomainAccess} /></TabsContent>
         </Tabs>
       </main>
+      <style jsx global>{`
+        .tab-trigger[data-state="active"] {
+          background-color: #F472B6;
+          color: white;
+          font-weight: bold;
+        }
+      `}</style>
     </div>
   );
 };
