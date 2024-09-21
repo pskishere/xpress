@@ -13,10 +13,7 @@ const CategoryNews = ({ category, searchQuery }) => {
   }, [searchQuery, category]);
 
   useEffect(() => {
-    const filtered = news.filter(article => 
-      article && article.title && article.description && article.source && !article.title.toLowerCase().includes('removed')
-    );
-    setFilteredNews(filtered);
+    setFilteredNews(news);
   }, [news]);
 
   if (loading) return <p className="text-center text-gray-500">加载新闻中...</p>;

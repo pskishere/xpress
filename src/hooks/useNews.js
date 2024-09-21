@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { fetchNews, searchNews as apiSearchNews } from '../utils/api';
+import { fetchNews, searchNews, getNewsFromSupabase } from '../utils/api';
 
 const useNews = (category) => {
   const [news, setNews] = useState([]);
@@ -10,11 +10,9 @@ const useNews = (category) => {
     const getNews = async () => {
       try {
         setLoading(true);
-        const articles = await fetchNews(category);
-        const validArticles = articles.filter(article => 
-          article && article.title && article.description && article.source && !article.title.toLowerCase().includes('removed')
-        );
-        setNews(validArticles);
+        await fetchNews(category); // This will update Supabase
+        const articles = await getNewsFromSupabase(category);
+        setNews(articles);
         setLoading(false);
       } catch (err) {
         setError(err.message);
@@ -25,14 +23,11 @@ const useNews = (category) => {
     getNews();
   }, [category]);
 
-  const searchNews = async (query) => {
+  const searchNewsArticles = async (query) => {
     try {
       setLoading(true);
-      const articles = await apiSearchNews(query);
-      const validArticles = articles.filter(article => 
-        article && article.title && article.description && article.source && !article.title.toLowerCase().includes('removed')
-      );
-      setNews(validArticles);
+      const articles = await searchNews(query);
+      setNews(articles);
       setLoading(false);
     } catch (err) {
       setError(err.message);
@@ -40,7 +35,7 @@ const useNews = (category) => {
     }
   };
 
-  return { news, loading, error, searchNews };
+  return { news, loading, error, searchNews: searchNewsArticles };
 };
 
 export default useNews;

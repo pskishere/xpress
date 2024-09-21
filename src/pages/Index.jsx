@@ -11,10 +11,7 @@ const Index = () => {
   const [filteredNews, setFilteredNews] = useState([]);
 
   useEffect(() => {
-    const filtered = allNews.filter(article => 
-      article && article.title && article.description && article.source && !article.title.toLowerCase().includes('removed')
-    );
-    setFilteredNews(filtered);
+    setFilteredNews(allNews);
   }, [allNews]);
 
   const featuredArticle = filteredNews[0] || null;
