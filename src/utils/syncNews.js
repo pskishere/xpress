@@ -2,10 +2,10 @@ import dotenv from 'dotenv';
 import axios from 'axios';
 import { createClient } from '@supabase/supabase-js';
 
-// Load environment variables
 dotenv.config();
 
 const API_KEY = '0d28e0b381cf4be18257ea7b7ee312e0';
+const GOOGLE_TRANSLATE_API_KEY = 'AIzaSyDCeqpTloTHqFs0K2XgipHpLKUPt0rKSUo';
 const categories = ['general', 'business', 'technology', 'entertainment', 'sports', 'science', 'health'];
 
 const supabaseUrl = process.env.VITE_SUPABASE_PROJECT_URL;
@@ -47,26 +47,13 @@ const fetchNewsForCategory = async (category) => {
 
 const translateText = async (text) => {
   try {
-    const response = await axios.post('https://api.openai.com/v1/chat/completions', {
-      model: "gpt-3.5-turbo",
-      messages: [
-        {
-          role: "system",
-          content: "You are a translator. Translate the following English text to Chinese."
-        },
-        {
-          role: "user",
-          content: text
-        }
-      ]
-    }, {
-      headers: {
-        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
-        'Content-Type': 'application/json'
-      }
+    const response = await axios.post(`https://translation.googleapis.com/language/translate/v2?key=${GOOGLE_TRANSLATE_API_KEY}`, {
+      q: text,
+      target: 'zh-CN',
+      format: 'text'
     });
 
-    return response.data.choices[0].message.content.trim();
+    return response.data.data.translations[0].translatedText;
   } catch (error) {
     console.error('Translation error:', error);
     return null;
@@ -87,25 +74,27 @@ const insertNewsToSupabase = async (articles) => {
           source: article.source.name,
           category: article.category
         },
-        { onConflict: 'url', ignoreDuplicates: true }
+        { onConflict: 'url' }
       );
 
     if (error) {
       console.error('Error inserting news to Supabase:', error);
-    } else if (data && data.length > 0) {
+    } else {
       // If the article was inserted (not ignored as duplicate), translate and update
-      const title_zh = await translateText(article.title);
-      const description_zh = await translateText(article.description);
+      if (data && data.length > 0) {
+        const title_zh = await translateText(article.title);
+        const description_zh = await translateText(article.description);
 
-      const { error: updateError } = await supabase
-        .from('news')
-        .update({ title_zh, description_zh })
-        .eq('url', article.url);
+        const { error: updateError } = await supabase
+          .from('news')
+          .update({ title_zh, description_zh })
+          .eq('url', article.url);
 
-      if (updateError) {
-        console.error('Error updating translations:', updateError);
-      } else {
-        console.log(`Translated and updated article: ${article.title}`);
+        if (updateError) {
+          console.error('Error updating translations:', updateError);
+        } else {
+          console.log(`Translated and updated article: ${article.title}`);
+        }
       }
     }
   }
