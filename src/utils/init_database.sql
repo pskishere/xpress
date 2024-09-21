@@ -7,6 +7,8 @@ BEGIN
             id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
             title TEXT NOT NULL,
             description TEXT,
+            title_zh TEXT,
+            description_zh TEXT,
             url TEXT UNIQUE NOT NULL,
             urltoimage TEXT,
             publishedat TIMESTAMP WITH TIME ZONE,
@@ -35,7 +37,14 @@ BEGIN
 
         RAISE NOTICE 'News table created successfully.';
     ELSE
-        RAISE NOTICE 'News table already exists.';
+        -- Add new columns if they don't exist
+        IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'news' AND column_name = 'title_zh') THEN
+            ALTER TABLE public.news ADD COLUMN title_zh TEXT;
+        END IF;
+        IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'news' AND column_name = 'description_zh') THEN
+            ALTER TABLE public.news ADD COLUMN description_zh TEXT;
+        END IF;
+        RAISE NOTICE 'News table updated with new columns.';
     END IF;
 END
 $$;

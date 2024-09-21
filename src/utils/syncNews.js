@@ -45,26 +45,69 @@ const fetchNewsForCategory = async (category) => {
   }
 };
 
-const insertNewsToSupabase = async (articles) => {
-  const { data, error } = await supabase
-    .from('news')
-    .upsert(
-      articles.map(article => ({
-        title: article.title,
-        description: article.description,
-        url: article.url,
-        urltoimage: article.urlToImage,
-        publishedat: article.publishedAt,
-        source: article.source.name,
-        category: article.category
-      })),
-      { onConflict: 'url' }
-    );
+const translateText = async (text) => {
+  try {
+    const response = await axios.post('https://api.openai.com/v1/chat/completions', {
+      model: "gpt-3.5-turbo",
+      messages: [
+        {
+          role: "system",
+          content: "You are a translator. Translate the following English text to Chinese."
+        },
+        {
+          role: "user",
+          content: text
+        }
+      ]
+    }, {
+      headers: {
+        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
+        'Content-Type': 'application/json'
+      }
+    });
 
-  if (error) {
-    console.error('Error inserting news to Supabase:', error);
-  } else {
-    console.log(`Successfully inserted/updated articles.`);
+    return response.data.choices[0].message.content.trim();
+  } catch (error) {
+    console.error('Translation error:', error);
+    return null;
+  }
+};
+
+const insertNewsToSupabase = async (articles) => {
+  for (const article of articles) {
+    const { data, error } = await supabase
+      .from('news')
+      .upsert(
+        {
+          title: article.title,
+          description: article.description,
+          url: article.url,
+          urltoimage: article.urlToImage,
+          publishedat: article.publishedAt,
+          source: article.source.name,
+          category: article.category
+        },
+        { onConflict: 'url', ignoreDuplicates: true }
+      );
+
+    if (error) {
+      console.error('Error inserting news to Supabase:', error);
+    } else if (data && data.length > 0) {
+      // If the article was inserted (not ignored as duplicate), translate and update
+      const title_zh = await translateText(article.title);
+      const description_zh = await translateText(article.description);
+
+      const { error: updateError } = await supabase
+        .from('news')
+        .update({ title_zh, description_zh })
+        .eq('url', article.url);
+
+      if (updateError) {
+        console.error('Error updating translations:', updateError);
+      } else {
+        console.log(`Translated and updated article: ${article.title}`);
+      }
+    }
   }
 };
 

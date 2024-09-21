@@ -26,7 +26,7 @@ export const searchNews = async (query) => {
     const { data, error } = await supabase
       .from('news')
       .select('*')
-      .ilike('title', `%${query}%`)
+      .or(`title.ilike.%${query}%, description.ilike.%${query}%, title_zh.ilike.%${query}%, description_zh.ilike.%${query}%`)
       .order('publishedat', { ascending: false });
 
     if (error) throw error;
