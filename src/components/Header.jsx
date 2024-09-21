@@ -21,8 +21,8 @@ const Header = ({ onSearch }) => {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <Link to="/" className="text-2xl font-bold text-pink-500 flex items-center transition-transform duration-300 hover:scale-105">
-            <img src="/favicon.ico" alt="BiliNews Logo" className="w-8 h-8 mr-2" />
-            <span className="hidden sm:inline">BiliNews</span>
+            <img src="/favicon.ico" alt="MCNews Logo" className="w-8 h-8 mr-2" />
+            <span className="hidden sm:inline">MCNews</span>
           </Link>
           <form onSubmit={handleSearch} className="flex-grow max-w-md mx-4">
             <div className="relative">
