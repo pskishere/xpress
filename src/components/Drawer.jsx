@@ -2,11 +2,9 @@ import React from 'react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from 'react-i18next';
-import { useMediaQuery } from '@/hooks/useMediaQuery';
 
 const Drawer = ({ isOpen, onClose, title, description, imageUrl, source, publishedAt, url }) => {
   const { t, i18n } = useTranslation();
-  const isMobile = useMediaQuery('(max-width: 640px)');
 
   const displayDescription = i18n.language === 'zh' ? (description.description_zh || description) : description;
 
@@ -15,7 +13,7 @@ const Drawer = ({ isOpen, onClose, title, description, imageUrl, source, publish
       <SheetContent 
         side="right"
         className={`
-          w-full sm:max-w-md md:max-w-lg lg:max-w-xl
+          w-[80vw] sm:w-[400px] md:w-[500px] lg:w-[600px]
           h-screen overflow-hidden flex flex-col
         `}
       >
