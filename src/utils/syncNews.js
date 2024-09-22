@@ -6,10 +6,7 @@ dotenv.config();
 
 const API_KEY = '0d28e0b381cf4be18257ea7b7ee312e0';
 const GOOGLE_TRANSLATE_API_KEY = 'AIzaSyDCeqpTloTHqFs0K2XgipHpLKUPt0rKSUo';
-const categories = [
-  'general', 'business', 'technology', 'entertainment', 'sports', 'science', 'health',
-  'politics', 'economy', 'culture', 'world', 'education', 'environment'
-];
+const categories = ['general', 'business', 'technology', 'entertainment', 'sports', 'science', 'health'];
 
 const supabaseUrl = process.env.VITE_SUPABASE_PROJECT_URL;
 const supabaseKey = process.env.VITE_SUPABASE_API_KEY;
@@ -26,7 +23,7 @@ const fetchNewsForCategory = async (category) => {
       params: {
         apiKey: API_KEY,
         country: 'us',
-        category: mapCategoryToNewsAPI(category),
+        category,
         pageSize: 100,
       },
     });
@@ -46,25 +43,6 @@ const fetchNewsForCategory = async (category) => {
     console.error(`Error fetching ${category} news:`, error.response ? error.response.data : error.message);
     return [];
   }
-};
-
-const mapCategoryToNewsAPI = (category) => {
-  const mapping = {
-    'general': 'general',
-    'business': 'business',
-    'technology': 'technology',
-    'entertainment': 'entertainment',
-    'sports': 'sports',
-    'science': 'science',
-    'health': 'health',
-    'politics': 'politics',
-    'economy': 'business',
-    'culture': 'entertainment',
-    'world': 'general',
-    'education': 'science',
-    'environment': 'science'
-  };
-  return mapping[category] || 'general';
 };
 
 const translateText = async (text) => {

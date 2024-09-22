@@ -7,7 +7,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import useNews from '../hooks/useNews';
 import { useTranslation } from 'react-i18next';
 import { getNewsFromSupabase } from '../utils/api';
-import { navItems } from '../nav-items';
 
 const Index = () => {
   const { t, i18n } = useTranslation();
@@ -42,8 +41,6 @@ const Index = () => {
     setSearchQuery('');
   }, [changeCategory]);
 
-  const categories = navItems.filter(item => item.to !== '/').map(item => item.to.slice(1));
-
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <SEO
@@ -68,19 +65,17 @@ const Index = () => {
           <Tabs defaultValue="general" className="mb-8" onValueChange={handleCategoryChange}>
             <div className="overflow-x-auto pb-2 mb-4 category-tabs-container">
               <TabsList className="bg-white shadow-sm rounded-full inline-flex whitespace-nowrap">
-                {categories.map((category, index) => (
-                  <TabsTrigger
-                    key={category}
-                    value={category}
-                    className={`px-4 py-2 text-sm tab-trigger ${index === 0 ? 'rounded-l-full' : ''} ${index === categories.length - 1 ? 'rounded-r-full' : ''}`}
-                  >
-                    {t(`index.categories.${category}`)}
-                  </TabsTrigger>
-                ))}
+                <TabsTrigger value="general" className="px-4 py-2 text-sm tab-trigger rounded-l-full">{t('index.categories.general')}</TabsTrigger>
+                <TabsTrigger value="business" className="px-4 py-2 text-sm tab-trigger">{t('index.categories.business')}</TabsTrigger>
+                <TabsTrigger value="technology" className="px-4 py-2 text-sm tab-trigger">{t('index.categories.technology')}</TabsTrigger>
+                <TabsTrigger value="entertainment" className="px-4 py-2 text-sm tab-trigger">{t('index.categories.entertainment')}</TabsTrigger>
+                <TabsTrigger value="sports" className="px-4 py-2 text-sm tab-trigger">{t('index.categories.sports')}</TabsTrigger>
+                <TabsTrigger value="science" className="px-4 py-2 text-sm tab-trigger">{t('index.categories.science')}</TabsTrigger>
+                <TabsTrigger value="health" className="px-4 py-2 text-sm tab-trigger rounded-r-full">{t('index.categories.health')}</TabsTrigger>
               </TabsList>
             </div>
-            {categories.map((category) => (
-              <TabsContent key={category} value={category}>
+            {['general', 'business', 'technology', 'entertainment', 'sports', 'science', 'health'].map((cat) => (
+              <TabsContent key={cat} value={cat}>
                 <CategoryNews 
                   news={news} 
                   loading={loading} 
