@@ -4,7 +4,6 @@ import FeaturedNews from '../components/FeaturedNews';
 import CategoryNews from '../components/CategoryNews';
 import SEO from '../components/SEO';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import useNews from '../hooks/useNews';
 import { useTranslation } from 'react-i18next';
 import { getNewsFromSupabase } from '../utils/api';
@@ -14,7 +13,7 @@ const Index = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchMode, setIsSearchMode] = useState(false);
   const [featuredArticle, setFeaturedArticle] = useState(null);
-  const { news, loading, error, hasMore, fetchNews, searchNews, changeCategory, changeSortOrder, sortOrder } = useNews('general');
+  const { news, loading, error, hasMore, fetchNews, searchNews, changeCategory } = useNews('general');
 
   useEffect(() => {
     const fetchFeaturedArticle = async () => {
@@ -42,10 +41,6 @@ const Index = () => {
     setSearchQuery('');
   }, [changeCategory]);
 
-  const handleSortChange = useCallback((newSortOrder) => {
-    changeSortOrder(newSortOrder);
-  }, [changeSortOrder]);
-
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <SEO
@@ -68,27 +63,16 @@ const Index = () => {
         )}
         {!isSearchMode && (
           <Tabs defaultValue="general" className="mb-8" onValueChange={handleCategoryChange}>
-            <div className="flex justify-between items-center mb-4">
-              <div className="overflow-x-auto pb-2 category-tabs-container">
-                <TabsList className="bg-white shadow-sm rounded-full inline-flex whitespace-nowrap">
-                  <TabsTrigger value="general" className="px-4 py-2 text-sm tab-trigger rounded-l-full">{t('index.categories.general')}</TabsTrigger>
-                  <TabsTrigger value="business" className="px-4 py-2 text-sm tab-trigger">{t('index.categories.business')}</TabsTrigger>
-                  <TabsTrigger value="technology" className="px-4 py-2 text-sm tab-trigger">{t('index.categories.technology')}</TabsTrigger>
-                  <TabsTrigger value="entertainment" className="px-4 py-2 text-sm tab-trigger">{t('index.categories.entertainment')}</TabsTrigger>
-                  <TabsTrigger value="sports" className="px-4 py-2 text-sm tab-trigger">{t('index.categories.sports')}</TabsTrigger>
-                  <TabsTrigger value="science" className="px-4 py-2 text-sm tab-trigger">{t('index.categories.science')}</TabsTrigger>
-                  <TabsTrigger value="health" className="px-4 py-2 text-sm tab-trigger rounded-r-full">{t('index.categories.health')}</TabsTrigger>
-                </TabsList>
-              </div>
-              <Select value={sortOrder} onValueChange={handleSortChange}>
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder={t('index.sortBy')} />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="desc">{t('index.sortOptions.newest')}</SelectItem>
-                  <SelectItem value="asc">{t('index.sortOptions.oldest')}</SelectItem>
-                </SelectContent>
-              </Select>
+            <div className="overflow-x-auto pb-2 mb-4 category-tabs-container">
+              <TabsList className="bg-white shadow-sm rounded-full inline-flex whitespace-nowrap">
+                <TabsTrigger value="general" className="px-4 py-2 text-sm tab-trigger rounded-l-full">{t('index.categories.general')}</TabsTrigger>
+                <TabsTrigger value="business" className="px-4 py-2 text-sm tab-trigger">{t('index.categories.business')}</TabsTrigger>
+                <TabsTrigger value="technology" className="px-4 py-2 text-sm tab-trigger">{t('index.categories.technology')}</TabsTrigger>
+                <TabsTrigger value="entertainment" className="px-4 py-2 text-sm tab-trigger">{t('index.categories.entertainment')}</TabsTrigger>
+                <TabsTrigger value="sports" className="px-4 py-2 text-sm tab-trigger">{t('index.categories.sports')}</TabsTrigger>
+                <TabsTrigger value="science" className="px-4 py-2 text-sm tab-trigger">{t('index.categories.science')}</TabsTrigger>
+                <TabsTrigger value="health" className="px-4 py-2 text-sm tab-trigger rounded-r-full">{t('index.categories.health')}</TabsTrigger>
+              </TabsList>
             </div>
             {['general', 'business', 'technology', 'entertainment', 'sports', 'science', 'health'].map((cat) => (
               <TabsContent key={cat} value={cat}>

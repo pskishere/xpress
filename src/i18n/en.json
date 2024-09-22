@@ -13,11 +13,6 @@
       "sports": "Sports",
       "science": "Science",
       "health": "Health"
-    },
-    "sortBy": "Sort by",
-    "sortOptions": {
-      "newest": "Newest first",
-      "oldest": "Oldest first"
     }
   },
   "languageSwitcher": {

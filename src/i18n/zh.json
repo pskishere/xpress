@@ -13,11 +13,6 @@
       "sports": "体育",
       "science": "科学",
       "health": "健康"
-    },
-    "sortBy": "排序方式",
-    "sortOptions": {
-      "newest": "最新优先",
-      "oldest": "最早优先"
     }
   },
   "languageSwitcher": {
