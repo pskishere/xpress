@@ -1,53 +1,30 @@
--- Check if the table exists
-DO $$
-BEGIN
-    IF NOT EXISTS (SELECT FROM pg_tables WHERE schemaname = 'public' AND tablename = 'news') THEN
-        -- Create the news table
-        CREATE TABLE public.news (
-            id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-            title TEXT NOT NULL,
-            description TEXT,
-            title_zh TEXT,
-            description_zh TEXT,
-            url TEXT UNIQUE NOT NULL,
-            urltoimage TEXT,
-            publishedat TIMESTAMP WITH TIME ZONE,
-            source TEXT,
-            category TEXT,
-            created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-            updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-        );
+-- Create the news table if it doesn't exist
+CREATE TABLE IF NOT EXISTS public.news (
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+    title TEXT NOT NULL,
+    description TEXT,
+    title_zh TEXT,
+    description_zh TEXT,
+    url TEXT UNIQUE NOT NULL,
+    urltoimage TEXT,
+    publishedat TIMESTAMP WITH TIME ZONE,
+    source TEXT,
+    category TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
 
-        -- Create an index on the URL column
-        CREATE UNIQUE INDEX idx_news_url ON public.news(url);
+-- Create indexes
+CREATE INDEX IF NOT EXISTS idx_news_category ON public.news(category);
+CREATE INDEX IF NOT EXISTS idx_news_published_at ON public.news(publishedat);
 
-        -- Create an index on the category column for faster filtering
-        CREATE INDEX idx_news_category ON public.news(category);
+-- Enable Row Level Security
+ALTER TABLE public.news ENABLE ROW LEVEL SECURITY;
 
-        -- Create an index on the publishedat column for sorting
-        CREATE INDEX idx_news_published_at ON public.news(publishedat);
-
-        -- Enable Row Level Security
-        ALTER TABLE public.news ENABLE ROW LEVEL SECURITY;
-
-        -- Create a policy that allows all operations for authenticated users and insert for anonymous users
-        CREATE POLICY "Allow all operations for authenticated users and insert for anonymous" ON public.news
-            FOR ALL USING (auth.role() = 'authenticated')
-            WITH CHECK (auth.role() = 'authenticated' OR auth.role() = 'anon');
-
-        RAISE NOTICE 'News table created successfully.';
-    ELSE
-        -- Add new columns if they don't exist
-        IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'news' AND column_name = 'title_zh') THEN
-            ALTER TABLE public.news ADD COLUMN title_zh TEXT;
-        END IF;
-        IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'news' AND column_name = 'description_zh') THEN
-            ALTER TABLE public.news ADD COLUMN description_zh TEXT;
-        END IF;
-        RAISE NOTICE 'News table updated with new columns.';
-    END IF;
-END
-$$;
+-- Create a policy that allows all operations for authenticated users and insert for anonymous
+CREATE POLICY "Allow all operations for authenticated users and insert for anonymous" ON public.news
+    FOR ALL USING (auth.role() = 'authenticated')
+    WITH CHECK (auth.role() = 'authenticated' OR auth.role() = 'anon');
 
 -- Create or replace the function to update the updated_at timestamp
 CREATE OR REPLACE FUNCTION update_updated_at_column()
@@ -64,18 +41,3 @@ CREATE TRIGGER update_news_updated_at
 BEFORE UPDATE ON public.news
 FOR EACH ROW
 EXECUTE FUNCTION update_updated_at_column();
-
--- Update the RLS policy if the table already exists
-DO $$
-BEGIN
-    IF EXISTS (SELECT FROM pg_tables WHERE schemaname = 'public' AND tablename = 'news') THEN
-        DROP POLICY IF EXISTS "Allow all operations for authenticated users" ON public.news;
-        
-        CREATE POLICY "Allow all operations for authenticated users and insert for anonymous" ON public.news
-            FOR ALL USING (auth.role() = 'authenticated')
-            WITH CHECK (auth.role() = 'authenticated' OR auth.role() = 'anon');
-        
-        RAISE NOTICE 'RLS policy updated successfully.';
-    END IF;
-END
-$$;
