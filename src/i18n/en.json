@@ -12,7 +12,12 @@
       "entertainment": "Entertainment",
       "sports": "Sports",
       "science": "Science",
-      "health": "Health"
+      "health": "Health",
+      "politics": "Politics",
+      "environment": "Environment",
+      "education": "Education",
+      "lifestyle": "Lifestyle",
+      "finance": "Finance"
     }
   },
   "languageSwitcher": {

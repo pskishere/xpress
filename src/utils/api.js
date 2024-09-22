@@ -52,3 +52,9 @@ export const searchNews = async (query, language = 'en') => {
     return [];
   }
 };
+
+export const getNewsCategories = () => [
+  'general', 'business', 'technology', 'entertainment', 'sports', 
+  'science', 'health', 'politics', 'environment', 'education', 
+  'lifestyle', 'finance'
+];
