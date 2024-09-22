@@ -4,11 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Share2, Info } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslation } from 'react-i18next';
-import Modal from './Modal';
+import Drawer from './Drawer';
 
 const NewsCard = ({ title, description, title_zh, description_zh, urltoimage, source, publishedat, url }) => {
   const [imageError, setImageError] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const { t, i18n } = useTranslation();
   
   const formatDate = (dateString) => {
@@ -73,7 +73,7 @@ const NewsCard = ({ title, description, title_zh, description_zh, urltoimage, so
             variant="ghost" 
             size="sm" 
             className="text-gray-500 hover:text-pink-500 transition-colors"
-            onClick={() => setIsModalOpen(true)}
+            onClick={() => setIsDrawerOpen(true)}
           >
             <Info className="h-4 w-4 mr-2" />
             <span>{t('buttons.details')}</span>
@@ -89,9 +89,9 @@ const NewsCard = ({ title, description, title_zh, description_zh, urltoimage, so
           </Button>
         </CardFooter>
       </Card>
-      <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+      <Drawer
+        isOpen={isDrawerOpen}
+        onClose={() => setIsDrawerOpen(false)}
         title={displayTitle}
         description={displayDescription}
         imageUrl={imageSrc}
