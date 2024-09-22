@@ -53,8 +53,6 @@ const translateText = async (text) => {
       format: 'text'
     });
 
-
-
     return response.data.data.translations[0].translatedText;
   } catch (error) {
     console.error('Translation error:', error);
@@ -64,9 +62,6 @@ const translateText = async (text) => {
 
 const insertNewsToSupabase = async (articles) => {
   for (const article of articles) {
-    const title_zh = await translateText(article.title);
-    console.log('title_zh', title_zh);
-    const description_zh = await translateText(article.description);
     const { data, error } = await supabase
       .from('news')
       .upsert(
@@ -78,15 +73,43 @@ const insertNewsToSupabase = async (articles) => {
           publishedat: article.publishedAt,
           source: article.source.name,
           category: article.category,
-          title_zh:title_zh, 
-          description_zh: description_zh
         },
         { onConflict: 'url' }
       );
 
     if (error) {
       console.error('Error inserting news to Supabase:', error);
-    } else {
+    }
+  }
+};
+
+const translateAndUpdateNews = async () => {
+  const { data: untranslatedNews, error } = await supabase
+    .from('news')
+    .select('id, title, description')
+    .is('title_zh', null)
+    .is('description_zh', null);
+
+  if (error) {
+    console.error('Error fetching untranslated news:', error);
+    return;
+  }
+
+  for (const article of untranslatedNews) {
+    const title_zh = await translateText(article.title);
+    const description_zh = await translateText(article.description);
+
+    if (title_zh && description_zh) {
+      const { error: updateError } = await supabase
+        .from('news')
+        .update({ title_zh, description_zh })
+        .eq('id', article.id);
+
+      if (updateError) {
+        console.error('Error updating translations:', updateError);
+      } else {
+        console.log(`Translated and updated article ID: ${article.id}`);
+      }
     }
   }
 };
@@ -100,6 +123,10 @@ const syncAllNews = async () => {
     await insertNewsToSupabase(articles);
   }
   console.log('News synchronization completed.');
+
+  console.log('Starting translation for untranslated articles...');
+  await translateAndUpdateNews();
+  console.log('Translation process completed.');
 };
 
 // Run the sync function
