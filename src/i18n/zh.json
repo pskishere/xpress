@@ -13,11 +13,7 @@
       "sports": "体育",
       "science": "科学",
       "health": "健康",
-      "politics": "政治",
-      "environment": "环境",
-      "education": "教育",
-      "lifestyle": "生活方式",
-      "finance": "金融"
+      "politics": "政治"
     }
   },
   "languageSwitcher": {

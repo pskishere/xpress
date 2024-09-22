@@ -55,6 +55,5 @@ export const searchNews = async (query, language = 'en') => {
 
 export const getNewsCategories = () => [
   'general', 'business', 'technology', 'entertainment', 'sports', 
-  'science', 'health', 'politics', 'environment', 'education', 
-  'lifestyle', 'finance'
+  'science', 'health', 'politics'
 ];

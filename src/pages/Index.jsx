@@ -17,8 +17,7 @@ const Index = () => {
 
   const categories = [
     'general', 'business', 'technology', 'entertainment', 'sports', 
-    'science', 'health', 'politics', 'environment', 'education', 
-    'lifestyle', 'finance'
+    'science', 'health', 'politics'
   ];
 
   useEffect(() => {
