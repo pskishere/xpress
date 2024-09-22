@@ -10,21 +10,21 @@ const Modal = ({ isOpen, onClose, title, description, imageUrl, source, publishe
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[600px] p-0 overflow-hidden max-h-[90vh] flex flex-col">
-        <DialogHeader className="p-4 sm:p-6">
-          <DialogTitle className="text-lg sm:text-xl font-bold text-gray-800 pr-8">{title}</DialogTitle>
+      <DialogContent className="sm:max-w-[600px] p-0 overflow-hidden">
+        <DialogHeader className="p-6 pb-0">
+          <DialogTitle className="text-xl font-bold text-gray-800 mb-2 pr-8">{title}</DialogTitle>
         </DialogHeader>
-        <div className="flex-grow overflow-y-auto p-4 sm:p-6 space-y-4">
-          <div className="aspect-video overflow-hidden rounded-lg">
+        <div className="p-6 pt-0">
+          <div className="aspect-video overflow-hidden rounded-lg mb-4">
             <img src={imageUrl} alt={title} className="w-full h-full object-cover" />
           </div>
-          <p className="text-sm sm:text-base text-gray-600">{displayDescription}</p>
-          <div className="flex justify-between items-center text-xs sm:text-sm text-gray-500">
+          <div className="max-h-[300px] overflow-y-auto mb-4">
+            <p className="text-base text-gray-600">{displayDescription}</p>
+          </div>
+          <div className="flex justify-between items-center text-sm text-gray-500 mb-4">
             <span>{source}</span>
             <span>{publishedAt}</span>
           </div>
-        </div>
-        <div className="p-4 sm:p-6 border-t border-gray-200">
           <Button asChild className="w-full bg-pink-500 hover:bg-pink-600 text-white">
             <a href={url} target="_blank" rel="noopener noreferrer">
               {t('buttons.readFullArticle')}
