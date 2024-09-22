@@ -20,7 +20,7 @@ export const getNewsFromSupabase = async (category = 'general', page = 1, pageSi
 
     if (error) throw error;
 
-    console.log(`Fetched ${data.length} news items for category: ${category}, page: ${page}`);
+    console.log(`Fetched ${data.length} news items for category: ${category}, page: ${page}, language: ${language}`);
     return data;
   } catch (error) {
     console.error('Error fetching news from Supabase:', error.message);
@@ -33,18 +33,19 @@ export const searchNews = async (query, language = 'en') => {
     let searchQuery = supabase
       .from('news')
       .select('*')
-      .or(`title.ilike.%${query}%, description.ilike.%${query}%`)
       .order('publishedat', { ascending: false });
 
     if (language === 'zh') {
       searchQuery = searchQuery.or(`title_zh.ilike.%${query}%, description_zh.ilike.%${query}%`);
+    } else {
+      searchQuery = searchQuery.or(`title.ilike.%${query}%, description.ilike.%${query}%`);
     }
 
     const { data, error } = await searchQuery;
 
     if (error) throw error;
 
-    console.log(`Search found ${data.length} results for query: "${query}"`);
+    console.log(`Search found ${data.length} results for query: "${query}" in language: ${language}`);
     return data;
   } catch (error) {
     console.error('Error searching news:', error.message);

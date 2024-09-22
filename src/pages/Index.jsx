@@ -29,11 +29,11 @@ const Index = () => {
     setSearchQuery(query);
     setIsSearchMode(!!query.trim());
     if (query.trim()) {
-      searchNews(query);
+      searchNews(query, i18n.language);
     } else {
       fetchNews(true);
     }
-  }, [searchNews, fetchNews]);
+  }, [searchNews, fetchNews, i18n.language]);
 
   const handleCategoryChange = useCallback((category) => {
     changeCategory(category);
@@ -67,26 +67,22 @@ const Index = () => {
           <Tabs defaultValue="general" className="mb-8" onValueChange={handleCategoryChange}>
             <div className="overflow-x-auto pb-2 mb-4">
               <TabsList className="bg-white shadow-sm rounded-full inline-flex whitespace-nowrap">
-                <TabsTrigger value="general" className="px-4 py-2 text-sm tab-trigger rounded-l-full">{t('index.categories.general')}</TabsTrigger>
-                <TabsTrigger value="business" className="px-4 py-2 text-sm tab-trigger">{t('index.categories.business')}</TabsTrigger>
-                <TabsTrigger value="technology" className="px-4 py-2 text-sm tab-trigger">{t('index.categories.technology')}</TabsTrigger>
-                <TabsTrigger value="entertainment" className="px-4 py-2 text-sm tab-trigger">{t('index.categories.entertainment')}</TabsTrigger>
-                <TabsTrigger value="sports" className="px-4 py-2 text-sm tab-trigger">{t('index.categories.sports')}</TabsTrigger>
-                <TabsTrigger value="science" className="px-4 py-2 text-sm tab-trigger">{t('index.categories.science')}</TabsTrigger>
-                <TabsTrigger value="health" className="px-4 py-2 text-sm tab-trigger rounded-r-full">{t('index.categories.health')}</TabsTrigger>
+                {['general', 'business', 'technology', 'entertainment', 'sports', 'science', 'health'].map((category) => (
+                  <TabsTrigger key={category} value={category} className="px-4 py-2 text-sm tab-trigger">
+                    {t(`index.categories.${category}`)}
+                  </TabsTrigger>
+                ))}
               </TabsList>
             </div>
-            {['general', 'business', 'technology', 'entertainment', 'sports', 'science', 'health'].map((cat) => (
-              <TabsContent key={cat} value={cat}>
-                <CategoryNews 
-                  news={news} 
-                  loading={loading} 
-                  error={error} 
-                  hasMore={hasMore} 
-                  fetchNews={fetchNews} 
-                />
-              </TabsContent>
-            ))}
+            <TabsContent value={news.length > 0 ? news[0].category : 'general'}>
+              <CategoryNews 
+                news={news} 
+                loading={loading} 
+                error={error} 
+                hasMore={hasMore} 
+                fetchNews={fetchNews} 
+              />
+            </TabsContent>
           </Tabs>
         )}
         {isSearchMode && (
