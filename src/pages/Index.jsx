@@ -53,7 +53,7 @@ const Index = () => {
         description={t('seo.description')}
         keywords={t('seo.keywords')}
         image="/og-image.svg"
-        url="https://xpress.com"
+        url="https://mikumon.one/"
       />
       <Header onSearch={handleSearch} />
       <main className="flex-grow container mx-auto px-4 py-6 sm:py-8">
