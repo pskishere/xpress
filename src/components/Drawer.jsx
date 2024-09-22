@@ -34,7 +34,7 @@ const Drawer = ({ isOpen, onClose, title, description, imageUrl, source, publish
             <span className="text-gray-500">{publishedAt}</span>
           </div>
         </div>
-        <div className="flex-shrink-0 pt-2 border-t border-gray-200 px-3 sm:px-3 pb-3">
+        <div className="flex-shrink-0 pt-2 border-t border-gray-200 px-3 sm:px-2 pb-3">
           <Button asChild className="w-full bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 rounded-lg transition duration-300">
             <a href={url} target="_blank" rel="noopener noreferrer">
               {t('buttons.readFullArticle')}
