@@ -9,7 +9,7 @@ import LanguageSwitcher from './LanguageSwitcher';
 const Header = ({ onSearch }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -17,6 +17,7 @@ const Header = ({ onSearch }) => {
       onSearch(searchQuery);
       navigate('/');
     } else {
+      // If the search query is empty, reset the news display
       onSearch('');
       navigate('/');
     }
