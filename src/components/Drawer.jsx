@@ -20,7 +20,7 @@ const Drawer = ({ isOpen, onClose, title, description, imageUrl, source, publish
         `}
       >
         <SheetHeader className="flex-shrink-0 border-b pb-4 mb-4">
-          <SheetTitle className="text-xl font-bold text-gray-800 pr-8">{title}</SheetTitle>
+          <SheetTitle className="text-xl font-bold text-gray-800 pr-8 whitespace-normal">{title}</SheetTitle>
         </SheetHeader>
         <div className="flex-grow overflow-y-auto px-4">
           <div className="aspect-video overflow-hidden rounded-lg mb-4 border border-gray-200">
