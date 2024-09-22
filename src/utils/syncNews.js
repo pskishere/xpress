@@ -5,8 +5,12 @@ import { createClient } from '@supabase/supabase-js';
 dotenv.config();
 
 const API_KEY = '0d28e0b381cf4be18257ea7b7ee312e0';
-const GOOGLE_TRANSLATE_API_KEY = 'AIzaSyDCeqpTloTHqFs0K2XgipHpLKUPt0rKSUo';
-const categories = ['general', 'business', 'technology', 'entertainment', 'sports', 'science', 'health'];
+const GOOGLE_TRANSLATE_API_KEY = 'AIzaSyDCeqpTloTHqFs0K2XgipHpLKUt0rKSUo';
+const categories = [
+  'general', 'business', 'technology', 'entertainment', 'sports', 
+  'science', 'health', 'politics', 'environment', 'education', 
+  'lifestyle', 'finance'
+];
 
 const supabaseUrl = process.env.VITE_SUPABASE_PROJECT_URL;
 const supabaseKey = process.env.VITE_SUPABASE_API_KEY;
