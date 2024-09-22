@@ -10,7 +10,7 @@ const Modal = ({ isOpen, onClose, title, description, imageUrl, source, publishe
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[600px] p-0 overflow-hidden max-h-[90vh] flex flex-col mx-4 rounded-lg">
+      <DialogContent className="sm:max-w-[600px] p-0 overflow-hidden max-h-[90vh] flex flex-col mx-4 rounded-lg bg-white">
         <DialogHeader className="p-6 pb-0">
           <DialogTitle className="text-xl font-bold text-gray-800 mb-2 pr-8">{title}</DialogTitle>
         </DialogHeader>
@@ -27,7 +27,7 @@ const Modal = ({ isOpen, onClose, title, description, imageUrl, source, publishe
           </div>
         </div>
         <div className="p-4 border-t border-gray-100">
-          <Button asChild className="w-full bg-pink-500 hover:bg-pink-600 text-white">
+          <Button asChild className="w-full bg-pink-500 hover:bg-pink-600 text-white rounded-full">
             <a href={url} target="_blank" rel="noopener noreferrer">
               {t('buttons.readFullArticle')}
             </a>
