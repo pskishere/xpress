@@ -5,7 +5,9 @@ import { X } from "lucide-react";
 import { useTranslation } from 'react-i18next';
 
 const Modal = ({ isOpen, onClose, title, description, imageUrl, source, publishedAt, url }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  const displayDescription = i18n.language === 'zh' ? (description.description_zh || description) : description;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -24,7 +26,9 @@ const Modal = ({ isOpen, onClose, title, description, imageUrl, source, publishe
           <div className="aspect-video overflow-hidden rounded-lg mb-4">
             <img src={imageUrl} alt={title} className="w-full h-full object-cover" />
           </div>
-          <p className="text-base text-gray-600 mb-4 overflow-y-auto max-h-60">{description}</p>
+          <div className="max-h-[300px] overflow-y-auto mb-4">
+            <p className="text-base text-gray-600">{displayDescription}</p>
+          </div>
           <div className="flex justify-between items-center text-sm text-gray-500 mb-4">
             <span>{source}</span>
             <span>{publishedAt}</span>
