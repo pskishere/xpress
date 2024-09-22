@@ -11,7 +11,7 @@ const Modal = ({ isOpen, onClose, title, description, imageUrl, source, publishe
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[600px] p-0 overflow-hidden">
+      <DialogContent className="sm:max-w-[600px] p-0 overflow-hidden" closeButton={false}>
         <DialogHeader className="p-6 pb-0 relative">
           <DialogTitle className="text-xl font-bold text-gray-800 mb-2 pr-8">{title}</DialogTitle>
           <Button
