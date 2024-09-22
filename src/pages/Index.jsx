@@ -9,10 +9,10 @@ import { useTranslation } from 'react-i18next';
 import { getNewsFromSupabase } from '../utils/api';
 
 const Index = () => {
+  const { t, i18n } = useTranslation();
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchMode, setIsSearchMode] = useState(false);
   const [featuredArticle, setFeaturedArticle] = useState(null);
-  const { t, i18n } = useTranslation();
   const { news, loading, error, hasMore, fetchNews, searchNews, changeCategory } = useNews('general');
 
   useEffect(() => {
