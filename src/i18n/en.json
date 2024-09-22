@@ -21,7 +21,9 @@
   },
   "buttons": {
     "readMore": "Read More",
-    "share": "Share"
+    "share": "Share",
+    "details": "Details",
+    "readFullArticle": "Read Full Article"
   },
   "toasts": {
     "shareSuccess": "Shared successfully!",

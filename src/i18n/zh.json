@@ -21,7 +21,9 @@
   },
   "buttons": {
     "readMore": "阅读全文",
-    "share": "分享"
+    "share": "分享",
+    "details": "详情",
+    "readFullArticle": "阅读完整文章"
   },
   "toasts": {
     "shareSuccess": "分享成功！",
