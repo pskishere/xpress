@@ -63,7 +63,7 @@ const Index = () => {
         )}
         {!isSearchMode && (
           <Tabs defaultValue="general" className="mb-8" onValueChange={handleCategoryChange}>
-            <div className="overflow-x-auto pb-2 mb-4">
+            <div className="overflow-x-auto pb-2 mb-4 category-tabs-container">
               <TabsList className="bg-white shadow-sm rounded-full inline-flex whitespace-nowrap">
                 <TabsTrigger value="general" className="px-4 py-2 text-sm tab-trigger rounded-l-full">{t('index.categories.general')}</TabsTrigger>
                 <TabsTrigger value="business" className="px-4 py-2 text-sm tab-trigger">{t('index.categories.business')}</TabsTrigger>
@@ -104,6 +104,13 @@ const Index = () => {
         .tab-trigger[data-state="active"]:last-child {
           border-top-right-radius: 9999px;
           border-bottom-right-radius: 9999px;
+        }
+        .category-tabs-container {
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+        }
+        .category-tabs-container::-webkit-scrollbar {
+          display: none;
         }
       `}</style>
     </div>
