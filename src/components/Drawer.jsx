@@ -19,7 +19,7 @@ const Drawer = ({ isOpen, onClose, title, description, imageUrl, source, publish
           overflow-hidden flex flex-col
         `}
       >
-        <SheetHeader className="flex-shrink-0 border-b pb-2 mb-2">
+        <SheetHeader className="flex-shrink-0 border-b pb-2 mb-1">
           <SheetTitle className="text-xl font-bold text-gray-800 pr-8 whitespace-normal">{title}</SheetTitle>
         </SheetHeader>
         <div className="flex-grow overflow-y-auto px-3 sm:px-4">
