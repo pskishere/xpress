@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import Header from '../components/Header';
 import FeaturedNews from '../components/FeaturedNews';
 import CategoryNews from '../components/CategoryNews';
@@ -14,6 +14,8 @@ const Index = () => {
   const [isSearchMode, setIsSearchMode] = useState(false);
   const [featuredArticle, setFeaturedArticle] = useState(null);
   const { news, loading, error, hasMore, fetchNews, searchNews, changeCategory } = useNews('general');
+  const [isSticky, setIsSticky] = useState(false);
+  const categoryTabsRef = useRef(null);
 
   const categories = [
     'general', 'business', 'technology', 'entertainment', 'sports', 
@@ -29,6 +31,18 @@ const Index = () => {
     };
     fetchFeaturedArticle();
   }, [i18n.language]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (categoryTabsRef.current) {
+        const { top } = categoryTabsRef.current.getBoundingClientRect();
+        setIsSticky(top <= 0);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleSearch = useCallback((query) => {
     setSearchQuery(query);
@@ -67,32 +81,34 @@ const Index = () => {
           </div>
         )}
         {!isSearchMode && (
-          <Tabs defaultValue="general" className="mb-8" onValueChange={handleCategoryChange}>
-            <div className="overflow-x-auto pb-2 mb-4 category-tabs-container">
-              <TabsList className="bg-white shadow-sm rounded-full inline-flex whitespace-nowrap">
-                {categories.map((category) => (
-                  <TabsTrigger 
-                    key={category} 
-                    value={category} 
-                    className="px-4 py-2 text-sm tab-trigger"
-                  >
-                    {t(`index.categories.${category}`)}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-            </div>
-            {categories.map((category) => (
-              <TabsContent key={category} value={category}>
-                <CategoryNews 
-                  news={news} 
-                  loading={loading} 
-                  error={error} 
-                  hasMore={hasMore} 
-                  fetchNews={fetchNews} 
-                />
-              </TabsContent>
-            ))}
-          </Tabs>
+          <div ref={categoryTabsRef} className={`mb-8 ${isSticky ? 'sticky top-0 z-10 bg-gray-50 py-4' : ''}`}>
+            <Tabs defaultValue="general" onValueChange={handleCategoryChange}>
+              <div className="overflow-x-auto pb-2 mb-4 category-tabs-container">
+                <TabsList className="bg-white shadow-sm rounded-full inline-flex whitespace-nowrap">
+                  {categories.map((category) => (
+                    <TabsTrigger 
+                      key={category} 
+                      value={category} 
+                      className="px-4 py-2 text-sm tab-trigger"
+                    >
+                      {t(`index.categories.${category}`)}
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
+              </div>
+              {categories.map((category) => (
+                <TabsContent key={category} value={category}>
+                  <CategoryNews 
+                    news={news} 
+                    loading={loading} 
+                    error={error} 
+                    hasMore={hasMore} 
+                    fetchNews={fetchNews} 
+                  />
+                </TabsContent>
+              ))}
+            </Tabs>
+          </div>
         )}
         {isSearchMode && (
           <CategoryNews news={news} loading={loading} error={error} hasMore={hasMore} fetchNews={fetchNews} />
