@@ -1,3 +1,5 @@
+version: '3'
+
 services:
   app:
     build: 
@@ -7,9 +9,10 @@ services:
     ports:
       - "3000:3000"
     restart: unless-stopped
-    volumes:
-      - ./src:/app/src
-      - node_modules:/app/node_modules
+    environment:
+      - NODE_ENV=production
+      - VITE_SUPABASE_PROJECT_URL=${VITE_SUPABASE_PROJECT_URL}
+      - VITE_SUPABASE_API_KEY=${VITE_SUPABASE_API_KEY}
 
   news-sync:
     build:
@@ -17,8 +20,6 @@ services:
       dockerfile: Dockerfile.news-sync
     image: pskishere/xpress-sync
     restart: unless-stopped
-    volumes:
-      - ./src:/app/src
-
-volumes:
-  node_modules:
+    environment:
+      - VITE_SUPABASE_PROJECT_URL=${VITE_SUPABASE_PROJECT_URL}
+      - VITE_SUPABASE_API_KEY=${VITE_SUPABASE_API_KEY}
