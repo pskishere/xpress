@@ -36,7 +36,7 @@ const Modal = ({ isOpen, onClose, title, description, imageUrl, source, publishe
       </DialogContent>
       <style jsx global>{`
         .DialogOverlay {
-          background-color: rgba(0, 0, 0, 0.3) !important;
+          background-color: rgba(0, 0, 0, 0.2) !important;
         }
       `}</style>
     </Dialog>
