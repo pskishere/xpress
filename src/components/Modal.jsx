@@ -12,7 +12,7 @@ const Modal = ({ isOpen, onClose, title, description, imageUrl, source, publishe
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[600px] p-0 overflow-hidden">
         <DialogHeader className="p-6 pb-0">
-          <DialogTitle className="text-xl font-bold text-gray-800 mb-2">{title}</DialogTitle>
+          <DialogTitle className="text-xl font-bold text-gray-800 mb-2 pr-8">{title}</DialogTitle>
         </DialogHeader>
         <div className="p-6 pt-0">
           <div className="aspect-video overflow-hidden rounded-lg mb-4">
