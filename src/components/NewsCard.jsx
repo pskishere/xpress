@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Share2 } from "lucide-react";
+import { Share2, ChevronDown, ChevronUp } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslation } from 'react-i18next';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const NewsCard = ({ title, description, title_zh, description_zh, urltoimage, source, publishedat, url }) => {
   const [imageError, setImageError] = useState(false);
-  const [isPressed, setIsPressed] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const { t, i18n } = useTranslation();
   
   const formatDate = (dateString) => {
@@ -41,19 +41,21 @@ const NewsCard = ({ title, description, title_zh, description_zh, urltoimage, so
     }
   };
 
+  const toggleExpand = () => {
+    setIsExpanded(!isExpanded);
+  };
+
   const imageSrc = imageError || !urltoimage ? "/placeholder.svg" : urltoimage;
   const displayTitle = i18n.language === 'zh' ? (title_zh || title) : title;
   const displayDescription = i18n.language === 'zh' ? (description_zh || description) : description;
 
   return (
     <motion.div
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      onTapStart={() => setIsPressed(true)}
-      onTap={() => setIsPressed(false)}
-      onTapCancel={() => setIsPressed(false)}
+      initial={{ scale: 1 }}
+      whileHover={{ scale: 1.02 }}
+      transition={{ duration: 0.2 }}
     >
-      <Card className={`overflow-hidden transition-all duration-300 hover:shadow-lg bg-white h-full flex flex-col ${isPressed ? 'scale-105 shadow-xl' : ''}`}>
+      <Card className="overflow-hidden transition-all duration-300 hover:shadow-lg bg-white h-full flex flex-col">
         <div className="relative h-48 overflow-hidden">
           <img 
             src={imageSrc}
@@ -72,11 +74,21 @@ const NewsCard = ({ title, description, title_zh, description_zh, urltoimage, so
               {displayTitle || t('noTitle')}
             </a>
           </CardTitle>
-          <CardDescription className={`text-sm text-gray-600 ${isPressed ? '' : 'line-clamp-3'}`}>
-            {displayDescription || t('noDescription')}
-          </CardDescription>
+          <AnimatePresence>
+            <motion.div
+              initial={{ height: 0 }}
+              animate={{ height: isExpanded ? 'auto' : '4.5rem' }}
+              exit={{ height: 0 }}
+              transition={{ duration: 0.3 }}
+              className="overflow-hidden"
+            >
+              <CardDescription className="text-sm text-gray-600">
+                {displayDescription || t('noDescription')}
+              </CardDescription>
+            </motion.div>
+          </AnimatePresence>
         </CardHeader>
-        <CardFooter className="p-4 flex justify-end items-center border-t border-gray-100">
+        <CardFooter className="p-4 flex justify-between items-center border-t border-gray-100">
           <Button 
             variant="ghost" 
             size="sm" 
@@ -85,6 +97,24 @@ const NewsCard = ({ title, description, title_zh, description_zh, urltoimage, so
           >
             <Share2 className="h-4 w-4 mr-2" />
             <span>{t('buttons.share')}</span>
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="text-gray-500 hover:text-pink-500 transition-colors"
+            onClick={toggleExpand}
+          >
+            {isExpanded ? (
+              <>
+                <ChevronUp className="h-4 w-4 mr-2" />
+                <span>{t('buttons.showLess')}</span>
+              </>
+            ) : (
+              <>
+                <ChevronDown className="h-4 w-4 mr-2" />
+                <span>{t('buttons.showMore')}</span>
+              </>
+            )}
           </Button>
         </CardFooter>
       </Card>
