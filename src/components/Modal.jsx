@@ -12,16 +12,16 @@ const Modal = ({ isOpen, onClose, title, description, imageUrl, source, publishe
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[600px] p-0 overflow-hidden">
         <DialogHeader className="p-6 pb-0">
-          <DialogTitle className="text-xl font-bold text-gray-800 mb-2">{title}</DialogTitle>
+          <DialogTitle className="text-2xl font-bold text-gray-800 mb-4 leading-tight">{title}</DialogTitle>
         </DialogHeader>
         <div className="p-6 pt-0">
           <div className="aspect-video overflow-hidden rounded-lg mb-4">
             <img src={imageUrl} alt={title} className="w-full h-full object-cover" />
           </div>
-          <div className="max-h-[300px] overflow-y-auto mb-4">
-            <p className="text-base text-gray-600">{displayDescription}</p>
+          <div className="max-h-[300px] overflow-y-auto mb-6">
+            <p className="text-base text-gray-600 leading-relaxed">{displayDescription}</p>
           </div>
-          <div className="flex justify-between items-center text-sm text-gray-500 mb-4">
+          <div className="flex justify-between items-center text-sm text-gray-500 mb-6">
             <span>{source}</span>
             <span>{publishedAt}</span>
           </div>
