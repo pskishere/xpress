@@ -15,7 +15,7 @@ const Drawer = ({ isOpen, onClose, title, description, imageUrl, source, publish
       <SheetContent 
         side={isMobile ? "bottom" : "right"} 
         className={`
-          ${isMobile ? 'h-[90vh] rounded-t-[10px]' : 'h-screen w-full sm:max-w-md md:max-w-lg lg:max-w-xl'}
+          ${isMobile ? 'h-[60vh] rounded-t-[10px]' : 'h-screen w-full sm:max-w-md md:max-w-lg lg:max-w-xl'}
           overflow-hidden flex flex-col
         `}
       >
