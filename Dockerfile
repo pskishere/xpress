@@ -36,8 +36,8 @@ RUN npm install -g vite
 ENV VITE_SUPABASE_PROJECT_URL=https://rqqrqgjrxxgbxrkxjcfl.supabase.co
 ENV VITE_SUPABASE_API_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJxcXJxZ2pyeHhnYnhya3hqY2ZsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjY5MjUzNDUsImV4cCI6MjA0MjUwMTM0NX0.8-NZAW3Zk7-BK6A-8QctffJ16rDyFJgJcm1WrS1fBM4
 
-# Expose port 4173 (Vite's default preview port)
-EXPOSE 4173
+# Expose port 3000 (Vite's new preview port)
+EXPOSE 3000
 
 # Define the command to run the app
-CMD ["vite", "preview", "--host", "0.0.0.0"]
+CMD ["vite", "preview", "--host", "0.0.0.0", "--port", "3000"]
