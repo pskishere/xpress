@@ -62,9 +62,7 @@ const NewsCard = ({ title, description, title_zh, description_zh, urltoimage, so
             <span className="text-xs text-gray-500">{formatDate(publishedat)}</span>
           </div>
           <CardTitle className="text-base sm:text-lg font-bold text-gray-800 mb-2 line-clamp-2">
-            <a href={url} target="_blank" rel="noopener noreferrer" className="hover:text-pink-500 transition-colors">
-              {displayTitle || t('noTitle')}
-            </a>
+            {displayTitle || t('noTitle')}
           </CardTitle>
           <CardDescription className="text-sm text-gray-600 line-clamp-3">{displayDescription || t('noDescription')}</CardDescription>
         </CardHeader>
@@ -93,7 +91,7 @@ const NewsCard = ({ title, description, title_zh, description_zh, urltoimage, so
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         title={displayTitle}
-        content={displayDescription}
+        description={displayDescription}
         imageUrl={imageSrc}
         source={source}
         publishedAt={formatDate(publishedat)}

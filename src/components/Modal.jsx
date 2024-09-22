@@ -1,17 +1,17 @@
 import React from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import { useTranslation } from 'react-i18next';
 
-const Modal = ({ isOpen, onClose, title, content, imageUrl, source, publishedAt, url }) => {
+const Modal = ({ isOpen, onClose, title, description, imageUrl, source, publishedAt, url }) => {
   const { t } = useTranslation();
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle className="pr-10">{title}</DialogTitle>
+      <DialogContent className="sm:max-w-[425px] p-0 overflow-hidden">
+        <DialogHeader className="p-6 pb-0">
+          <DialogTitle className="text-lg font-bold text-gray-800 mb-2">{title}</DialogTitle>
           <Button
             className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
             onClick={onClose}
@@ -20,18 +20,16 @@ const Modal = ({ isOpen, onClose, title, content, imageUrl, source, publishedAt,
             <span className="sr-only">Close</span>
           </Button>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="aspect-video overflow-hidden rounded-lg">
+        <div className="p-6 pt-0">
+          <div className="aspect-video overflow-hidden rounded-lg mb-4">
             <img src={imageUrl} alt={title} className="w-full h-full object-cover" />
           </div>
-          <DialogDescription>
-            {content}
-          </DialogDescription>
-          <div className="flex justify-between items-center text-sm text-gray-500">
+          <p className="text-sm text-gray-600 mb-4">{description}</p>
+          <div className="flex justify-between items-center text-xs text-gray-500 mb-4">
             <span>{source}</span>
             <span>{publishedAt}</span>
           </div>
-          <Button asChild>
+          <Button asChild className="w-full">
             <a href={url} target="_blank" rel="noopener noreferrer">
               {t('buttons.readFullArticle')}
             </a>
