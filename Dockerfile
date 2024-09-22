@@ -1,7 +1,7 @@
-# Build stage
-FROM node:20-alpine AS builder
+# Use an official Node runtime as the base image
+FROM node:20-alpine
 
-# Set the working directory
+# Set the working directory in the container
 WORKDIR /app
 
 # Copy package.json and package-lock.json
@@ -13,25 +13,15 @@ RUN npm ci
 # Copy the rest of the application code
 COPY . .
 
+# Set environment variables
+ENV VITE_SUPABASE_PROJECT_URL=https://rqqrqgjrxxgbxrkxjcfl.supabase.co
+ENV VITE_SUPABASE_API_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJxcXJxZ2pyeHhnYnhya3hqY2ZsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjY5MjUzNDUsImV4cCI6MjA0MjUwMTM0NX0.8-NZAW3Zk7-BK6A-8QctffJ16rDyFJgJcm1WrS1fBM4
+
 # Build the application
 RUN npm run build
 
-# Production stage
-FROM node:20-alpine
-
-WORKDIR /app
-
-# Copy built assets from the builder stage
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/public ./public
-
-# Expose the port Next.js runs on
+# Expose the port the app runs on
 EXPOSE 3000
 
-# Set environment variables
-ENV NODE_ENV production
-
-# Start the application
+# Define the command to run the app
 CMD ["npm", "start"]
