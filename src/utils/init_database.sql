@@ -18,14 +18,6 @@ CREATE TABLE IF NOT EXISTS public.news (
 CREATE INDEX IF NOT EXISTS idx_news_category ON public.news(category);
 CREATE INDEX IF NOT EXISTS idx_news_published_at ON public.news(publishedat);
 
--- Enable Row Level Security
-ALTER TABLE public.news ENABLE ROW LEVEL SECURITY;
-
--- Create a policy that allows all operations for authenticated users and insert for anonymous
-CREATE POLICY "Allow all operations for authenticated users and insert for anonymous" ON public.news
-    FOR ALL USING (auth.role() = 'authenticated')
-    WITH CHECK (auth.role() = 'authenticated' OR auth.role() = 'anon');
-
 -- Create or replace the function to update the updated_at timestamp
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
