@@ -22,7 +22,7 @@ const Drawer = ({ isOpen, onClose, title, description, imageUrl, source, publish
         <SheetHeader className="flex-shrink-0 border-b pb-2 mb-1">
           <SheetTitle className="text-xl font-bold text-gray-800 pr-8 whitespace-normal">{title}</SheetTitle>
         </SheetHeader>
-        <div className="flex-grow overflow-y-auto px-3 sm:px-4">
+        <div className="flex-grow overflow-y-auto px-3 sm:px-3">
           <div className="aspect-video overflow-hidden rounded-lg mb-3 border border-gray-200">
             <img src={imageUrl} alt={title} className="w-full h-full object-cover" />
           </div>
@@ -34,7 +34,7 @@ const Drawer = ({ isOpen, onClose, title, description, imageUrl, source, publish
             <span className="text-gray-500">{publishedAt}</span>
           </div>
         </div>
-        <div className="flex-shrink-0 pt-2 border-t border-gray-200 px-3 sm:px-4 pb-3">
+        <div className="flex-shrink-0 pt-2 border-t border-gray-200 px-3 sm:px-3 pb-3">
           <Button asChild className="w-full bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 rounded-lg transition duration-300">
             <a href={url} target="_blank" rel="noopener noreferrer">
               {t('buttons.readFullArticle')}
