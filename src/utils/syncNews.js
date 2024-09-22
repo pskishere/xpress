@@ -53,6 +53,8 @@ const translateText = async (text) => {
       format: 'text'
     });
 
+
+
     return response.data.data.translations[0].translatedText;
   } catch (error) {
     console.error('Translation error:', error);
@@ -62,6 +64,9 @@ const translateText = async (text) => {
 
 const insertNewsToSupabase = async (articles) => {
   for (const article of articles) {
+    const title_zh = await translateText(article.title);
+    console.log('title_zh', title_zh);
+    const description_zh = await translateText(article.description);
     const { data, error } = await supabase
       .from('news')
       .upsert(
@@ -72,7 +77,9 @@ const insertNewsToSupabase = async (articles) => {
           urltoimage: article.urlToImage,
           publishedat: article.publishedAt,
           source: article.source.name,
-          category: article.category
+          category: article.category,
+          title_zh:title_zh, 
+          description_zh: description_zh
         },
         { onConflict: 'url' }
       );
@@ -80,22 +87,6 @@ const insertNewsToSupabase = async (articles) => {
     if (error) {
       console.error('Error inserting news to Supabase:', error);
     } else {
-      // If the article was inserted (not ignored as duplicate), translate and update
-      if (data && data.length > 0) {
-        const title_zh = await translateText(article.title);
-        const description_zh = await translateText(article.description);
-
-        const { error: updateError } = await supabase
-          .from('news')
-          .update({ title_zh, description_zh })
-          .eq('url', article.url);
-
-        if (updateError) {
-          console.error('Error updating translations:', updateError);
-        } else {
-          console.log(`Translated and updated article: ${article.title}`);
-        }
-      }
     }
   }
 };
