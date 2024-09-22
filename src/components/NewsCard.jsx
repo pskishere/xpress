@@ -61,8 +61,10 @@ const NewsCard = ({ title, description, title_zh, description_zh, urltoimage, so
             <span className="text-sm font-medium text-pink-500 mb-1 sm:mb-0">{source || t('unknownSource')}</span>
             <span className="text-xs text-gray-500">{formatDate(publishedat)}</span>
           </div>
-          <CardTitle className="text-base sm:text-lg font-bold text-gray-800 mb-2 line-clamp-2">
-            {displayTitle || t('noTitle')}
+          <CardTitle className="text-base sm:text-lg font-bold text-gray-800 mb-2 line-clamp-2 hover:text-pink-500 transition-colors">
+            <a href={url} target="_blank" rel="noopener noreferrer">
+              {displayTitle || t('noTitle')}
+            </a>
           </CardTitle>
           <CardDescription className="text-sm text-gray-600 line-clamp-3">{displayDescription || t('noDescription')}</CardDescription>
         </CardHeader>
