@@ -10,7 +10,10 @@ const Drawer = ({ isOpen, onClose, title, description, imageUrl, source, publish
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
-      <SheetContent side="bottom" className="h-[90vh] sm:h-[85vh] rounded-t-[10px] overflow-hidden flex flex-col">
+      <SheetContent 
+        side="right" 
+        className="w-full sm:max-w-md md:max-w-lg lg:max-w-xl h-[90vh] sm:h-screen rounded-t-[10px] sm:rounded-none overflow-hidden flex flex-col"
+      >
         <SheetHeader className="flex-shrink-0">
           <SheetTitle className="text-xl font-bold text-gray-800 mb-2 pr-8">{title}</SheetTitle>
         </SheetHeader>
