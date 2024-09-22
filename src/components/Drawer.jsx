@@ -19,23 +19,23 @@ const Drawer = ({ isOpen, onClose, title, description, imageUrl, source, publish
           overflow-hidden flex flex-col
         `}
       >
-        <SheetHeader className="flex-shrink-0">
-          <SheetTitle className="text-xl font-bold text-gray-800 mb-2 pr-8">{title}</SheetTitle>
+        <SheetHeader className="flex-shrink-0 border-b pb-4 mb-4">
+          <SheetTitle className="text-xl font-bold text-gray-800 pr-8">{title}</SheetTitle>
         </SheetHeader>
         <div className="flex-grow overflow-y-auto px-4">
-          <div className="aspect-video overflow-hidden rounded-lg mb-4">
+          <div className="aspect-video overflow-hidden rounded-lg mb-4 border border-gray-200">
             <img src={imageUrl} alt={title} className="w-full h-full object-cover" />
           </div>
           <div className="mb-4">
-            <p className="text-base text-gray-600">{displayDescription}</p>
+            <p className="text-base text-gray-600 leading-relaxed">{displayDescription}</p>
           </div>
-          <div className="flex justify-between items-center text-sm text-gray-500 mb-4">
-            <span>{source}</span>
-            <span>{publishedAt}</span>
+          <div className="flex justify-between items-center text-sm mb-4">
+            <span className="font-medium" style={{ color: '#E91E63' }}>{source}</span>
+            <span className="text-gray-500">{publishedAt}</span>
           </div>
         </div>
         <div className="flex-shrink-0 pt-4 border-t border-gray-200 px-4 pb-4">
-          <Button asChild className="w-full bg-pink-500 hover:bg-pink-600 text-white">
+          <Button asChild className="w-full bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 rounded-lg transition duration-300">
             <a href={url} target="_blank" rel="noopener noreferrer">
               {t('buttons.readFullArticle')}
             </a>
