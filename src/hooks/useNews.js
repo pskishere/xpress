@@ -15,9 +15,9 @@ const useNews = (initialCategory = 'general') => {
     try {
       setLoading(true);
       const currentPage = reset ? 1 : page;
-      const articles = await getNewsFromSupabase(category, currentPage, i18n.language);
+      const articles = await getNewsFromSupabase(category, currentPage, 10, i18n.language);
       setNews(prevNews => reset ? articles : [...prevNews, ...articles]);
-      setHasMore(articles.length === 10); // Assuming we fetch 10 items per page
+      setHasMore(articles.length === 10);
       setPage(currentPage + 1);
       setError(null);
     } catch (err) {

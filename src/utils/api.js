@@ -20,6 +20,7 @@ export const getNewsFromSupabase = async (category = 'general', page = 1, pageSi
 
     if (error) throw error;
 
+    console.log(`Fetched ${data.length} news items for category: ${category}, page: ${page}`);
     return data;
   } catch (error) {
     console.error('Error fetching news from Supabase:', error.message);
@@ -43,6 +44,7 @@ export const searchNews = async (query, language = 'en') => {
 
     if (error) throw error;
 
+    console.log(`Search found ${data.length} results for query: "${query}"`);
     return data;
   } catch (error) {
     console.error('Error searching news:', error.message);

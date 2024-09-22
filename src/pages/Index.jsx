@@ -41,6 +41,8 @@ const Index = () => {
     setSearchQuery('');
   }, [changeCategory]);
 
+  console.log('Current news state:', news);
+
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <SEO
@@ -74,13 +76,17 @@ const Index = () => {
                 <TabsTrigger value="health" className="px-4 py-2 text-sm tab-trigger rounded-r-full">{t('index.categories.health')}</TabsTrigger>
               </TabsList>
             </div>
-            <TabsContent value="general"><CategoryNews news={news} loading={loading} error={error} hasMore={hasMore} fetchNews={fetchNews} /></TabsContent>
-            <TabsContent value="business"><CategoryNews news={news} loading={loading} error={error} hasMore={hasMore} fetchNews={fetchNews} /></TabsContent>
-            <TabsContent value="technology"><CategoryNews news={news} loading={loading} error={error} hasMore={hasMore} fetchNews={fetchNews} /></TabsContent>
-            <TabsContent value="entertainment"><CategoryNews news={news} loading={loading} error={error} hasMore={hasMore} fetchNews={fetchNews} /></TabsContent>
-            <TabsContent value="sports"><CategoryNews news={news} loading={loading} error={error} hasMore={hasMore} fetchNews={fetchNews} /></TabsContent>
-            <TabsContent value="science"><CategoryNews news={news} loading={loading} error={error} hasMore={hasMore} fetchNews={fetchNews} /></TabsContent>
-            <TabsContent value="health"><CategoryNews news={news} loading={loading} error={error} hasMore={hasMore} fetchNews={fetchNews} /></TabsContent>
+            {['general', 'business', 'technology', 'entertainment', 'sports', 'science', 'health'].map((cat) => (
+              <TabsContent key={cat} value={cat}>
+                <CategoryNews 
+                  news={news} 
+                  loading={loading} 
+                  error={error} 
+                  hasMore={hasMore} 
+                  fetchNews={fetchNews} 
+                />
+              </TabsContent>
+            ))}
           </Tabs>
         )}
         {isSearchMode && (
