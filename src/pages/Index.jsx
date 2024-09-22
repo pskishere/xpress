@@ -12,8 +12,8 @@ const Index = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchMode, setIsSearchMode] = useState(false);
   const [featuredArticle, setFeaturedArticle] = useState(null);
-  const { news, loading, error, hasMore, fetchNews, searchNews, changeCategory } = useNews('general');
   const { t, i18n } = useTranslation();
+  const { news, loading, error, hasMore, fetchNews, searchNews, changeCategory } = useNews('general');
 
   useEffect(() => {
     const fetchFeaturedArticle = async () => {
@@ -40,8 +40,6 @@ const Index = () => {
     setIsSearchMode(false);
     setSearchQuery('');
   }, [changeCategory]);
-
-  console.log('Current news state:', news);
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">

@@ -29,9 +29,9 @@ const useNews = (initialCategory = 'general') => {
 
   useEffect(() => {
     fetchNews(true);
-  }, [category, i18n.language]);
+  }, [category, i18n.language, fetchNews]);
 
-  const searchNews = async (query) => {
+  const searchNews = useCallback(async (query) => {
     try {
       setLoading(true);
       const articles = await searchNewsApi(query, i18n.language);
@@ -43,14 +43,14 @@ const useNews = (initialCategory = 'general') => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [i18n.language]);
 
-  const changeCategory = (newCategory) => {
+  const changeCategory = useCallback((newCategory) => {
     setCategory(newCategory);
     setPage(1);
     setNews([]);
     setHasMore(true);
-  };
+  }, []);
 
   return { 
     news, 
