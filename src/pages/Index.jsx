@@ -13,17 +13,17 @@ const Index = () => {
   const [isSearchMode, setIsSearchMode] = useState(false);
   const [featuredArticle, setFeaturedArticle] = useState(null);
   const { news, loading, error, hasMore, fetchNews, searchNews, changeCategory } = useNews('general');
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const fetchFeaturedArticle = async () => {
-      const generalNews = await getNewsFromSupabase('general', 1, 1);
+      const generalNews = await getNewsFromSupabase('general', 1, 1, i18n.language);
       if (generalNews && generalNews.length > 0) {
         setFeaturedArticle(generalNews[0]);
       }
     };
     fetchFeaturedArticle();
-  }, []);
+  }, [i18n.language]);
 
   const handleSearch = useCallback((query) => {
     setSearchQuery(query);
@@ -41,12 +41,14 @@ const Index = () => {
     setSearchQuery('');
   }, [changeCategory]);
 
+  console.log('Current news state:', news);
+
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <SEO
         title={t('index.featuredNews')}
-        description="Xpress提供最新、最全面的新闻资讯，涵盖科技、政治、经济、文化等多个领域。"
-        keywords="新闻,资讯,科技,政治,经济,文化"
+        description={t('seo.description')}
+        keywords={t('seo.keywords')}
         image="/og-image.svg"
         url="https://xpress.com"
       />
@@ -58,12 +60,7 @@ const Index = () => {
         {featuredArticle && !isSearchMode && (
           <div className="mb-8 sm:mb-12">
             <h2 className="text-3xl font-bold mb-6 text-gray-800 border-b-2 border-pink-500 pb-2 inline-block">{t('index.featuredNews')}</h2>
-            <FeaturedNews
-              title={featuredArticle.title}
-              description={featuredArticle.description}
-              urltoimage={featuredArticle.urltoimage}
-              url={featuredArticle.url}
-            />
+            <FeaturedNews {...featuredArticle} />
           </div>
         )}
         {!isSearchMode && (
@@ -79,13 +76,17 @@ const Index = () => {
                 <TabsTrigger value="health" className="px-4 py-2 text-sm tab-trigger rounded-r-full">{t('index.categories.health')}</TabsTrigger>
               </TabsList>
             </div>
-            <TabsContent value="general"><CategoryNews news={news} loading={loading} error={error} hasMore={hasMore} fetchNews={fetchNews} /></TabsContent>
-            <TabsContent value="business"><CategoryNews news={news} loading={loading} error={error} hasMore={hasMore} fetchNews={fetchNews} /></TabsContent>
-            <TabsContent value="technology"><CategoryNews news={news} loading={loading} error={error} hasMore={hasMore} fetchNews={fetchNews} /></TabsContent>
-            <TabsContent value="entertainment"><CategoryNews news={news} loading={loading} error={error} hasMore={hasMore} fetchNews={fetchNews} /></TabsContent>
-            <TabsContent value="sports"><CategoryNews news={news} loading={loading} error={error} hasMore={hasMore} fetchNews={fetchNews} /></TabsContent>
-            <TabsContent value="science"><CategoryNews news={news} loading={loading} error={error} hasMore={hasMore} fetchNews={fetchNews} /></TabsContent>
-            <TabsContent value="health"><CategoryNews news={news} loading={loading} error={error} hasMore={hasMore} fetchNews={fetchNews} /></TabsContent>
+            {['general', 'business', 'technology', 'entertainment', 'sports', 'science', 'health'].map((cat) => (
+              <TabsContent key={cat} value={cat}>
+                <CategoryNews 
+                  news={news} 
+                  loading={loading} 
+                  error={error} 
+                  hasMore={hasMore} 
+                  fetchNews={fetchNews} 
+                />
+              </TabsContent>
+            ))}
           </Tabs>
         )}
         {isSearchMode && (

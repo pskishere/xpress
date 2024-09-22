@@ -4,13 +4,16 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { useTranslation } from 'react-i18next';
 
-const FeaturedNews = ({ title, description, urltoimage, url }) => {
+const FeaturedNews = ({ title, description, title_zh, description_zh, urltoimage, url }) => {
   const [imageError, setImageError] = useState(false);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const handleImageError = () => {
     setImageError(true);
   };
+
+  const displayTitle = i18n.language === 'zh' ? (title_zh || title) : title;
+  const displayDescription = i18n.language === 'zh' ? (description_zh || description) : description;
 
   return (
     <Card className="overflow-hidden bg-gray-900 text-white">
@@ -18,15 +21,15 @@ const FeaturedNews = ({ title, description, urltoimage, url }) => {
         <div className="md:w-1/2 h-64 md:h-auto">
           <img 
             src={imageError ? "/placeholder.svg" : (urltoimage || "/placeholder.svg")} 
-            alt={title || "Featured news image"}
+            alt={displayTitle || t('featuredNewsImage')}
             className="w-full h-full object-cover"
             onError={handleImageError}
           />
         </div>
         <div className="md:w-1/2 p-6 flex flex-col justify-between">
           <div>
-            <CardTitle className="text-2xl sm:text-3xl mb-4">{title || "No title available"}</CardTitle>
-            <CardDescription className="text-gray-300 mb-6 text-sm sm:text-base">{description || "No description available"}</CardDescription>
+            <CardTitle className="text-2xl sm:text-3xl mb-4">{displayTitle || t('noTitle')}</CardTitle>
+            <CardDescription className="text-gray-300 mb-6 text-sm sm:text-base">{displayDescription || t('noDescription')}</CardDescription>
           </div>
           <Button 
             variant="outline" 
