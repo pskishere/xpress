@@ -9,6 +9,7 @@ const useNews = (initialCategory = 'general') => {
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
   const [category, setCategory] = useState(initialCategory);
+  const [sortOrder, setSortOrder] = useState('desc'); // New state for sort order
   const { i18n } = useTranslation();
   const timeoutRef = useRef(null);
 
@@ -21,7 +22,7 @@ const useNews = (initialCategory = 'general') => {
       try {
         setLoading(true);
         const currentPage = reset ? 1 : page;
-        const articles = await getNewsFromSupabase(category, currentPage, 10, i18n.language);
+        const articles = await getNewsFromSupabase(category, currentPage, 10, i18n.language, sortOrder);
         setNews(prevNews => reset ? articles : [...prevNews, ...articles]);
         setHasMore(articles.length === 10);
         setPage(currentPage + 1);
@@ -32,7 +33,7 @@ const useNews = (initialCategory = 'general') => {
         setLoading(false);
       }
     }, 300);
-  }, [category, page, i18n.language]);
+  }, [category, page, i18n.language, sortOrder]);
 
   useEffect(() => {
     fetchNews(true);
@@ -41,12 +42,12 @@ const useNews = (initialCategory = 'general') => {
         clearTimeout(timeoutRef.current);
       }
     };
-  }, [category, i18n.language]);
+  }, [category, i18n.language, sortOrder]);
 
   const searchNews = useCallback(async (query) => {
     try {
       setLoading(true);
-      const articles = await searchNewsApi(query, i18n.language);
+      const articles = await searchNewsApi(query, i18n.language, sortOrder);
       setNews(articles);
       setHasMore(false);
       setError(null);
@@ -55,10 +56,17 @@ const useNews = (initialCategory = 'general') => {
     } finally {
       setLoading(false);
     }
-  }, [i18n.language]);
+  }, [i18n.language, sortOrder]);
 
   const changeCategory = useCallback((newCategory) => {
     setCategory(newCategory);
+    setPage(1);
+    setNews([]);
+    setHasMore(true);
+  }, []);
+
+  const changeSortOrder = useCallback((newSortOrder) => {
+    setSortOrder(newSortOrder);
     setPage(1);
     setNews([]);
     setHasMore(true);
@@ -71,7 +79,9 @@ const useNews = (initialCategory = 'general') => {
     hasMore, 
     fetchNews, 
     searchNews, 
-    changeCategory 
+    changeCategory,
+    changeSortOrder,
+    sortOrder
   };
 };
 
