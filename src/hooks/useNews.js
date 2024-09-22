@@ -31,7 +31,7 @@ const useNews = (initialCategory = 'general') => {
       } finally {
         setLoading(false);
       }
-    }, 300); // 300ms debounce
+    }, 300);
   }, [category, page, i18n.language]);
 
   useEffect(() => {
