@@ -23,8 +23,8 @@ const NewsCard = ({ title, description, title_zh, description_zh, urltoimage, so
 
   const handleShare = async () => {
     const shareData = {
-      title: i18n.language === 'zh' ? title_zh || title : title,
-      text: i18n.language === 'zh' ? description_zh || description : description,
+      title: i18n.language === 'zh' ? (title_zh || title) : title,
+      text: i18n.language === 'zh' ? (description_zh || description) : description,
       url: url || window.location.href,
     };
 
