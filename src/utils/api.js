@@ -8,9 +8,12 @@ export const getNewsFromSupabase = async (category = 'general', page = 1, pageSi
     let query = supabase
       .from('news')
       .select('*')
-      .eq('category', category)
       .order('publishedat', { ascending: false })
       .range(start, end);
+
+    if (category !== 'general') {
+      query = query.eq('category', category);
+    }
 
     if (language === 'zh') {
       query = query.not('title_zh', 'is', null);
