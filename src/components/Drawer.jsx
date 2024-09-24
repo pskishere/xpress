@@ -5,10 +5,8 @@ import { useTranslation } from 'react-i18next';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 
 const Drawer = ({ isOpen, onClose, title, description, imageUrl, source, publishedAt, url }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const isMobile = useMediaQuery('(max-width: 640px)');
-
-  const displayDescription = i18n.language === 'zh' ? (description.description_zh || description) : description;
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
@@ -27,7 +25,7 @@ const Drawer = ({ isOpen, onClose, title, description, imageUrl, source, publish
             <img src={imageUrl} alt={title} className="w-full h-full object-cover" />
           </div>
           <div className="mb-3">
-            <p className="text-base text-gray-600 leading-relaxed">{displayDescription}</p>
+            <p className="text-base text-gray-600 leading-relaxed">{description}</p>
           </div>
           <div className="flex justify-between items-center text-sm mb-3">
             <span className="font-medium" style={{ color: '#E91E63' }}>{source}</span>

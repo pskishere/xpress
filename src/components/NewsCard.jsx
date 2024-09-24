@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { useTranslation } from 'react-i18next';
 import Drawer from './Drawer';
 
-const NewsCard = ({ title, description, title_zh, description_zh, urltoimage, source, publishedat, url }) => {
+const NewsCard = ({ title, description, urltoimage, source, publishedat, url }) => {
   const [imageError, setImageError] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const { t, i18n } = useTranslation();
@@ -23,8 +23,8 @@ const NewsCard = ({ title, description, title_zh, description_zh, urltoimage, so
 
   const handleShare = async () => {
     const shareData = {
-      title: i18n.language === 'zh' ? (title_zh || title) : title,
-      text: i18n.language === 'zh' ? (description_zh || description) : description,
+      title: title,
+      text: description,
       url: url || window.location.href,
     };
 
@@ -42,8 +42,6 @@ const NewsCard = ({ title, description, title_zh, description_zh, urltoimage, so
   };
 
   const imageSrc = imageError || !urltoimage ? "/placeholder.svg" : urltoimage;
-  const displayTitle = i18n.language === 'zh' ? (title_zh || title) : title;
-  const displayDescription = i18n.language === 'zh' ? (description_zh || description) : description;
 
   return (
     <>
@@ -51,7 +49,7 @@ const NewsCard = ({ title, description, title_zh, description_zh, urltoimage, so
         <div className="relative h-48 overflow-hidden">
           <img 
             src={imageSrc}
-            alt={displayTitle || t('newsImage')}
+            alt={title || t('newsImage')}
             className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
             onError={handleImageError}
           />
@@ -63,10 +61,10 @@ const NewsCard = ({ title, description, title_zh, description_zh, urltoimage, so
           </div>
           <CardTitle className="text-base sm:text-lg font-bold text-gray-800 mb-2 line-clamp-2 hover:text-pink-500 transition-colors">
             <a href={url} target="_blank" rel="noopener noreferrer">
-              {displayTitle || t('noTitle')}
+              {title || t('noTitle')}
             </a>
           </CardTitle>
-          <CardDescription className="text-sm text-gray-600 line-clamp-3">{displayDescription || t('noDescription')}</CardDescription>
+          <CardDescription className="text-sm text-gray-600 line-clamp-3">{description || t('noDescription')}</CardDescription>
         </CardHeader>
         <CardFooter className="p-4 flex justify-between items-center border-t border-gray-100">
           <Button 
@@ -92,8 +90,8 @@ const NewsCard = ({ title, description, title_zh, description_zh, urltoimage, so
       <Drawer
         isOpen={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
-        title={displayTitle}
-        description={displayDescription}
+        title={title}
+        description={description}
         imageUrl={imageSrc}
         source={source}
         publishedAt={formatDate(publishedat)}

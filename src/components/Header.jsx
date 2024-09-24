@@ -4,7 +4,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
 import { useTranslation } from 'react-i18next';
-import LanguageSwitcher from './LanguageSwitcher';
 
 const Header = ({ onSearch }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -17,7 +16,6 @@ const Header = ({ onSearch }) => {
       onSearch(searchQuery);
       navigate('/');
     } else {
-      // If the search query is empty, reset the news display
       onSearch('');
       navigate('/');
     }
@@ -45,7 +43,6 @@ const Header = ({ onSearch }) => {
               </Button>
             </div>
           </form>
-          <LanguageSwitcher />
         </div>
       </div>
     </header>
