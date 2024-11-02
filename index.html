@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="HandheldFriendly" content="true" />
     <title>Xpress - 最新新闻资讯</title>
     <meta name="description" content="Xpress提供最新、最全面的新闻资讯，涵盖科技、政治、经济、文化等多个领域。" />
     <meta name="keywords" content="新闻,资讯,科技,政治,经济,文化" />
@@ -17,6 +18,49 @@
     <meta name="google-adsense-account" content="ca-pub-8899279915718980">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8899279915718980"
      crossorigin="anonymous"></script>
+    <style>
+      body {
+        -webkit-overflow-scrolling: touch;
+        overflow-y: scroll;
+      }
+      * {
+        -webkit-tap-highlight-color: transparent;
+      }
+    </style>
+    <script>
+      // Prevent zooming on all pages
+      document.addEventListener('touchmove', function (event) {
+        if (event.scale !== 1) {
+          event.preventDefault();
+        }
+      }, { passive: false });
+      
+      var lastTouchEnd = 0;
+      document.addEventListener('touchend', function (event) {
+        var now = (new Date()).getTime();
+        if (now - lastTouchEnd <= 300) {
+          event.preventDefault();
+        }
+        lastTouchEnd = now;
+      }, false);
+
+      // Optimize scrolling for Android
+      document.addEventListener('DOMContentLoaded', function() {
+        var scrollStartPos = 0;
+
+        document.addEventListener('touchstart', function(e) {
+          scrollStartPos = this.scrollTop + e.touches[0].pageY;
+        }, false);
+
+        document.addEventListener('touchmove', function(e) {
+          var currentPos = this.scrollTop + e.touches[0].pageY;
+          if (scrollStartPos > currentPos) {
+            e.preventDefault(); // Preventing the default scrolling
+            this.scrollTop = scrollStartPos - e.touches[0].pageY;
+          }
+        }, { passive: false });
+      });
+    </script>
   </head>
   <body>
     <div id="root"></div>

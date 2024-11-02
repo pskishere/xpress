@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { getNewsFromSupabase } from '../utils/api';
 
 const Index = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchMode, setIsSearchMode] = useState(false);
   const [featuredArticle, setFeaturedArticle] = useState(null);
@@ -22,13 +22,13 @@ const Index = () => {
 
   useEffect(() => {
     const fetchFeaturedArticle = async () => {
-      const generalNews = await getNewsFromSupabase('general', 1, 1);
+      const generalNews = await getNewsFromSupabase('general', 1, 1, i18n.language);
       if (generalNews && generalNews.length > 0) {
         setFeaturedArticle(generalNews[0]);
       }
     };
     fetchFeaturedArticle();
-  }, []);
+  }, [i18n.language]);
 
   const handleSearch = useCallback((query) => {
     setSearchQuery(query);

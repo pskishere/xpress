@@ -5,7 +5,7 @@ import { createClient } from '@supabase/supabase-js';
 dotenv.config();
 
 const API_KEY = '0d28e0b381cf4be18257ea7b7ee312e0';
-// const GOOGLE_TRANSLATE_API_KEY = 'AIzaSyDCeqpTloTHqFs0K2XgipHpLKUt0rKSUo';
+const GOOGLE_TRANSLATE_API_KEY = 'AIzaSyDCeqpTloTHqFs0K2XgipHpLKUt0rKSUo';
 const categories = [
   'general', 'business', 'technology', 'entertainment', 'sports', 
   'science', 'health', 'politics'
@@ -48,20 +48,20 @@ const fetchNewsForCategory = async (category) => {
   }
 };
 
-// const translateText = async (text) => {
-//   try {
-//     const response = await axios.post(`https://translation.googleapis.com/language/translate/v2?key=${GOOGLE_TRANSLATE_API_KEY}`, {
-//       q: text,
-//       target: 'zh-CN',
-//       format: 'text'
-//     });
+const translateText = async (text) => {
+  try {
+    const response = await axios.post(`https://translation.googleapis.com/language/translate/v2?key=${GOOGLE_TRANSLATE_API_KEY}`, {
+      q: text,
+      target: 'zh-CN',
+      format: 'text'
+    });
 
-//     return response.data.data.translations[0].translatedText;
-//   } catch (error) {
-//     console.error('Translation error:', error);
-//     return null;
-//   }
-// };
+    return response.data.data.translations[0].translatedText;
+  } catch (error) {
+    console.error('Translation error:', error);
+    return null;
+  }
+};
 
 const insertNewsToSupabase = async (articles) => {
   for (const article of articles) {
@@ -86,36 +86,36 @@ const insertNewsToSupabase = async (articles) => {
   }
 };
 
-// const translateAndUpdateNews = async () => {
-//   const { data: untranslatedNews, error } = await supabase
-//     .from('news')
-//     .select('id, title, description')
-//     .is('title_zh', null)
-//     .is('description_zh', null);
+const translateAndUpdateNews = async () => {
+  const { data: untranslatedNews, error } = await supabase
+    .from('news')
+    .select('id, title, description')
+    .is('title_zh', null)
+    .is('description_zh', null);
 
-//   if (error) {
-//     console.error('Error fetching untranslated news:', error);
-//     return;
-//   }
+  if (error) {
+    console.error('Error fetching untranslated news:', error);
+    return;
+  }
 
-//   for (const article of untranslatedNews) {
-//     const title_zh = await translateText(article.title);
-//     const description_zh = await translateText(article.description);
+  for (const article of untranslatedNews) {
+    const title_zh = await translateText(article.title);
+    const description_zh = await translateText(article.description);
 
-//     if (title_zh && description_zh) {
-//       const { error: updateError } = await supabase
-//         .from('news')
-//         .update({ title_zh, description_zh })
-//         .eq('id', article.id);
+    if (title_zh && description_zh) {
+      const { error: updateError } = await supabase
+        .from('news')
+        .update({ title_zh, description_zh })
+        .eq('id', article.id);
 
-//       if (updateError) {
-//         console.error('Error updating translations:', updateError);
-//       } else {
-//         console.log(`Translated and updated article ID: ${article.id}`);
-//       }
-//     }
-//   }
-// };
+      if (updateError) {
+        console.error('Error updating translations:', updateError);
+      } else {
+        console.log(`Translated and updated article ID: ${article.id}`);
+      }
+    }
+  }
+};
 
 const syncAllNews = async () => {
   console.log('Starting news synchronization...');
@@ -127,9 +127,9 @@ const syncAllNews = async () => {
   }
   console.log('News synchronization completed.');
 
-  // console.log('Starting translation for untranslated articles...');
-  // await translateAndUpdateNews();
-  // console.log('Translation process completed.');
+  console.log('Starting translation for untranslated articles...');
+  await translateAndUpdateNews();
+  console.log('Translation process completed.');
 };
 
 // Run the sync function
