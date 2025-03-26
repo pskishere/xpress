@@ -13,18 +13,18 @@ const Index = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchMode, setIsSearchMode] = useState(false);
   const [featuredArticle, setFeaturedArticle] = useState(null);
-  const { news, loading, error, hasMore, fetchNews, searchNews, changeCategory } = useNews('general');
+  const { news, loading, error, hasMore, fetchNews, searchNews, changeCategory } = useNews('business');
 
   const categories = [
-    'general', 'business', 'technology', 'entertainment', 'sports', 
+    'business', 'technology', 'entertainment', 'sports', 
     'science', 'health', 'politics'
   ];
 
   useEffect(() => {
     const fetchFeaturedArticle = async () => {
-      const generalNews = await getNewsFromSupabase('general', 1, 1, i18n.language);
-      if (generalNews && generalNews.length > 0) {
-        setFeaturedArticle(generalNews[0]);
+      const businessNews = await getNewsFromSupabase('business', 1, 1, i18n.language);
+      if (businessNews && businessNews.length > 0) {
+        setFeaturedArticle(businessNews[0]);
       }
     };
     fetchFeaturedArticle();
@@ -53,7 +53,7 @@ const Index = () => {
         description={t('seo.description')}
         keywords={t('seo.keywords')}
         image="/og-image.svg"
-        url="https://mikumon.one/"
+        url="https://xpress.lovable.app/"
       />
       <Header onSearch={handleSearch} />
       <main className="flex-grow container mx-auto px-4 py-6 sm:py-8">
@@ -67,7 +67,7 @@ const Index = () => {
           </div>
         )}
         {!isSearchMode && (
-          <Tabs defaultValue="general" className="mb-8" onValueChange={handleCategoryChange}>
+          <Tabs defaultValue="business" className="mb-8" onValueChange={handleCategoryChange}>
             <div className="overflow-x-auto pb-2 mb-4 category-tabs-container">
               <TabsList className="bg-white shadow-sm rounded-full inline-flex whitespace-nowrap">
                 {categories.map((category) => (

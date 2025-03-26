@@ -6,7 +6,7 @@ dotenv.config();
 
 const API_KEY = '0d28e0b381cf4be18257ea7b7ee312e0';
 const categories = [
-  'general', 'business', 'technology', 'entertainment', 'sports', 
+  'business', 'technology', 'entertainment', 'sports', 
   'science', 'health', 'politics'
 ];
 

@@ -1,6 +1,6 @@
 import { supabase } from './supabaseClient';
 
-export const getNewsFromSupabase = async (category = 'general', page = 1, pageSize = 10, language = 'en') => {
+export const getNewsFromSupabase = async (category = 'business', page = 1, pageSize = 10, language = 'en') => {
   try {
     const start = (page - 1) * pageSize;
     const end = start + pageSize - 1;
@@ -50,6 +50,6 @@ export const searchNews = async (query, language = 'en') => {
 };
 
 export const getNewsCategories = () => [
-  'general', 'business', 'technology', 'entertainment', 'sports', 
+  'business', 'technology', 'entertainment', 'sports', 
   'science', 'health', 'politics'
 ];
