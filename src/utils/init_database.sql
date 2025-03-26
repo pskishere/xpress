@@ -1,3 +1,7 @@
+
+-- Create extension for UUID generation if it doesn't exist
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 -- Create the news table if it doesn't exist
 CREATE TABLE IF NOT EXISTS public.news (
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
