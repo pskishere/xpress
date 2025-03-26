@@ -1,3 +1,4 @@
+
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../supabase';
 
@@ -6,27 +7,6 @@ const fromSupabase = async (query) => {
     if (error) throw new Error(error.message);
     return data;
 };
-
-/*
-### news
-
-| name        | type                    | format                  | required |
-|-------------|-------------------------|-------------------------|----------|
-| id          | uuid                    | string                  | true     |
-| title       | text                    | string                  | true     |
-| description | text                    | string                  | false    |
-| url         | text                    | string                  | true     |
-| urltoimage  | text                    | string                  | false    |
-| publishedat | timestamp with time zone| string                  | false    |
-| source      | text                    | string                  | false    |
-| category    | text                    | string                  | false    |
-| created_at  | timestamp with time zone| string                  | false    |
-| updated_at  | timestamp with time zone| string                  | false    |
-
-Note: 
-- The 'id' field is a Primary Key and has a default value of extensions.uuid_generate_v4().
-- 'created_at' and 'updated_at' have default values of CURRENT_TIMESTAMP.
-*/
 
 export const useNews = (id) => useQuery({
     queryKey: ['news', id],
@@ -37,6 +17,52 @@ export const useAllNews = () => useQuery({
     queryKey: ['news'],
     queryFn: () => fromSupabase(supabase.from('news').select('*')),
 });
+
+export const useNewsByCategory = (category, page = 1, pageSize = 10, language = 'en') => {
+    const start = (page - 1) * pageSize;
+    const end = start + pageSize - 1;
+    
+    return useQuery({
+        queryKey: ['news', 'category', category, page, pageSize, language],
+        queryFn: () => {
+            let query = supabase
+                .from('news')
+                .select('*')
+                .eq('category', category)
+                .order('publishedat', { ascending: false })
+                .range(start, end);
+
+            if (language === 'zh') {
+                query = query.not('title_zh', 'is', null);
+            }
+
+            return fromSupabase(query);
+        },
+    });
+};
+
+export const useSearchNews = (searchQuery, language = 'en') => {
+    return useQuery({
+        queryKey: ['news', 'search', searchQuery, language],
+        queryFn: () => {
+            if (!searchQuery.trim()) return [];
+            
+            let query = supabase
+                .from('news')
+                .select('*')
+                .order('publishedat', { ascending: false });
+
+            if (language === 'zh') {
+                query = query.or(`title_zh.ilike.%${searchQuery}%, description_zh.ilike.%${searchQuery}%`);
+            } else {
+                query = query.or(`title.ilike.%${searchQuery}%, description.ilike.%${searchQuery}%`);
+            }
+
+            return fromSupabase(query);
+        },
+        enabled: !!searchQuery.trim(),
+    });
+};
 
 export const useAddNews = () => {
     const queryClient = useQueryClient();
