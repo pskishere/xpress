@@ -12,10 +12,6 @@ export const getNewsFromSupabase = async (category = 'general', page = 1, pageSi
       .order('publishedat', { ascending: false })
       .range(start, end);
 
-    if (language === 'zh') {
-      query = query.not('title_zh', 'is', null);
-    }
-
     const { data, error } = await query;
 
     if (error) throw error;

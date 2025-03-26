@@ -234,9 +234,9 @@ const syncAllNews = async () => {
   }
   console.log('News synchronization and translation completed.');
 
-  // 检查是否有遗漏的翻译
-  console.log('Checking for any missed translations...');
-  // await translateAndUpdateNews();
+  // 检查并处理未翻译的文章
+  console.log('Checking for any untranslated articles...');
+  await translateAndUpdateNews();
   console.log('All processes completed.');
 };
 
