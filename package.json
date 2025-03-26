@@ -55,6 +55,7 @@
     "html-to-image": "^1.11.11",
     "i18next": "^23.7.6",
     "input-otp": "^1.2.4",
+    "lovable-tagger": "^1.1.7",
     "lucide-react": "^0.417.0",
     "next-themes": "^0.3.0",
     "react": "^18.2.0",
