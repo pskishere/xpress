@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -6,7 +7,12 @@ import { useTranslation } from 'react-i18next';
 const Modal = ({ isOpen, onClose, title, description, imageUrl, source, publishedAt, url }) => {
   const { t, i18n } = useTranslation();
 
-  const displayDescription = i18n.language === 'zh' ? (description.description_zh || description) : description;
+  // Safely handle description - check if it's an object or string
+  const displayDescription = i18n.language === 'zh' 
+    ? (typeof description === 'object' && description !== null && description.description_zh 
+        ? description.description_zh 
+        : description)
+    : description;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>

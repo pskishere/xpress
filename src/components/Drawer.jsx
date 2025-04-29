@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
@@ -8,7 +9,12 @@ const Drawer = ({ isOpen, onClose, title, description, imageUrl, source, publish
   const { t, i18n } = useTranslation();
   const isMobile = useMediaQuery('(max-width: 640px)');
 
-  const displayDescription = i18n.language === 'zh' ? (description.description_zh || description) : description;
+  // Safely handle description - check if it's an object or string
+  const displayDescription = i18n.language === 'zh' 
+    ? (typeof description === 'object' && description !== null && description.description_zh 
+        ? description.description_zh 
+        : description)
+    : description;
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
