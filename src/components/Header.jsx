@@ -1,12 +1,10 @@
-
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
 import { useTranslation } from 'react-i18next';
-// Remove the LanguageSwitcher import since we won't be using it
-// import LanguageSwitcher from './LanguageSwitcher';
+import LanguageSwitcher from './LanguageSwitcher';
 
 const Header = ({ onSearch }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -47,7 +45,7 @@ const Header = ({ onSearch }) => {
               </Button>
             </div>
           </form>
-          {/* Remove the LanguageSwitcher component */}
+          <LanguageSwitcher />
         </div>
       </div>
     </header>
