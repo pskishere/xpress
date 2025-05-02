@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { getNewsFromSupabase, searchNews as searchNewsApi } from '../utils/api';
 import { useTranslation } from 'react-i18next';

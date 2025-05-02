@@ -1,3 +1,4 @@
+
 import { supabase } from './supabaseClient';
 
 export const getNewsFromSupabase = async (category = 'business', page = 1, pageSize = 10, language = 'en') => {
