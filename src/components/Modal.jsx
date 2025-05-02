@@ -4,15 +4,20 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button";
 import { useTranslation } from 'react-i18next';
 
-const Modal = ({ isOpen, onClose, title, description, imageUrl, source, publishedAt, url }) => {
+const Modal = ({ isOpen, onClose, title, description, content, content_zh, imageUrl, source, publishedAt, url }) => {
   const { t, i18n } = useTranslation();
 
-  // Safely handle description - check if it's an object or string
+  // Safely handle description and content - check if it's an object or string
   const displayDescription = i18n.language === 'zh' 
     ? (typeof description === 'object' && description !== null && description.description_zh 
         ? description.description_zh 
         : description)
     : description;
+
+  // Display content with language preference
+  const displayContent = i18n.language === 'zh' 
+    ? (content_zh || content) 
+    : content;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -27,6 +32,15 @@ const Modal = ({ isOpen, onClose, title, description, imageUrl, source, publishe
           <div className="mb-4">
             <p className="text-base text-gray-600">{displayDescription}</p>
           </div>
+          {displayContent && (
+            <div className="mb-4 border-t border-gray-100 pt-4">
+              <div className="prose max-w-none text-gray-800">
+                {displayContent.split('\n').map((paragraph, index) => (
+                  paragraph ? <p key={index} className="mb-3 text-base leading-relaxed">{paragraph}</p> : <br key={index} />
+                ))}
+              </div>
+            </div>
+          )}
           <div className="flex justify-between items-center text-sm text-gray-500 mb-4">
             <span>{source}</span>
             <span>{publishedAt}</span>

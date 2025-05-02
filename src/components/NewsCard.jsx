@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -6,7 +7,7 @@ import { toast } from "sonner";
 import { useTranslation } from 'react-i18next';
 import Drawer from './Drawer';
 
-const NewsCard = ({ title, description, title_zh, description_zh, urltoimage, source, publishedat, url }) => {
+const NewsCard = ({ title, description, title_zh, description_zh, content, content_zh, urltoimage, source, publishedat, url }) => {
   const [imageError, setImageError] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const { t, i18n } = useTranslation();
@@ -94,6 +95,8 @@ const NewsCard = ({ title, description, title_zh, description_zh, urltoimage, so
         onClose={() => setIsDrawerOpen(false)}
         title={displayTitle}
         description={displayDescription}
+        content={content}
+        content_zh={content_zh}
         imageUrl={imageSrc}
         source={source}
         publishedAt={formatDate(publishedat)}

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useTranslation } from 'react-i18next';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 
-const Drawer = ({ isOpen, onClose, title, description, imageUrl, source, publishedAt, url }) => {
+const Drawer = ({ isOpen, onClose, title, description, content, content_zh, imageUrl, source, publishedAt, url }) => {
   const { t, i18n } = useTranslation();
   const isMobile = useMediaQuery('(max-width: 640px)');
 
@@ -15,6 +15,11 @@ const Drawer = ({ isOpen, onClose, title, description, imageUrl, source, publish
         ? description.description_zh 
         : description)
     : description;
+    
+  // Display content with language preference
+  const displayContent = i18n.language === 'zh' 
+    ? (content_zh || content) 
+    : content;
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
@@ -35,6 +40,15 @@ const Drawer = ({ isOpen, onClose, title, description, imageUrl, source, publish
           <div className="mb-3">
             <p className="text-base text-gray-600 leading-relaxed">{displayDescription}</p>
           </div>
+          {displayContent && (
+            <div className="mb-4 border-t border-gray-100 pt-3">
+              <div className="prose max-w-none text-gray-800">
+                {displayContent.split('\n').map((paragraph, index) => (
+                  paragraph ? <p key={index} className="mb-3 text-base leading-relaxed">{paragraph}</p> : <br key={index} />
+                ))}
+              </div>
+            </div>
+          )}
           <div className="flex justify-between items-center text-sm mb-3">
             <span className="font-medium" style={{ color: '#E91E63' }}>{source}</span>
             <span className="text-gray-500">{publishedAt}</span>
