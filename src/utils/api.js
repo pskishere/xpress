@@ -33,9 +33,13 @@ export const searchNews = async (query, language = 'en') => {
       .order('publishedat', { ascending: false });
 
     if (language === 'zh') {
-      searchQuery = searchQuery.or(`title_zh.ilike.%${query}%, description_zh.ilike.%${query}%`);
+      searchQuery = searchQuery.or(
+        `title_zh.ilike.%${query}%, description_zh.ilike.%${query}%, content_zh.ilike.%${query}%`
+      );
     } else {
-      searchQuery = searchQuery.or(`title.ilike.%${query}%, description.ilike.%${query}%`);
+      searchQuery = searchQuery.or(
+        `title.ilike.%${query}%, description.ilike.%${query}%, content.ilike.%${query}%`
+      );
     }
 
     const { data, error } = await searchQuery;

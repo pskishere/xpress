@@ -1,3 +1,4 @@
+
 {
   "header": {
     "search": "Search news..."
@@ -30,10 +31,16 @@
     "linkCopied": "Link copied to clipboard"
   },
   "errors": {
-    "fetchingNews": "Error fetching news"
+    "fetchingNews": "Error fetching news",
+    "general": "Error: {{error}}"
   },
   "messages": {
     "noNewsAvailable": "No news available for this category.",
     "loadingMore": "Loading more news..."
+  },
+  "loading": "Loading...",
+  "search": {
+    "results": "Search Results",
+    "noResults": "No results found for your search."
   }
 }

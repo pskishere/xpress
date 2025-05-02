@@ -53,9 +53,9 @@ export const useSearchNews = (searchQuery, language = 'en') => {
                 .order('publishedat', { ascending: false });
 
             if (language === 'zh') {
-                query = query.or(`title_zh.ilike.%${searchQuery}%, description_zh.ilike.%${searchQuery}%`);
+                query = query.or(`title_zh.ilike.%${searchQuery}%, description_zh.ilike.%${searchQuery}%, content_zh.ilike.%${searchQuery}%`);
             } else {
-                query = query.or(`title.ilike.%${searchQuery}%, description.ilike.%${searchQuery}%`);
+                query = query.or(`title.ilike.%${searchQuery}%, description.ilike.%${searchQuery}%, content.ilike.%${searchQuery}%`);
             }
 
             return fromSupabase(query);
