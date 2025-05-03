@@ -1,5 +1,4 @@
 
-
 # Use a multi-stage build for better efficiency
 FROM node:20-alpine AS builder
 
@@ -26,7 +25,7 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app ./
 
 # Set environment variables with the new Supabase details
-ENV VITE_SUPABASE_PROJECT_URL=http://43.139.138.121:8000
+ENV VITE_SUPABASE_PROJECT_URL=https://supabase.maicai.site
 ENV VITE_SUPABASE_API_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJhbm9uIiwKICAgICJpc3MiOiAic3VwYWJhc2UtZGVtbyIsCiAgICAiaWF0IjogMTY0MTc2OTIwMCwKICAgICJleHAiOiAxNzk5NTM1NjAwCn0.dc_X5iR_VP_qT0zsiyj_I_OZ2T9FtRU2BBNWN8Bu4GE
 
 # Make the run-news-sync.sh script executable
@@ -34,4 +33,3 @@ RUN chmod +x /app/run-news-sync.sh
 
 # Run the shell script
 CMD ["/app/run-news-sync.sh"]
-
