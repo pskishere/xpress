@@ -1,4 +1,5 @@
 
+
 # Build stage
 FROM node:20-alpine AS build
 
@@ -33,12 +34,13 @@ COPY --from=build /app/.env ./.env
 # Install vite globally for serving static files
 RUN npm install -g vite
 
-# Set environment variables
-ENV VITE_SUPABASE_PROJECT_URL=https://tcdkdumffturcpdmnneg.supabase.co
-ENV VITE_SUPABASE_API_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRjZGtkdW1mZnR1cmNwZG1ubmVnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI5NjgyOTEsImV4cCI6MjA1ODU0NDI5MX0.880R72p3bkdbxh47DjRaXT6xIiEylDMMaaX7vGJzV3Y
+# Set environment variables from .env file instead of hardcoding
+ENV VITE_SUPABASE_PROJECT_URL=http://43.139.138.121:8000
+ENV VITE_SUPABASE_API_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJhbm9uIiwKICAgICJpc3MiOiAic3VwYWJhc2UtZGVtbyIsCiAgICAiaWF0IjogMTY0MTc2OTIwMCwKICAgICJleHAiOiAxNzk5NTM1NjAwCn0.dc_X5iR_VP_qT0zsiyj_I_OZ2T9FtRU2BBNWN8Bu4GE
 
 # Expose port 3000 (Vite's new preview port)
 EXPOSE 3000
 
 # Define the command to run the app
 CMD ["vite", "preview", "--host", "0.0.0.0", "--port", "3000"]
+
