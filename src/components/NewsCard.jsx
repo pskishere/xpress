@@ -14,8 +14,24 @@ const NewsCard = ({ title, description, title_zh, description_zh, content, conte
   
   const formatDate = (dateString) => {
     if (!dateString) return t('unknownDate');
-    const date = new Date(dateString);
-    return isNaN(date.getTime()) ? t('unknownDate') : date.toLocaleDateString(i18n.language, { year: 'numeric', month: 'long', day: 'numeric' });
+    
+    try {
+      const date = new Date(dateString);
+      
+      // Check if date is valid
+      if (isNaN(date.getTime())) {
+        return t('unknownDate');
+      }
+      
+      return date.toLocaleDateString(i18n.language, { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric'
+      });
+    } catch (error) {
+      console.error('Error formatting date:', error, dateString);
+      return t('unknownDate');
+    }
   };
 
   const handleImageError = () => {
