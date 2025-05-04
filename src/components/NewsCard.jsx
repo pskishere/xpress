@@ -6,8 +6,9 @@ import { Share2, Info } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslation } from 'react-i18next';
 import Drawer from './Drawer';
+import { Link } from 'react-router-dom';
 
-const NewsCard = ({ title, description, title_zh, description_zh, content, content_zh, urltoimage, source, publishedat, url }) => {
+const NewsCard = ({ id, title, description, title_zh, description_zh, content, content_zh, urltoimage, source, publishedat, url }) => {
   const [imageError, setImageError] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const { t, i18n } = useTranslation();
@@ -39,10 +40,11 @@ const NewsCard = ({ title, description, title_zh, description_zh, content, conte
   };
 
   const handleShare = async () => {
+    const shareUrl = `${window.location.origin}/news/${id}`;
     const shareData = {
       title: i18n.language === 'zh' ? (title_zh || title) : title,
       text: i18n.language === 'zh' ? (description_zh || description) : description,
-      url: url || window.location.href,
+      url: shareUrl,
     };
 
     try {
@@ -66,12 +68,14 @@ const NewsCard = ({ title, description, title_zh, description_zh, content, conte
     <>
       <Card className="overflow-hidden transition-all duration-300 hover:shadow-lg bg-white h-full flex flex-col">
         <div className="relative h-48 overflow-hidden">
-          <img 
-            src={imageSrc}
-            alt={displayTitle || t('newsImage')}
-            className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-            onError={handleImageError}
-          />
+          <Link to={`/news/${id}`}>
+            <img 
+              src={imageSrc}
+              alt={displayTitle || t('newsImage')}
+              className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+              onError={handleImageError}
+            />
+          </Link>
         </div>
         <CardHeader className="p-4 flex-grow">
           <div className="flex flex-wrap justify-between items-center mb-2">
@@ -79,9 +83,9 @@ const NewsCard = ({ title, description, title_zh, description_zh, content, conte
             <span className="text-xs text-gray-500">{formatDate(publishedat)}</span>
           </div>
           <CardTitle className="text-base sm:text-lg font-bold text-gray-800 mb-2 line-clamp-2 hover:text-pink-500 transition-colors">
-            <a href={url} target="_blank" rel="noopener noreferrer">
+            <Link to={`/news/${id}`}>
               {displayTitle || t('noTitle')}
-            </a>
+            </Link>
           </CardTitle>
           <CardDescription className="text-sm text-gray-600 line-clamp-3">{displayDescription || t('noDescription')}</CardDescription>
         </CardHeader>

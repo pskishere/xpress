@@ -24,7 +24,9 @@
     "readMore": "阅读全文",
     "share": "分享",
     "details": "详情",
-    "readFullArticle": "阅读完整文章"
+    "readFullArticle": "阅读完整文章",
+    "goBack": "返回",
+    "copyLink": "复制链接"
   },
   "toasts": {
     "shareSuccess": "分享成功！",
@@ -32,7 +34,9 @@
   },
   "errors": {
     "fetchingNews": "获取新闻时出错",
-    "general": "错误: {{error}}"
+    "general": "错误: {{error}}",
+    "shareFailed": "分享失败",
+    "articleNotFound": "文章未找到"
   },
   "messages": {
     "noNewsAvailable": "该分类暂无可用新闻。",
@@ -42,5 +46,6 @@
   "search": {
     "results": "搜索结果",
     "noResults": "没有找到相关新闻。"
-  }
+  },
+  "source": "来源"
 }
