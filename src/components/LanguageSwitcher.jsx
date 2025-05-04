@@ -1,14 +1,16 @@
+
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from "@/components/ui/button";
 import { Globe } from "lucide-react";
+import { changeLanguage } from '../i18n/i18n';
 
 const LanguageSwitcher = () => {
   const { i18n, t } = useTranslation();
 
   const toggleLanguage = () => {
     const newLang = i18n.language === 'en' ? 'zh' : 'en';
-    i18n.changeLanguage(newLang);
+    changeLanguage(newLang);
   };
 
   const currentLanguage = i18n.language === 'en' ? 'EN' : '中文';

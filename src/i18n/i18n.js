@@ -1,9 +1,11 @@
+
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import enTranslations from './en.json';
 import zhTranslations from './zh.json';
 
-const savedLanguage = localStorage.getItem('i18nextLng') || 'en';
+// Try to get saved language from localStorage
+const savedLanguage = localStorage.getItem('language') || 'en';
 
 i18n
   .use(initReactI18next)
