@@ -31,17 +31,18 @@ COPY --from=build /app/package.json ./package.json
 COPY --from=build /app/yarn.lock ./yarn.lock
 COPY --from=build /app/.env ./.env
 
-# Install vite globally for serving static files using yarn
-RUN yarn global add vite
+# Install production dependencies and vite globally
+RUN yarn global add vite && \
+    yarn --production
+
+# Make sure yarn global binaries are in PATH
+ENV PATH="/usr/local/share/.config/yarn/global/node_modules/.bin:$PATH"
 
 # Set environment variables from .env file instead of hardcoding
 ENV VITE_SUPABASE_PROJECT_URL=https://supabase.maicai.site
 ENV VITE_SUPABASE_API_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJhbm9uIiwKICAgICJpc3MiOiAic3VwYWJhc2UtZGVtbyIsCiAgICAiaWF0IjogMTY0MTc2OTIwMCwKICAgICJleHAiOiAxNzk5NTM1NjAwCn0.dc_X5iR_VP_qT0zsiyj_I_OZ2T9FtRU2BBNWN8Bu4GE
 
-# Make sure yarn global binaries are in PATH
-ENV PATH="$PATH:/usr/local/share/.config/yarn/global/node_modules/.bin"
-
-# Expose port 3000 (Vite's new preview port)
+# Expose port 3000 (Vite's preview port)
 EXPOSE 3000
 
 # Define the command to run the app
