@@ -5,11 +5,10 @@ FROM node:20-alpine
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy package.json and yarn.lock
-COPY package*.json ./
-COPY yarn.lock ./
+# Copy package management files
+COPY package.json yarn.lock .npmrc .yarnrc ./
 
-# Install dependencies
+# Install dependencies using Yarn
 RUN yarn install
 
 # Copy the rest of the application code

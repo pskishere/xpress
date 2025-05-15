@@ -11,9 +11,11 @@ services:
     volumes:
       - ./src:/app/src
       - ./dist:/app/dist
+      - yarn-cache:/usr/local/share/.cache/yarn
     environment:
       - YARN_ONLY=true
       - NODE_PATH=/app/node_modules
+      - NPM_CONFIG_USERCONFIG=/app/.npmrc
 
   news-sync:
     build:
@@ -23,9 +25,12 @@ services:
     restart: unless-stopped
     volumes:
       - ./src:/app/src
+      - yarn-cache:/usr/local/share/.cache/yarn
     environment:
       - YARN_ONLY=true
       - NODE_PATH=/app/node_modules
+      - NPM_CONFIG_USERCONFIG=/app/.npmrc
 
 volumes:
   node_modules:
+  yarn-cache:

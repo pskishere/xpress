@@ -5,10 +5,10 @@ FROM node:20-alpine AS build
 # Set the working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
-COPY package*.json ./
+# Copy package management files
+COPY package.json yarn.lock .npmrc .yarnrc ./
 
-# Install dependencies
+# Install dependencies using Yarn
 RUN yarn install
 
 # Copy the rest of the application code
@@ -26,6 +26,8 @@ WORKDIR /app
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/package.json ./package.json
 COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/.npmrc ./.npmrc
+COPY --from=build /app/.yarnrc ./.yarnrc
 
 # Set environment variables
 ENV VITE_SUPABASE_PROJECT_URL=https://supabase.maicai.site
