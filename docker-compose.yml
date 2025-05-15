@@ -1,3 +1,4 @@
+
 services:
   app:
     build: 
@@ -10,6 +11,9 @@ services:
     volumes:
       - ./src:/app/src
       - node_modules:/app/node_modules
+      - ~/.yarn:/root/.yarn
+    environment:
+      - YARN_CACHE_FOLDER=/root/.yarn/cache
 
   news-sync:
     build:
@@ -19,6 +23,10 @@ services:
     restart: unless-stopped
     volumes:
       - ./src:/app/src
+      - node_modules:/app/node_modules
+      - ~/.yarn:/root/.yarn
+    environment:
+      - YARN_CACHE_FOLDER=/root/.yarn/cache
 
 volumes:
   node_modules:
