@@ -1,12 +1,13 @@
 
-# Use a multi-stage build for better efficiency
-FROM node:20-alpine AS builder
+# Use node:20-alpine for a smaller footprint
+FROM node:20-alpine
 
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy package.json and package-lock.json
+# Copy package.json and yarn.lock
 COPY package*.json ./
+COPY yarn.lock ./
 
 # Install dependencies
 RUN yarn install
@@ -14,22 +15,12 @@ RUN yarn install
 # Copy the rest of the application code
 COPY . .
 
-# Build stage
-FROM --platform=$TARGETPLATFORM node:20-alpine
-
-# Set the working directory in the container
-WORKDIR /app
-
-# Copy built node modules and compiled code from builder stage
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app ./
-
-# Set environment variables with the new Supabase details
-ENV VITE_SUPABASE_PROJECT_URL=https://supabase.maicai.site
-ENV VITE_SUPABASE_API_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJhbm9uIiwKICAgICJpc3MiOiAic3VwYWJhc2UtZGVtbyIsCiAgICAiaWF0IjogMTY0MTc2OTIwMCwKICAgICJleHAiOiAxNzk5NTM1NjAwCn0.dc_X5iR_VP_qT0zsiyj_I_OZ2T9FtRU2BBNWN8Bu4GE
-
 # Make the run-news-sync.sh script executable
 RUN chmod +x /app/run-news-sync.sh
+
+# Set environment variables
+ENV VITE_SUPABASE_PROJECT_URL=https://supabase.maicai.site
+ENV VITE_SUPABASE_API_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJhbm9uIiwKICAgICJpc3MiOiAic3VwYWJhc2UtZGVtbyIsCiAgICAiaWF0IjogMTY0MTc2OTIwMCwKICAgICJleHAiOiAxNzk5NTM1NjAwCn0.dc_X5iR_VP_qT0zsiyj_I_OZ2T9FtRU2BBNWN8Bu4GE
 
 # Run the shell script
 CMD ["/app/run-news-sync.sh"]

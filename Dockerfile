@@ -14,9 +14,6 @@ RUN yarn install
 # Copy the rest of the application code
 COPY . .
 
-# Copy .env file
-COPY .env .
-
 # Build the application
 RUN yarn build
 
@@ -28,20 +25,14 @@ WORKDIR /app
 # Copy built files from the build stage
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/package.json ./package.json
-COPY --from=build /app/.env ./.env
+COPY --from=build /app/node_modules ./node_modules
 
-# Install vite globally for serving static files
-RUN yarn global add vite
-
-# Add global yarn bin directory to PATH
-ENV PATH="/usr/local/share/.config/yarn/global/node_modules/.bin:${PATH}"
-
-# Set environment variables from .env file instead of hardcoding
+# Set environment variables
 ENV VITE_SUPABASE_PROJECT_URL=https://supabase.maicai.site
 ENV VITE_SUPABASE_API_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJhbm9uIiwKICAgICJpc3MiOiAic3VwYWJhc2UtZGVtbyIsCiAgICAiaWF0IjogMTY0MTc2OTIwMCwKICAgICJleHAiOiAxNzk5NTM1NjAwCn0.dc_X5iR_VP_qT0zsiyj_I_OZ2T9FtRU2BBNWN8Bu4GE
 
-# Expose port 3000 (Vite's new preview port)
+# Expose port 3000
 EXPOSE 3000
 
-# Define the command to run the app
-CMD ["vite", "preview", "--host", "0.0.0.0", "--port", "3000"]
+# Define the command to run the app using the locally installed vite
+CMD ["./node_modules/.bin/vite", "preview", "--host", "0.0.0.0", "--port", "3000"]

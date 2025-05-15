@@ -10,9 +10,10 @@ services:
     restart: unless-stopped
     volumes:
       - ./src:/app/src
-      - node_modules:/app/node_modules
+      - ./dist:/app/dist
     environment:
       - YARN_ONLY=true
+      - NODE_PATH=/app/node_modules
 
   news-sync:
     build:
@@ -24,6 +25,7 @@ services:
       - ./src:/app/src
     environment:
       - YARN_ONLY=true
+      - NODE_PATH=/app/node_modules
 
 volumes:
   node_modules:
