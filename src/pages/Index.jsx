@@ -1,5 +1,4 @@
-
-import React, { useState, useCallback, useEffect, useRef } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import Header from '../components/Header';
 import FeaturedNews from '../components/FeaturedNews';
 import CategoryNews from '../components/CategoryNews';
@@ -15,48 +14,11 @@ const Index = () => {
   const [isSearchMode, setIsSearchMode] = useState(false);
   const [featuredArticle, setFeaturedArticle] = useState(null);
   const { news, loading, error, hasMore, fetchNews, searchNews, changeCategory } = useNews('business');
-  const scrollPositionRef = useRef(0);
-  
-  // Store the current active category in state
-  const [activeCategory, setActiveCategory] = useState(() => {
-    // Try to get the last active category from localStorage
-    return localStorage.getItem('activeNewsCategory') || 'business';
-  });
 
   const categories = [
     'business', 'technology', 'entertainment', 'sports', 
     'science', 'health', 'politics'
   ];
-
-  // Save scroll position when user navigates away
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      localStorage.setItem('newsScrollPosition', window.scrollY.toString());
-      localStorage.setItem('activeNewsCategory', activeCategory);
-    };
-    
-    window.addEventListener('beforeunload', handleBeforeUnload);
-    
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-      // Also save when component unmounts
-      localStorage.setItem('newsScrollPosition', window.scrollY.toString());
-      localStorage.setItem('activeNewsCategory', activeCategory);
-    };
-  }, [activeCategory]);
-  
-  // Restore scroll position when component mounts
-  useEffect(() => {
-    const savedScrollPosition = localStorage.getItem('newsScrollPosition');
-    if (savedScrollPosition) {
-      const position = parseInt(savedScrollPosition, 10);
-      // Use a small timeout to ensure the page has rendered before scrolling
-      const timer = setTimeout(() => {
-        window.scrollTo(0, position);
-      }, 100);
-      return () => clearTimeout(timer);
-    }
-  }, []);
 
   useEffect(() => {
     const fetchFeaturedArticle = async () => {
@@ -79,8 +41,6 @@ const Index = () => {
   }, [searchNews, fetchNews]);
 
   const handleCategoryChange = useCallback((category) => {
-    setActiveCategory(category);
-    localStorage.setItem('activeNewsCategory', category);
     changeCategory(category);
     setIsSearchMode(false);
     setSearchQuery('');
@@ -107,7 +67,7 @@ const Index = () => {
           </div>
         )}
         {!isSearchMode && (
-          <Tabs defaultValue={activeCategory} className="mb-8" onValueChange={handleCategoryChange}>
+          <Tabs defaultValue="business" className="mb-8" onValueChange={handleCategoryChange}>
             <div className="overflow-x-auto pb-2 mb-4 category-tabs-container">
               <TabsList className="bg-white shadow-sm rounded-full inline-flex whitespace-nowrap">
                 {categories.map((category) => (
