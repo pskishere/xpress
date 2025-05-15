@@ -1,4 +1,3 @@
-
 #!/bin/sh
 while true; do
   node /app/src/utils/syncNews.js
