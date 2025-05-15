@@ -5,12 +5,11 @@ FROM node:20-alpine AS builder
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy package.json and yarn.lock
+# Copy package.json and package-lock.json
 COPY package*.json ./
-COPY yarn.lock ./
 
-# Install dependencies using yarn
-RUN yarn install --frozen-lockfile
+# Install dependencies
+RUN npm ci
 
 # Copy the rest of the application code
 COPY . .
@@ -24,9 +23,6 @@ WORKDIR /app
 # Copy built node modules and compiled code from builder stage
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app ./
-
-# Install vite globally
-RUN npm install -g vite
 
 # Set environment variables with the new Supabase details
 ENV VITE_SUPABASE_PROJECT_URL=https://supabase.maicai.site
