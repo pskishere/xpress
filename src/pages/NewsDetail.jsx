@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -9,7 +10,6 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import Header from '../components/Header';
 import SEO from '../components/SEO';
 import { supabase } from '../utils/supabaseClient';
-import { saveScrollPosition } from '../utils/scrollPosition';
 
 const NewsDetail = () => {
   const { id } = useParams();
@@ -147,11 +147,7 @@ const NewsDetail = () => {
           <Button 
             variant="ghost" 
             size="sm" 
-            onClick={() => {
-              // Save the category before going back
-              saveScrollPosition(article.category);
-              handleGoBack();
-            }}
+            onClick={handleGoBack}
             className="m-4 text-pink-500 hover:bg-pink-50"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
