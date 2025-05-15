@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import initDatabase from "./utils/initDatabase";
 import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n/i18n';
+import KeepAlive from "./components/KeepAlive";
 import Index from "./pages/Index";
 import NewsDetail from "./pages/NewsDetail";
 
@@ -26,7 +27,7 @@ const App = () => {
             <Toaster />
             <BrowserRouter>
               <Routes>
-                <Route path="/" element={<Index />} />
+                <Route path="/" element={<KeepAlive><Index /></KeepAlive>} />
                 <Route path="/news/:id" element={<NewsDetail />} />
               </Routes>
             </BrowserRouter>
