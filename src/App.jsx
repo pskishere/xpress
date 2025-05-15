@@ -28,7 +28,7 @@ const App = () => {
             <BrowserRouter>
               <Routes>
                 <Route path="/" element={<KeepAlive><Index /></KeepAlive>} />
-                <Route path="/news/:id" element={<NewsDetail />} />
+                <Route path="/news/:id" element={<KeepAlive><NewsDetail /></KeepAlive>} />
               </Routes>
             </BrowserRouter>
           </TooltipProvider>

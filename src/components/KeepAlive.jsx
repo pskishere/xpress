@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 
@@ -6,6 +7,7 @@ const KeepAlive = ({ children }) => {
   const location = useLocation();
   const currentPath = location.pathname;
   const scrollPositions = useRef({});
+  const isInitialMount = useRef(true);
 
   // Save component state in cache when unmounting
   useEffect(() => {
@@ -19,6 +21,11 @@ const KeepAlive = ({ children }) => {
 
   // Restore scroll position when returning to a cached route
   useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+    
     if (currentPath && scrollPositions.current[currentPath] !== undefined) {
       setTimeout(() => {
         window.scrollTo(0, scrollPositions.current[currentPath]);
