@@ -9,7 +9,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm ci
+RUN yarn install
 
 # Copy the rest of the application code
 COPY . .
@@ -18,7 +18,7 @@ COPY . .
 COPY .env .
 
 # Build the application
-RUN npm run build
+RUN yarn build
 
 # Runtime stage
 FROM node:20-alpine
@@ -31,7 +31,10 @@ COPY --from=build /app/package.json ./package.json
 COPY --from=build /app/.env ./.env
 
 # Install vite globally for serving static files
-RUN npm install -g vite
+RUN yarn global add vite
+
+# Add global yarn bin directory to PATH
+ENV PATH="/usr/local/share/.config/yarn/global/node_modules/.bin:${PATH}"
 
 # Set environment variables from .env file instead of hardcoding
 ENV VITE_SUPABASE_PROJECT_URL=https://supabase.maicai.site
